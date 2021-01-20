@@ -11,7 +11,7 @@
       </table>
       <table class="result">
         <tr v-for="item in resultList" :key="item">
-            <td :class="item.color">
+            <td>
                 <p class="title">{{item.name}}</p>
                 <p class="text">{{item.value}}</p>
             </td>
@@ -137,15 +137,6 @@ export default {
                 align-items: center;
                 padding: 5px;
                 width: 120px;
-                &.red{
-                    color: red;                            
-                }
-                &.green{
-                    color: green;                            
-                }
-                &.blue{
-                    color: blue;                            
-                }
             } 
         }
         .testBtn{
