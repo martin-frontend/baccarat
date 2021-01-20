@@ -2,12 +2,16 @@
    <div class="history">
       <table class="board">
         <tr v-for="(item,i) in boardRow" :key="item"> 
-          <td v-for="(subitem,j) in boardColumn" :key="item+subitem">{{boardDataList[i+(j*boardRow)]}}</td> 
+            <td v-for="(subitem,j) in boardColumn" :key="item+subitem">
+                <div class="ball" :class="getBallColor(boardDataList[i+(j*boardRow)])">
+                    <p class="text">{{boardDataList[i+(j*boardRow)]}}</p>
+                </div>
+            </td>
         </tr> 
       </table>
       <table class="result">
         <tr v-for="item in resultList" :key="item">
-            <td>
+            <td :class="item.color">
                 <p class="title">{{item.name}}</p>
                 <p class="text">{{item.value}}</p>
             </td>
@@ -25,14 +29,14 @@ export default {
             boardColumn:20,
             boardDataList:[],
             resultList:[
-                {name:'莊',value:0},
-                {name:'閒',value:0},
-                {name:'和',value:0},
-                {name:'莊對',value:0},
-                {name:'閒對',value:0},
-                {name:'總數',value:0},
-                {name:'莊即贏',value:0},
-                {name:'閒即贏',value:0},
+                {name:'莊',value:0,color:'red'},
+                {name:'閒',value:0,color:'blue'},
+                {name:'和',value:0,color:'green'},
+                {name:'莊對',value:0,color:'red'},
+                {name:'閒對',value:0,color:'red'},
+                {name:'總數',value:0,color:'red'},
+                {name:'莊即贏',value:0,color:'red'},
+                {name:'閒即贏',value:0,color:'red'},
             ],
             ruaultText:['莊','閒','合'],
             currentIndex:0
@@ -66,9 +70,17 @@ export default {
         },
         getRandomInt(max) {
             return Math.floor(Math.random() * Math.floor(max));
+        },
+        getBallColor(text){
+            switch(text){
+                case '莊':
+                    return "red"
+                case '閒':
+                    return "blue"
+                case '合':
+                    return "green"
+            }
         }
-
-
     }
 }
 </script>
@@ -85,6 +97,27 @@ export default {
                 border:1px solid #000;
                 width: 30px;
                 height: 30px;
+                .ball{
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 50%;
+                    background-color: gray;
+                    &.red{
+                        background-color: red;                            
+                    }
+                    &.green{
+                        background-color: green;                            
+                    }
+                    &.blue{
+                        background-color: blue;                            
+                    }
+                    .text{
+                        color: white;
+                    }
+                }
             } 
         }
         .result{
@@ -104,6 +137,15 @@ export default {
                 align-items: center;
                 padding: 5px;
                 width: 120px;
+                &.red{
+                    color: red;                            
+                }
+                &.green{
+                    color: green;                            
+                }
+                &.blue{
+                    color: blue;                            
+                }
             } 
         }
         .testBtn{
