@@ -1,6 +1,12 @@
 <template>
     <div class="opne-card">
         opne-card
+        <div class="front card puker-spade1">
+
+        </div>
+        <div class="back card">
+
+        </div>
     </div>
 </template>
 <script>
