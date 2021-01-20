@@ -6,14 +6,15 @@
         {{ isAllFold ? shuffleText : resetText }}
       </button>
       <button class="btn" @click="handleView(true)">檢視</button>
-      <div v-for="(item, index) in result" :key="index" class="pluker">
+      <a :href="`#${drawAmount}`"><button class="btn" @click="handleFake(true)">開牌數量</button></a>
+      <router-link v-for="(item, index) in result" :id="index" :key="index" class="pluker">
         <div
           :class="[
             `${getRandomSuit()} ${handleSuits(getRandomSuit(), item)}`,
             { isFold: index + 1 > drawAmount || isAllFold ? true : false },
           ]"
         ></div>
-      </div>
+      </router-link>
       <Dialog />
     </div>
   </div>
@@ -31,7 +32,7 @@ export default {
       resetText: '重設',
       result: [],
       suitList: ['club', 'diamond', 'heart', 'spade'],
-      drawAmount: 155 // 假設開獎數
+      drawAmount: 155 // 假設開獎數,
     }
   },
   provide() {
@@ -57,13 +58,7 @@ export default {
     handleView(value) {
       this.isVisible = value
     },
-    // handleResult(number) {
-    //   return false
-    // },
     getRandomSuit() {
-      console.log(
-        this.suitList[Math.floor(Math.random() * this.suitList.length)]
-      )
       return this.suitList[Math.floor(Math.random() * this.suitList.length)]
     }
   }
