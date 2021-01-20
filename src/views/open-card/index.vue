@@ -10,7 +10,7 @@
             </div>
         </div> -->
     <div class="content">
-      <button class="btn" @click="init()">開牌</button>
+      <button class="btn" @click="init()">{{ type }}</button>
       <div class="title">
         <h1 class="play-title">閒</h1>
         <h1 class="bank-title">莊</h1>
@@ -18,37 +18,61 @@
       <div class="wrap">
         <div class="play-content">
           <div class="common-card">
-            <div class="card">
-              <div class="face front" :class="AllCards[play[0]]">
-              </div>
+            <div class="card" :class="randomArr.length > 0?'active':''">
+              <template v-if="randomArr.length > 0">
+                <div class="face front" :class="AllCards[play[0]]">
+                </div>
+                <div class="face back">
+                </div>
+              </template>
             </div>
-            <div class="card">
-              <div class="face front" :class="AllCards[play[1]]">
-              </div>
+            <div class="card" :class="randomArr.length > 0?'active':''">
+              <template v-if="randomArr.length > 0">
+                <div class="face front" :class="AllCards[play[1]]">
+                </div>
+                <div class="face back">
+                </div>
+              </template>
             </div>
           </div>
           <div class="supply-card">
-            <div class="card">
-              <div class="face front" :class="AllCards[play[2]]">
-              </div>
+            <div class="card" :class="play.length > 0?'active':''">
+              <template v-if="play.length > 2">
+                <div class="face front" :class="AllCards[play[2]]">
+                </div>
+                <div class="face back">
+                </div>
+              </template>
             </div>
           </div>
         </div>
         <div class="bank-content">
           <div class="common-card">
-            <div class="card">
-              <div class="face front" :class="AllCards[bank[0]]">
-              </div>
+            <div class="card" :class="randomArr.length > 0?'active':''">
+              <template v-if="randomArr.length > 0">
+                <div class="face front" :class="AllCards[bank[0]]">
+                </div>
+                <div class="face back">
+                </div>
+              </template>
             </div>
-            <div class="card">
-              <div class="face front" :class="AllCards[bank[1]]">
-              </div>
+            <div class="card" :class="randomArr.length > 0?'active':''">
+              <template v-if="randomArr.length > 0">
+                <div class="face front" :class="AllCards[bank[1]]">
+                </div>
+                <div class="face back">
+                </div>
+              </template>
             </div>
           </div>
           <div class="supply-card">
-            <div class="card">
-              <div class="face front" :class="AllCards[bank[2]]">
-              </div>
+            <div class="card" :class="play.length > 0?'active':''">
+              <template v-if="bank.length > 2">
+                <div class="face front" :class="AllCards[bank[2]]">
+                </div>
+                <div class="face back">
+                </div>
+              </template>
             </div>
           </div>
         </div>
@@ -68,17 +92,32 @@ export default {
         'puker-heart1', 'puker-heart2', 'puker-heart3', 'puker-heart4', 'puker-heart5', 'puker-heart6', 'puker-heart7', 'puker-heart8', 'puker-heart9', 'puker-heart10', 'puker-heart11', 'puker-heart12', 'puker-heart13',
         'puker-diamond1', 'puker-diamond2', 'puker-diamond3', 'puker-diamond4', 'puker-diamond5', 'puker-diamond6', 'puker-diamond7', 'puker-diamond8', 'puker-diamond9', 'puker-diamond10', 'puker-diamond11', 'puker-diamond12', 'puker-diamond13',
         'puker-club1', 'puker-club2', 'puker-club3', 'puker-club4', 'puker-club5', 'puker-club6', 'puker-club7', 'puker-club8', 'puker-club9', 'puker-club10', 'puker-club11', 'puker-club12', 'puker-club13'
-      ]
+      ],
+      type: '開牌',
+      randomArr: []
     }
   },
   mounted() {
-    this.init()
+    // this.init()
   },
   methods: {
     init() {
-      const randomArr = this.randomData()
-      this.play = randomArr.slice(0, 3)
-      this.bank = randomArr.slice(3, 6)
+      if (this.randomArr.length !== 0) {
+        this.reset()
+      } else {
+        this.type = 'reset'
+        this.randomData()
+        this.play = this.randomArr.slice(0, 2)
+        this.bank = this.randomArr.slice(2, 4)
+        if (this.randomArr.length > 4) { this.play.push(this.randomArr[4]) }
+        if (this.randomArr.length > 5) { this.bank.push(this.randomArr[5]) }
+      }
+    },
+    reset() {
+      this.randomArr = []
+      this.play = []
+      this.bank = []
+      this.type = '開牌'
     },
     randomData() {
       const arr = []
@@ -88,13 +127,39 @@ export default {
       arr.sort(function() { // 隨機打亂這個陣列
         return Math.random() - 0.5
       })
-      arr.length = 6 // 改寫長度
-      return arr
+      arr.length = this.getRandom(4, 6) // 改寫長度
+      this.randomArr = arr
+    },
+    // 產生min到max之間的亂數
+    getRandom(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min
     }
   }
 }
 </script>
 <style lang="scss" scoped>
+///////// 翻牌樣式
+.card {
+  position: relative;
+  transition: transform 1s;
+  transform-style: preserve-3d;
+  &.active {
+    transform: rotateY(-180deg);
+  }
+}
+.face {
+  position: absolute;
+}
+.front {
+  transform: rotateY(180deg);
+}
+.supply-card .card {
+  &.active {
+    transform: rotateY(180deg);
+  }
+}
+///////////////
+
 .btn {
   width: 80px;
   height: 30px;
@@ -142,12 +207,7 @@ export default {
                 .supply-card {
                     display: flex;
                     justify-content: center;
-                    height: 80px;
-                    margin-top: 10px;
-                    .card {
-                        transform: rotate(90deg);
-                        margin-top: -20px;
-                    }
+                    transform: rotate(90deg);
                 }
             }
             .play-content {
