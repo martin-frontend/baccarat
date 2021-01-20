@@ -1,11 +1,11 @@
 <template>
-    <div class="information">
-        information
-    </div>
+  <div class="information">
+    information
+  </div>
 </template>
 <script>
 export default {
-    name: 'information'
+  name: 'Information'
 }
 </script>
 <style lang="scss" scoped>
