@@ -10,7 +10,7 @@
         </tr> 
       </table>
       <table class="result">
-        <tr v-for="item in resultList" :key="item">
+        <tr v-for="item in resultList" :key="item.name">
             <td :class="item.color">
                 <p class="title">{{item.name}}</p>
                 <p class="text">{{item.value}}</p>
