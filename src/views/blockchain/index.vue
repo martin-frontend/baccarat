@@ -2,31 +2,15 @@
   <div>
     <div class="blockchain">
       <h1 class="title">公開資訊區塊鏈牌組</h1>
-      <button class="btn" @click="handleShuffle()">洗牌</button>
+      <button class="btn" @click="handleShuffle()">
+        {{ isAllFold ? shuffleText : resetText }}
+      </button>
       <button class="btn" @click="handleView(true)">檢視</button>
-      <div v-for="(item, index) in 13" :key="index" class="pluker">
+      <div v-for="(item, index) in result" :key="index" class="pluker">
         <div
           :class="[
-            `club ${handleSuits('club', item)}`,
-            { isFold: (handleResult(item) || isAllFold) ? true : false },
-          ]"
-        ></div>
-        <div
-          :class="[
-            `diamond ${handleSuits('diamond', item)}`,
-            { isFold: (handleResult(item) || isAllFold) ? true : false },
-          ]"
-        ></div>
-        <div
-          :class="[
-            `heart ${handleSuits('heart', item)}`,
-            { isFold: (handleResult(item) || isAllFold) ? true : false },
-          ]"
-        ></div>
-        <div
-          :class="[
-            `spade ${handleSuits('spade', item)}`,
-            { isFold: (handleResult(item) || isAllFold) ? true : false },
+            `${getRandomSuit()} ${handleSuits(getRandomSuit(), item)}`,
+            { isFold: index + 1 > drawAmount || isAllFold ? true : false },
           ]"
         ></div>
       </div>
@@ -43,7 +27,11 @@ export default {
     return {
       isVisible: false,
       isAllFold: false,
-      result: [5, 11, 7, 8]
+      shuffleText: '洗牌',
+      resetText: '重設',
+      result: [],
+      suitList: ['club', 'diamond', 'heart', 'spade'],
+      drawAmount: 155 // 假設開獎數
     }
   },
   provide() {
@@ -51,9 +39,17 @@ export default {
       group: this
     }
   },
+  created() {
+    this.handleDraw()
+  },
   methods: {
+    handleDraw() {
+      for (let i = 0; i < 416; i++) {
+        this.result.push(Math.floor(parseInt(Math.random() * 416) / 52) % 12)
+      }
+    },
     handleShuffle() {
-      this.isAllFold = true
+      this.isAllFold = !this.isAllFold
     },
     handleSuits(suit, number) {
       return `${suit}-${number}`
@@ -61,8 +57,14 @@ export default {
     handleView(value) {
       this.isVisible = value
     },
-    handleResult(number) {
-      return this.result.filter((a) => a === number).length
+    // handleResult(number) {
+    //   return false
+    // },
+    getRandomSuit() {
+      console.log(
+        this.suitList[Math.floor(Math.random() * this.suitList.length)]
+      )
+      return this.suitList[Math.floor(Math.random() * this.suitList.length)]
     }
   }
 }
