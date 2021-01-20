@@ -1,27 +1,41 @@
 <template>
-  <div class="blockchain">
-    <h1 class="title">公開資訊區塊鏈牌組</h1>
-    <button class="btn">洗牌</button>
-    <button class="btn">檢視</button>
-    <div v-for="(item, index) in 13" :key="index" class="pluker">
-      <div :class="`club ${handleSuits('club', item)} `"></div>
-      <div :class="`diamond ${handleSuits('diamond', item)}`"></div>
-      <div :class="`heart ${handleSuits('heart', item)}`"></div>
-      <div :class="`spade ${handleSuits('spade', item)}`"></div>
+  <div>
+    <div class="blockchain">
+      <h1 class="title">公開資訊區塊鏈牌組</h1>
+      <button class="btn">洗牌</button>
+      <button class="btn" @click="handleView(true)">檢視</button>
+      <div v-for="(item, index) in 13" :key="index" class="pluker">
+        <div :class="`club ${handleSuits('club', item)} `"></div>
+        <div :class="`diamond ${handleSuits('diamond', item)}`"></div>
+        <div :class="`heart ${handleSuits('heart', item)}`"></div>
+        <div :class="`spade ${handleSuits('spade', item)}`"></div>
+      </div>
+      <Dialog />
     </div>
   </div>
 </template>
 <script>
+import Dialog from './dialog'
 export default {
   name: 'Blockchain',
+  components: { Dialog },
   data() {
     return {
+      isVisible: false,
       result: '5,11,7,8'
+    }
+  },
+  provide() {
+    return {
+      group: this
     }
   },
   methods: {
     handleSuits(suit, number) {
       return `${suit}-${number}`
+    },
+    handleView(value) {
+      this.isVisible = value
     }
   }
 }
