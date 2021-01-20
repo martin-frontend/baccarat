@@ -10,6 +10,7 @@
             </div>
         </div> -->
     <div class="content">
+      <button class="btn" @click="init()">開牌</button>
       <div class="title">
         <h1 class="play-title">閒</h1>
         <h1 class="bank-title">莊</h1>
@@ -18,17 +19,17 @@
         <div class="play-content">
           <div class="common-card">
             <div class="card">
-              <div class="face front puker-spade1">
+              <div class="face front" :class="AllCards[play[0]]">
               </div>
             </div>
             <div class="card">
-              <div class="face front puker-spade2">
+              <div class="face front" :class="AllCards[play[1]]">
               </div>
             </div>
           </div>
           <div class="supply-card">
             <div class="card">
-              <div class="face front puker-spade3">
+              <div class="face front" :class="AllCards[play[2]]">
               </div>
             </div>
           </div>
@@ -36,17 +37,17 @@
         <div class="bank-content">
           <div class="common-card">
             <div class="card">
-              <div class="face front puker-heart1">
+              <div class="face front" :class="AllCards[bank[0]]">
               </div>
             </div>
             <div class="card">
-              <div class="face front puker-heart2">
+              <div class="face front" :class="AllCards[bank[1]]">
               </div>
             </div>
           </div>
           <div class="supply-card">
             <div class="card">
-              <div class="face front puker-heart7">
+              <div class="face front" :class="AllCards[bank[2]]">
               </div>
             </div>
           </div>
@@ -60,12 +61,47 @@ export default {
   name: 'OpenCard',
   data() {
     return {
-
+      play: [],
+      bank: [],
+      AllCards: [
+        'puker-spade1', 'puker-spade2', 'puker-spade3', 'puker-spade4', 'puker-spade5', 'puker-spade6', 'puker-spade7', 'puker-spade8', 'puker-spade9', 'puker-spade10', 'puker-spade11', 'puker-spade12', 'puker-spade13',
+        'puker-heart1', 'puker-heart2', 'puker-heart3', 'puker-heart4', 'puker-heart5', 'puker-heart6', 'puker-heart7', 'puker-heart8', 'puker-heart9', 'puker-heart10', 'puker-heart11', 'puker-heart12', 'puker-heart13',
+        'puker-diamond1', 'puker-diamond2', 'puker-diamond3', 'puker-diamond4', 'puker-diamond5', 'puker-diamond6', 'puker-diamond7', 'puker-diamond8', 'puker-diamond9', 'puker-diamond10', 'puker-diamond11', 'puker-diamond12', 'puker-diamond13',
+        'puker-club1', 'puker-club2', 'puker-club3', 'puker-club4', 'puker-club5', 'puker-club6', 'puker-club7', 'puker-club8', 'puker-club9', 'puker-club10', 'puker-club11', 'puker-club12', 'puker-club13'
+      ]
+    }
+  },
+  mounted() {
+    this.init()
+  },
+  methods: {
+    init() {
+      const randomArr = this.randomData()
+      this.play = randomArr.slice(0, 3)
+      this.bank = randomArr.slice(3, 6)
+    },
+    randomData() {
+      const arr = []
+      for (let i = 0; i < 52; i++) { // 一個從0到100的陣列
+        arr.push(i)
+      }
+      arr.sort(function() { // 隨機打亂這個陣列
+        return Math.random() - 0.5
+      })
+      arr.length = 6 // 改寫長度
+      return arr
     }
   }
 }
 </script>
 <style lang="scss" scoped>
+.btn {
+  width: 80px;
+  height: 30px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
 .open-card {
     width: 90%;
     display: flex;
