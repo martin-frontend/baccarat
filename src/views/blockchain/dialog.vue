@@ -5,11 +5,29 @@
       <div class="pluker">
         <div v-for="(item, index) in 13" :key="index">
           <div
-            :class="[`club ${handleSuits('club', item)} `, { 'isFold': handleResult(item) ? true:false }]"
+            :class="[
+              `club ${handleSuits('club', item)} `,
+              { isFold: handleResult(item) ? true : false },
+            ]"
           ></div>
-          <div :class="[`diamond ${handleSuits('diamond', item)}`, { 'isFold': handleResult(item) ? true:false }]"></div>
-          <div :class="[`heart ${handleSuits('heart', item)}`, { 'isFold': handleResult(item) ? true:false }]"></div>
-          <div :class="[`spade ${handleSuits('spade', item)}`, { 'isFold': handleResult(item) ? true:false }]"></div>
+          <div
+            :class="[
+              `diamond ${handleSuits('diamond', item)}`,
+              { isFold: handleResult(item) ? true : false },
+            ]"
+          ></div>
+          <div
+            :class="[
+              `heart ${handleSuits('heart', item)}`,
+              { isFold: handleResult(item) ? true : false },
+            ]"
+          ></div>
+          <div
+            :class="[
+              `spade ${handleSuits('spade', item)}`,
+              { isFold: handleResult(item) ? true : false },
+            ]"
+          ></div>
         </div>
       </div>
     </div>
@@ -33,7 +51,7 @@ export default {
       this.group.isVisible = !this.group.isVisible
     },
     handleResult(number) {
-      return this.result.filter(a => a === number).length
+      return this.result.filter((a) => a === number).length
     }
   }
 }
@@ -90,11 +108,11 @@ $suitsList: (
       }
     }
 
-  .isFold {
-    background-image: url("../../assets/puker-css-sprites/img/puker.png");
-    background-position: 0 100%;
-    background-repeat: no-repeat;
-  }
+    .isFold {
+      background-image: url("../../assets/puker-css-sprites/img/puker.png");
+      background-position: 0 100%;
+      background-repeat: no-repeat;
+    }
   }
 
   .title {
@@ -112,7 +130,6 @@ $suitsList: (
   .btn + .btn {
     margin: 5px;
   }
-
 }
 
 /* Modal Content */
