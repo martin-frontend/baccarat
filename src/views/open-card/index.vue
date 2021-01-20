@@ -98,7 +98,6 @@ export default {
     }
   },
   mounted() {
-    // this.init()
   },
   methods: {
     init() {
@@ -121,7 +120,7 @@ export default {
     },
     randomData() {
       const arr = []
-      for (let i = 0; i < 52; i++) { // 一個從0到100的陣列
+      for (let i = 0; i < 52; i++) { // 一個從0到52的陣列
         arr.push(i)
       }
       arr.sort(function() { // 隨機打亂這個陣列
@@ -141,9 +140,9 @@ export default {
 ///////// 翻牌樣式
 .card {
   position: relative;
-  transition: transform 1s;
   transform-style: preserve-3d;
   &.active {
+    transition: transform 1s;
     transform: rotateY(-180deg);
   }
 }
@@ -152,11 +151,6 @@ export default {
 }
 .front {
   transform: rotateY(180deg);
-}
-.supply-card .card {
-  &.active {
-    transform: rotateY(180deg);
-  }
 }
 ///////////////
 
@@ -207,7 +201,7 @@ export default {
                 .supply-card {
                     display: flex;
                     justify-content: center;
-                    transform: rotate(90deg);
+                    transform: rotate(-90deg);
                 }
             }
             .play-content {
