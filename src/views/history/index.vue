@@ -11,7 +11,7 @@
       </table>
       <table class="result">
         <tr v-for="item in resultList" :key="item">
-            <td>
+            <td :class="item.color">
                 <p class="title">{{item.name}}</p>
                 <p class="text">{{item.value}}</p>
             </td>
@@ -32,13 +32,13 @@ export default {
                 {name:'莊',value:0,color:'red'},
                 {name:'閒',value:0,color:'blue'},
                 {name:'和',value:0,color:'green'},
-                {name:'莊對',value:0,color:'red'},
-                {name:'閒對',value:0,color:'red'},
-                {name:'總數',value:0,color:'red'},
-                {name:'莊即贏',value:0,color:'red'},
-                {name:'閒即贏',value:0,color:'red'},
+                {name:'莊對',value:0,color:'pink'},
+                {name:'閒對',value:0,color:'blue'},
+                {name:'總數',value:0,color:'brown'},
+                {name:'莊即贏',value:0,color:'brown'},
+                {name:'閒即贏',value:0,color:'brown'},
             ],
-            ruaultText:['莊','閒','合'],
+            ruaultText:['莊','閒','和'],
             currentIndex:0
         }
     },
@@ -77,7 +77,7 @@ export default {
                     return "red"
                 case '閒':
                     return "blue"
-                case '合':
+                case '和':
                     return "green"
             }
         }
@@ -137,6 +137,22 @@ export default {
                 align-items: center;
                 padding: 5px;
                 width: 120px;
+                font-weight: bold;
+                &.red{
+                    color: red;                            
+                }
+                &.green{
+                    color: green;                            
+                }
+                &.blue{
+                    color: blue;                            
+                }
+                &.pink{
+                    color: deeppink;
+                }
+                &.brown{
+                    color: chocolate;
+                }
             } 
         }
         .testBtn{
