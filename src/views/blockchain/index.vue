@@ -1,11 +1,11 @@
 <template>
-    <div class="blockchain">
-        blockchain
-    </div>
+  <div class="blockchain">
+    blockchain
+  </div>
 </template>
 <script>
 export default {
-    name: 'blockchain'
+  name: 'Blockchain'
 }
 </script>
 <style lang="scss" scoped>

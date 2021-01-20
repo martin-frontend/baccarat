@@ -1,6 +1,6 @@
 <template>
-    <div class="open-card">
-        <!-- open-card
+  <div class="open-card">
+    <!-- open-card
         <div class="card">
             <div class="face front puker-spade1">
             </div>
@@ -9,60 +9,60 @@
             <div class="face back">
             </div>
         </div> -->
-        <div class="content">
-            <div class="title">
-                <h1 class="play-title">閒</h1>
-                <h1 class="bank-title">莊</h1>
+    <div class="content">
+      <div class="title">
+        <h1 class="play-title">閒</h1>
+        <h1 class="bank-title">莊</h1>
+      </div>
+      <div class="wrap">
+        <div class="play-content">
+          <div class="common-card">
+            <div class="card">
+              <div class="face front puker-spade1">
+              </div>
             </div>
-            <div class="wrap">
-                <div class="play-content">
-                    <div class="common-card">
-                        <div class="card">
-                            <div class="face front puker-spade1">
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="face front puker-spade2">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="supply-card">
-                        <div class="card">
-                            <div class="face front puker-spade3">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="bank-content">
-                    <div class="common-card">
-                        <div class="card">
-                            <div class="face front puker-heart1">
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="face front puker-heart2">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="supply-card">
-                        <div class="card">
-                            <div class="face front puker-heart7">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="card">
+              <div class="face front puker-spade2">
+              </div>
             </div>
+          </div>
+          <div class="supply-card">
+            <div class="card">
+              <div class="face front puker-spade3">
+              </div>
+            </div>
+          </div>
         </div>
+        <div class="bank-content">
+          <div class="common-card">
+            <div class="card">
+              <div class="face front puker-heart1">
+              </div>
+            </div>
+            <div class="card">
+              <div class="face front puker-heart2">
+              </div>
+            </div>
+          </div>
+          <div class="supply-card">
+            <div class="card">
+              <div class="face front puker-heart7">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 <script>
 export default {
-    name: 'openCard',
-    data() {
-        return {
-            
-        }
-    },
+  name: 'OpenCard',
+  data() {
+    return {
+
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
