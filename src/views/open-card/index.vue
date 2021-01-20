@@ -1,11 +1,13 @@
 <template>
     <div class="opne-card">
         opne-card
-        <div class="front card puker-spade1">
-
+        <div class="card">
+            <div class="face front puker-spade1">
+            </div>
         </div>
-        <div class="back card">
-
+        <div class="card">
+            <div class="face back">
+            </div>
         </div>
     </div>
 </template>
