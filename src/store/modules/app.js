@@ -1,45 +1,41 @@
-// import Cookies from 'js-cookie'
-// import { getLanguage } from '@/lang/index'
+import { doExecute, getCards, doShuffle } from '@/api/game'
 
 const state = {
-  // sidebar: {
-  //   opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
-  //   withoutAnimation: false
-  // },
-  // device: 'desktop',
-  // language: getLanguage(),
-  // size: Cookies.get('size') || 'medium'
+  bankerPoints: 0,
+  cards: [],
+  playerPoints: 0,
+  result: []
 }
 
 const mutations = {
-  // TOGGLE_SIDEBAR: state => {
-  //   state.sidebar.opened = !state.sidebar.opened
-  //   state.sidebar.withoutAnimation = false
-  //   if (state.sidebar.opened) {
-  //     Cookies.set('sidebarStatus', 1)
-  //   } else {
-  //     Cookies.set('sidebarStatus', 0)
-  //   }
-  // },
-  // CLOSE_SIDEBAR: (state, withoutAnimation) => {
-  //   Cookies.set('sidebarStatus', 0)
-  //   state.sidebar.opened = false
-  //   state.sidebar.withoutAnimation = withoutAnimation
-  // },
-  // TOGGLE_DEVICE: (state, device) => {
-  //   state.device = device
-  // },
-  // SET_LANGUAGE: (state, language) => {
-  //   state.language = language
-  //   Cookies.set('language', language)
-  // },
-  // SET_SIZE: (state, size) => {
-  //   state.size = size
-  //   Cookies.set('size', size)
-  // }
+  SET_DATA: (state, data) => {
+    const { bankerPoints, cards, playerPoints, result } = data
+    state.bankerPoints = bankerPoints
+    state.cards = cards
+    state.playerPoints = playerPoints
+    state.result = result
+  }
 }
 
 const actions = {
+  doExecute({ commit }) {
+    doExecute().then((response) => {
+      const { data } = response
+      commit('SET_DATA', data.data)
+    })
+  },
+  getCards({ commit }) {
+    getCards().then((response) => {
+      // const { data } = response
+      // commit('SET_DATA', data.data)
+    })
+  },
+  doShuffle({ commit }) {
+    doShuffle().then((response) => {
+      // const { data } = response
+      // commit('SET_DATA', data.data)
+    })
+  }
   // toggleSideBar({ commit }) {
   //   commit('TOGGLE_SIDEBAR')
   // },

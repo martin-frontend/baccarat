@@ -52,43 +52,43 @@ export default {
   },
   methods: {
     init() {
-      getInit()
-        .then((response) => {
-          console.log(1, response)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+      // getInit()
+      //   .then((response) => {
+      //     console.log(1, response)
+      //   })
+      //   .catch((error) => {
+      //     console.log(error)
+      //   })
       for (let i = 0; i < this.boardRow * this.boardColumn; i++) {
         this.boardDataList.push(i)
       }
     },
     Shuffle() {
-      doShuffle()
-        .then((response) => {
-          console.log(response)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+      // doShuffle()
+      //   .then((response) => {
+      //     console.log(response)
+      //   })
+      //   .catch((error) => {
+      //     console.log(error)
+      //   })
     },
     Card() {
-      getCards()
-        .then((response) => {
-          console.log(response)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+      // getCards()
+      //   .then((response) => {
+      //     console.log(response)
+      //   })
+      //   .catch((error) => {
+      //     console.log(error)
+      //   })
     },
     Execute() {
-      doExecute()
-        .then((response) => {
-          console.log(response)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+      // doExecute()
+      //   .then((response) => {
+      //     console.log(response)
+      //   })
+      //   .catch((error) => {
+      //     console.log(error)
+      //   })
     },
     OnTest() {
       const resultNum = this.getRandomInt(3)
