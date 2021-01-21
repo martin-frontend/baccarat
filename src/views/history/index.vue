@@ -45,18 +45,18 @@ export default {
           { name: '莊贏', value: 0, color: 'red' }, // 2
           { name: '莊贏(免傭)', value: 0, color: 'pink' }, // 3
           { name: '閒對', value: 0, color: 'blue' }, // 4
-          { name: '莊對', value: 0, color: 'brown' }, // 5
-          { name: '任意對子', value: 0, color: 'brown' }, // 6
-          { name: '完美對子', value: 0, color: 'brown' } // 7
+          { name: '莊對', value: 0, color: 'red' }, // 5
+          { name: '任意對子', value: 0, color: 'chocolate' }, // 6
+          { name: '完美對子', value: 0, color: 'chocolate' } // 7
         ],
         [
           { name: '大', value: 0, color: 'brown' }, // 8
           { name: '小', value: 0, color: 'brown' }, // 9
-          { name: '閒單', value: 0, color: 'brown' }, // 10
-          { name: '閒雙', value: 0, color: 'brown' }, // 11
-          { name: '莊單', value: 0, color: 'brown' }, // 12
-          { name: '莊雙', value: 0, color: 'brown' }, // 13
-          { name: '超級6', value: 0, color: 'brown' } // 14
+          { name: '閒單', value: 0, color: 'blue' }, // 10
+          { name: '閒雙', value: 0, color: 'blue' }, // 11
+          { name: '莊單', value: 0, color: 'red' }, // 12
+          { name: '莊雙', value: 0, color: 'red' }, // 13
+          { name: '超級6', value: 0, color: 'purple' } // 14
         ]
       ],
       currentResult: [],
@@ -74,6 +74,7 @@ export default {
         const arr = data[i]
         for (let j = 0; j < this.currentResult.length; j++) {
           if (this.arrContain(arr, j)) {
+            // 閒、和、莊 更新左板
             if (j === 0 || j === 1 || j === 2) {
               this.$set(this.boardDataList, i, this.resultText[j])
             }
@@ -85,6 +86,7 @@ export default {
         const element = this.currentResult[i]
         const j = i < 8 ? 0 : 1
         const k = i % 8
+        // 更新右板
         this.resultList[j][k].value = element
       }
       console.log(data)
@@ -215,8 +217,14 @@ export default {
                 &.pink{
                     color: deeppink;
                 }
-                &.brown{
+                &.chocolate{
                     color: chocolate;
+                }
+                &.brown{
+                    color:brown;
+                }
+                &.purple{
+                    color: purple;
                 }
             }
         }
