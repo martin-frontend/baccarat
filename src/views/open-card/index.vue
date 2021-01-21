@@ -12,15 +12,15 @@
     <div class="content">
       <button class="btn" @click="init()">{{ type }}</button>
       <div class="title">
-        <h1 class="play-title">閒</h1>
-        <h1 class="bank-title">莊</h1>
+        <h1 class="play-title">閒<span class="point">{{ firstPlayerPoints }}</span></h1>
+        <h1 class="bank-title">莊<span class="point">{{ firstBankerPoints }}</span></h1>
       </div>
       <div class="wrap">
         <div class="play-content">
           <div class="common-card">
             <div class="card" :class="play.length > 0?'active':''">
               <template v-if="play.length > 0">
-                <div class="face front" :class="AllCards[play[0]]">
+                <div class="face front" :class="play[0].className">
                 </div>
                 <div class="face back">
                 </div>
@@ -28,7 +28,7 @@
             </div>
             <div class="card" :class="play.length > 0?'active':''">
               <template v-if="play.length > 0">
-                <div class="face front" :class="AllCards[play[1]]">
+                <div class="face front" :class="play[1].className">
                 </div>
                 <div class="face back">
                 </div>
@@ -38,7 +38,7 @@
           <div class="supply-card">
             <div class="card" :class="play.length > 2?'active':''">
               <template v-if="play.length > 2">
-                <div class="face front" :class="AllCards[play[2]]">
+                <div class="face front" :class="play[2].className">
                 </div>
                 <div class="face back">
                 </div>
@@ -50,7 +50,7 @@
           <div class="common-card">
             <div class="card" :class="bank.length > 0?'active':''">
               <template v-if="bank.length > 0">
-                <div class="face front" :class="AllCards[bank[0]]">
+                <div class="face front" :class="bank[0].className">
                 </div>
                 <div class="face back">
                 </div>
@@ -58,7 +58,7 @@
             </div>
             <div class="card" :class="bank.length > 0?'active':''">
               <template v-if="bank.length > 0">
-                <div class="face front" :class="AllCards[bank[1]]">
+                <div class="face front" :class="bank[1].className">
                 </div>
                 <div class="face back">
                 </div>
@@ -68,7 +68,7 @@
           <div class="supply-card">
             <div class="card" :class="bank.length > 2?'active':''">
               <template v-if="bank.length > 2">
-                <div class="face front" :class="AllCards[bank[2]]">
+                <div class="face front" :class="bank[2].className">
                 </div>
                 <div class="face back">
                 </div>
@@ -77,6 +77,7 @@
           </div>
         </div>
       </div>
+      <div style="margin-top: 10px; font-size: 30px"> 結果: {{ final }}</div>
     </div>
   </div>
 </template>
@@ -96,10 +97,18 @@ export default {
       ],
       type: '開牌',
       randomArr: [],
-      cardName: ['puker-spade', 'puker-heart', 'puker-diamond', 'puker-club'],
+      cardName: ['', 'puker-club', 'puker-diamond', 'puker-heart', 'puker-spade'],
       timeID1: 0,
       timeID2: 0,
-      timeID3: 0
+      timeID3: 0,
+      timeID4: 0,
+      timeID5: 0,
+      timeID6: 0,
+      timeID7: 0,
+      timeID8: 0,
+      firstBankerPoints: null,
+      firstPlayerPoints: null,
+      final: ''
     }
   },
   computed: {
@@ -108,41 +117,62 @@ export default {
   mounted() {
   },
   methods: {
-    init() {
+    async init() {
       this.reset()
-      this.$store.dispatch('app/doExecute')
-      // clearTimeout(this.timeID1)
-      // clearTimeout(this.timeID2)
-      // clearTimeout(this.timeID3)
-      // if (this.randomArr.length !== 0) {
-      //   this.reset()
-      // } else {
-      //   this.type = 'reset'
-      //   this.randomData()
-      //   // setTimeout(() => {}, 1500)
-      //   this.play = this.randomArr.slice(0, 2)
-      //   this.timeID1 = setTimeout(() => {
-      //     this.bank = this.randomArr.slice(2, 4)
-      //   }, 1000)
-      //   // if (this.randomArr.length > 4) { this.play.push(this.randomArr[4]) }
-      //   if (this.randomArr.length > 4) {
-      //     this.timeID2 = setTimeout(() => {
-      //       this.play.push(this.randomArr[4])
-      //     }, 2000)
-      //   }
-      //   // if (this.randomArr.length > 5) { this.bank.push(this.randomArr[5]) }
-      //   if (this.randomArr.length > 5) {
-      //     this.timeID3 = setTimeout(() => {
-      //       this.bank.push(this.randomArr[5])
-      //     }, 3000)
-      //   }
-      // }
+      await this.$store.dispatch('app/doExecute')
+      const a = new Promise((resolve, reject) => {
+        this.play = this.cards[0].slice(0, 2)
+        this.timeID1 = setTimeout(() => {
+          this.firstPlayerPoints = ((this.play[0].value > 10 ? 10 : this.play[0].value) + (this.play[1].value > 10 ? 10 : this.play[1].value)) % 10
+        }, 500)
+        this.timeID2 = setTimeout(() => {
+          this.bank = this.cards[1].slice(0, 2)
+          this.timeID3 = setTimeout(() => {
+            this.firstBankerPoints = ((this.bank[0].value > 10 ? 10 : this.bank[0].value) + (this.bank[1].value > 10 ? 10 : this.bank[1].value)) % 10
+          }, 500)
+        }, 1000)
+        let i = 1
+        if (this.cards[0][2]) {
+          i++
+          this.timeID4 = setTimeout(() => {
+            this.play.push(this.cards[0][2])
+            this.timeID5 = setTimeout(() => {
+              this.firstPlayerPoints = this.playerPoints
+            }, 500)
+          }, 1000 * i)
+        }
+        if (this.cards[1][2]) {
+          i++
+          this.timeID6 = setTimeout(() => {
+            this.bank.push(this.cards[1][2])
+            this.timeID7 = setTimeout(() => {
+              this.firstBankerPoints = this.bankerPoints
+            }, 500)
+          }, 1000 * i)
+        }
+        this.timeID8 = setTimeout(() => {
+          resolve()
+        }, 1000 * i + 800)
+      })
+      await a
+      if (!this.timeID1) return
+      this.final = `${this.bankerPoints > this.playerPoints ? '莊' : this.bankerPoints === this.playerPoints ? '和' : '閒'}`
     },
     reset() {
+      this.firstPlayerPoints = null
+      this.firstBankerPoints = null
       this.randomArr = []
       this.play = []
       this.bank = []
-      this.type = '開牌'
+      clearTimeout(this.timeID1)
+      clearTimeout(this.timeID2)
+      clearTimeout(this.timeID3)
+      clearTimeout(this.timeID4)
+      clearTimeout(this.timeID5)
+      clearTimeout(this.timeID6)
+      clearTimeout(this.timeID7)
+      clearTimeout(this.timeID8)
+      this.final = ''
     },
     randomData() {
       const arr = []

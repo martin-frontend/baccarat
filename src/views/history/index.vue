@@ -89,7 +89,7 @@ export default {
         // 更新右板
         this.resultList[j][k].value = element
       }
-      console.log(data)
+      // console.log(data)
     }
   },
   mounted() {
