@@ -18,10 +18,13 @@
       </tr>
     </table>
     <button class="testBtn" @click="OnTest">測試按鈕</button>
+    <button class="testBtn" @click="Shuffle">洗牌</button>
+    <button class="testBtn" @click="Execute">開牌</button>
+    <button class="testBtn" @click="Card">取得牌組</button>
   </div>
 </template>
 <script>
-import { getCards, getInit, doShuffle } from '@/api/game'
+import { getCards, getInit, doShuffle, doExecute } from '@/api/game'
 
 export default {
   name: 'History',
@@ -56,37 +59,36 @@ export default {
         .catch((error) => {
           console.log(error)
         })
-      setTimeout(() => {
-        doShuffle()
-          .then((response) => {
-            const { data } = response
-            if (data.success) {
-              console.log((data))
-            } else {
-              alert('no data')
-            }
-          })
-          .catch((error) => {
-            console.log(error)
-          })
-      }, 500)
-      setTimeout(() => {
-        getCards()
-          .then((response) => {
-            const { data } = response
-            if (data.success) {
-              console.log((data))
-            } else {
-              alert('no data')
-            }
-          })
-          .catch((error) => {
-            console.log(error)
-          })
-      }, 1000)
       for (let i = 0; i < this.boardRow * this.boardColumn; i++) {
         this.boardDataList.push(i)
       }
+    },
+    Shuffle() {
+      doShuffle()
+        .then((response) => {
+          console.log(response)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+    Card() {
+      getCards()
+        .then((response) => {
+          console.log(response)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+    Execute() {
+      doExecute()
+        .then((response) => {
+          console.log(response)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
     OnTest() {
       const resultNum = this.getRandomInt(3)
