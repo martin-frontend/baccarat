@@ -10,6 +10,9 @@
 }
 .front{
     background: #999 url(../img/puker.png) 0 100%;
+    background-repeat: no-repeat;
+    background-size: 82px 122px;
+    background-position: center;
 }
 .back{
     background: #efefef url(../img/puker.png) 0 100%;
@@ -19,65 +22,65 @@
 等同于y：{容器(container)的高度—背景图片的高度}*y百分比，超出的部分隐藏。
 */
 /*spade 黑桃A-K*/
-.puker-spade1{background-position: 0 0}
-.puker-spade2{background-position: 8.333% 0}
-.puker-spade3{background-position: 16.667% 0}
-.puker-spade4{background-position: 25% 0}
-.puker-spade5{background-position: 33.333% 0}
-.puker-spade6{background-position: 41.6667% 0}
-.puker-spade7{background-position: 50% 0}
-.puker-spade8{background-position: 58.333% 0}
-.puker-spade9{background-position: 66.667% 0}
-.puker-spade10{background-position: 75% 0}
-.puker-spade11{background-position: 83.6% 0}
-.puker-spade12{background-position: 92% 0}
-.puker-spade13{background-position: 100% 0}
+.puker-spade1{background-image: url(../img/spades/A.gif);}
+.puker-spade2{background-image: url(../img/spades/2.gif);}
+.puker-spade3{background-image: url(../img/spades/3.gif);}
+.puker-spade4{background-image: url(../img/spades/4.gif);}
+.puker-spade5{background-image: url(../img/spades/5.gif);}
+.puker-spade6{background-image: url(../img/spades/6.gif);}
+.puker-spade7{background-image: url(../img/spades/7.gif);}
+.puker-spade8{background-image: url(../img/spades/8.gif);}
+.puker-spade9{background-image: url(../img/spades/9.gif);}
+.puker-spade10{background-image: url(../img/spades/10.gif);}
+.puker-spade11{background-image: url(../img/spades/J.gif);}
+.puker-spade12{background-image: url(../img/spades/Q.gif);}
+.puker-spade13{background-image: url(../img/spades/K.gif);}
 
 /*heart 紅桃A-K*/
-.puker-heart1{background-position: 0 25%}
-.puker-heart2{background-position: 8.333% 25%}
-.puker-heart3{background-position: 16.667% 25%}
-.puker-heart4{background-position: 25% 25%}
-.puker-heart5{background-position: 33.333% 25%}
-.puker-heart6{background-position: 41.6667% 25%}
-.puker-heart7{background-position: 50% 25%}
-.puker-heart8{background-position: 58.333% 25%}
-.puker-heart9{background-position: 66.667% 25%}
-.puker-heart10{background-position:75% 25%}
-.puker-heart11{background-position:83.6% 25%}
-.puker-heart12{background-position:92% 25%}
-.puker-heart13{background-position:100% 25%}
+.puker-heart1{background-image: url(../img/hearts/A.gif);}
+.puker-heart2{background-image: url(../img/hearts/2.gif);}
+.puker-heart3{background-image: url(../img/hearts/3.gif);}
+.puker-heart4{background-image: url(../img/hearts/4.gif);}
+.puker-heart5{background-image: url(../img/hearts/5.gif);}
+.puker-heart6{background-image: url(../img/hearts/6.gif);}
+.puker-heart7{background-image: url(../img/hearts/7.gif);}
+.puker-heart8{background-image: url(../img/hearts/8.gif);}
+.puker-heart9{background-image: url(../img/hearts/9.gif);}
+.puker-heart10{background-image: url(../img/hearts/10.gif);}
+.puker-heart11{background-image: url(../img/hearts/J.gif);}
+.puker-heart12{background-image: url(../img/hearts/Q.gif);}
+.puker-heart13{background-image: url(../img/hearts/K.gif);}
 
 /*Diamond 方片*/
-.puker-diamond1{background-position: 0 50%}
-.puker-diamond2{background-position: 8.333% 50%}
-.puker-diamond3{background-position: 16.667% 50%}
-.puker-diamond4{background-position: 25% 50%}
-.puker-diamond5{background-position: 33.333% 50%}
-.puker-diamond6{background-position: 41.6667% 50%}
-.puker-diamond7{background-position: 50% 50%}
-.puker-diamond8{background-position: 58.333% 50%}
-.puker-diamond9{background-position: 66.667% 50%}
-.puker-diamond10{background-position: 75% 50%}
-.puker-diamond11{background-position: 83.6% 50%}
-.puker-diamond12{background-position: 92% 50%}
-.puker-diamond13{background-position: 100% 50%}
+.puker-diamond1{background-image: url(../img/diamonds/A.gif);}
+.puker-diamond2{background-image: url(../img/diamonds/2.gif);}
+.puker-diamond3{background-image: url(../img/diamonds/3.gif);}
+.puker-diamond4{background-image: url(../img/diamonds/4.gif);}
+.puker-diamond5{background-image: url(../img/diamonds/5.gif);}
+.puker-diamond6{background-image: url(../img/diamonds/6.gif);}
+.puker-diamond7{background-image: url(../img/diamonds/7.gif);}
+.puker-diamond8{background-image: url(../img/diamonds/8.gif);}
+.puker-diamond9{background-image: url(../img/diamonds/9.gif);}
+.puker-diamond10{background-image: url(../img/diamonds/10.gif);}
+.puker-diamond11{background-image: url(../img/diamonds/J.gif);}
+.puker-diamond12{background-image: url(../img/diamonds/Q.gif);}
+.puker-diamond13{background-image: url(../img/diamonds/K.gif);}
 
 
 /*Club 梅花 A-K */
-.puker-club1{background-position: 0 75%}
-.puker-club2{background-position: 8.333% 75%}
-.puker-club3{background-position: 16.667% 75%}
-.puker-club4{background-position: 25% 75%}
-.puker-club5{background-position: 33.333% 75%}
-.puker-club6{background-position: 41.6667% 75%}
-.puker-club7{background-position: 50% 75%}
-.puker-club8{background-position: 58.333% 75%}
-.puker-club9{background-position:66.667% 75%}
-.puker-club10{background-position: 75% 75%}
-.puker-club11{background-position: 83.6% 75%}
-.puker-club12{background-position: 92% 75%}
-.puker-club13{background-position: 100% 75%}
+.puker-club1{background-image: url(../img/clubs/A.gif);}
+.puker-club2{background-image: url(../img/clubs/2.gif);}
+.puker-club3{background-image: url(../img/clubs/3.gif);}
+.puker-club4{background-image: url(../img/clubs/4.gif);}
+.puker-club5{background-image: url(../img/clubs/5.gif);}
+.puker-club6{background-image: url(../img/clubs/6.gif);}
+.puker-club7{background-image: url(../img/clubs/7.gif);}
+.puker-club8{background-image: url(../img/clubs/8.gif);}
+.puker-club9{background-image: url(../img/clubs/9.gif);}
+.puker-club10{background-image: url(../img/clubs/10.gif);}
+.puker-club11{background-image: url(../img/clubs/J.gif);}
+.puker-club12{background-image: url(../img/clubs/Q.gif);}
+.puker-club13{background-image: url(../img/clubs/K.gif);}
 
 /*大小王*/
 .puker-big-kingA{background-position: 8.333% 100%}
