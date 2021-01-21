@@ -14,19 +14,21 @@
         </div>
       </div>
       <div class="pluker-container">
-        <router-link
+        <div
           v-for="(item, index) in result"
           :id="index"
           :key="index"
           class="pluker"
         >
-          <div
-            :class="[
-              `${getRandomSuit()} ${handleSuits(getRandomSuit(), item)}`,
-              { isFold: index + 1 > drawAmount || isAllFold ? true : false },
-            ]"
-          ></div>
-        </router-link>
+          <div class="card">
+            <div
+              :class="[
+                `face front ${handleSuits(getRandomSuit(), item)}`,
+                { isFold: index + 1 > drawAmount || isAllFold ? true : false },
+              ]"
+            ></div>
+          </div>
+        </div>
       </div>
       <Dialog />
     </div>
@@ -34,6 +36,8 @@
 </template>
 <script>
 import Dialog from './dialog'
+import constants from './constants'
+
 export default {
   name: 'Blockchain',
   components: { Dialog },
@@ -45,7 +49,8 @@ export default {
       resetText: '重設',
       result: [],
       suitList: ['club', 'diamond', 'heart', 'spade'],
-      drawAmount: 155 // 假設開獎數,
+      drawAmount: 155, // 假設開獎數
+      constants
     }
   },
   provide() {
@@ -66,7 +71,7 @@ export default {
       this.isAllFold = !this.isAllFold
     },
     handleSuits(suit, number) {
-      return `${suit}-${number}`
+      return this.constants.AllCards.filter(a => a === `puker-${suit}${number}`)[0]
     },
     handleView(value) {
       this.isVisible = value
@@ -114,6 +119,7 @@ $suitsList: (
       }
 
       .btn {
+        cursor: pointer;
         background-color: #f44336;
         padding: 5px;
       }
@@ -127,32 +133,14 @@ $suitsList: (
     margin-top: 200px;
     overflow: auto;
     flex: 1;
+    width: 100%;
+
     .pluker {
       display: flex;
       flex-direction: column;
       justify-items: center;
       align-items: center;
-      width: 100%;
-      // height: auto;
-      @each $suitNumber, $suit in $suitsList {
-        @for $i from 1 through 13 {
-          .#{$suit}-#{$i} {
-            margin: 10px 5px;
-            border-radius: 10px;
-            height: 120px;
-            width: 80px;
-            background-image: url("../../assets/puker-css-sprites/img/puker.png");
-            background-position: (($i - 1) * -80px) ($suitNumber * -120px);
-            background-repeat: no-repeat;
-          }
-
-          .isFold {
-            background-image: url("../../assets/puker-css-sprites/img/puker.png");
-            background-position: 0 100%;
-            background-repeat: no-repeat;
-          }
-        }
-      }
+      margin: 10px 5px;
     }
   }
 }

@@ -58,6 +58,7 @@
             </div>
             <div class="card" :class="bank.length > 0?'active':''">
               <template v-if="bank.length > 0">
+                {{ bank[1] }}
                 <div class="face front" :class="AllCards[bank[1]]">
                 </div>
                 <div class="face back">
@@ -68,6 +69,7 @@
           <div class="supply-card">
             <div class="card" :class="bank.length > 2?'active':''">
               <template v-if="bank.length > 2">
+                {{ bank[2] }}
                 <div class="face front" :class="AllCards[bank[2]]">
                 </div>
                 <div class="face back">
