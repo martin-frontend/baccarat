@@ -156,7 +156,7 @@ export default {
       })
       await a
       if (!this.timeID1) return
-      this.final = `${this.bankerPoints > this.playerPoints ? '莊' : this.bankerPoints === this.playerPoints ? '和' : '閒'}`
+      this.final = `${this.bankerPoints > this.playerPoints ? '莊贏' : this.bankerPoints === this.playerPoints ? '和局' : '閒贏'}`
     },
     reset() {
       this.firstPlayerPoints = null
