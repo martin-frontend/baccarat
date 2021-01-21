@@ -24,7 +24,7 @@ import History from './views/history/index.vue'
 import Blockchain from './views/blockchain/index.vue'
 import Information from './views/information/index.vue'
 import OpenCard from './views/open-card/index.vue'
-
+import { mapGetters } from 'vuex'
 export default {
   name: 'App',
   components: {
@@ -33,6 +33,13 @@ export default {
     Blockchain,
     Information,
     OpenCard
+  },
+  data() {
+    return {
+    }
+  },
+  computed: {
+    ...mapGetters(['name'])
   }
 }
 </script>
