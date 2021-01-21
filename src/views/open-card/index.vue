@@ -12,8 +12,18 @@
     <div class="content">
       <button class="btn" @click="init()">{{ type }}</button>
       <div class="title">
-        <h1 class="play-title">閒<span class="point">{{ firstPlayerPoints }}</span></h1>
-        <h1 class="bank-title">莊<span class="point">{{ firstBankerPoints }}</span></h1>
+        <h1 class="play-title">
+          閒
+          <span class="point">
+            {{ firstPlayerPoints }}
+          </span>
+        </h1>
+        <h1 class="bank-title">
+          莊
+          <span class="point">
+            {{ firstBankerPoints }}
+          </span>
+        </h1>
       </div>
       <div class="wrap">
         <div class="play-content">
@@ -232,13 +242,17 @@ export default {
                 flex: 1;
                 line-height: 36px;
                 font-size: 20px;
-                background: blue;
+                background: rgb(47, 47, 250);
             }
             .bank-title {
                 flex: 1;
                 line-height: 36px;
                 font-size: 20px;
-                background: red;
+                background: rgb(248, 59, 59);
+            }
+            .point {
+              font-size: 20px;
+              margin-left: 10px;
             }
         }
         .wrap {
