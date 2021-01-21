@@ -18,16 +18,16 @@
       <div class="wrap">
         <div class="play-content">
           <div class="common-card">
-            <div class="card" :class="randomArr.length > 0?'active':''">
-              <template v-if="randomArr.length > 0">
+            <div class="card" :class="play.length > 0?'active':''">
+              <template v-if="play.length > 0">
                 <div class="face front" :class="AllCards[play[0]]">
                 </div>
                 <div class="face back">
                 </div>
               </template>
             </div>
-            <div class="card" :class="randomArr.length > 0?'active':''">
-              <template v-if="randomArr.length > 0">
+            <div class="card" :class="play.length > 0?'active':''">
+              <template v-if="play.length > 0">
                 <div class="face front" :class="AllCards[play[1]]">
                 </div>
                 <div class="face back">
@@ -36,7 +36,7 @@
             </div>
           </div>
           <div class="supply-card">
-            <div class="card" :class="play.length > 0?'active':''">
+            <div class="card" :class="play.length > 2?'active':''">
               <template v-if="play.length > 2">
                 <div class="face front" :class="AllCards[play[2]]">
                 </div>
@@ -48,16 +48,16 @@
         </div>
         <div class="bank-content">
           <div class="common-card">
-            <div class="card" :class="randomArr.length > 0?'active':''">
-              <template v-if="randomArr.length > 0">
+            <div class="card" :class="bank.length > 0?'active':''">
+              <template v-if="bank.length > 0">
                 <div class="face front" :class="AllCards[bank[0]]">
                 </div>
                 <div class="face back">
                 </div>
               </template>
             </div>
-            <div class="card" :class="randomArr.length > 0?'active':''">
-              <template v-if="randomArr.length > 0">
+            <div class="card" :class="bank.length > 0?'active':''">
+              <template v-if="bank.length > 0">
                 <div class="face front" :class="AllCards[bank[1]]">
                 </div>
                 <div class="face back">
@@ -66,7 +66,7 @@
             </div>
           </div>
           <div class="supply-card">
-            <div class="card" :class="play.length > 0?'active':''">
+            <div class="card" :class="bank.length > 2?'active':''">
               <template v-if="bank.length > 2">
                 <div class="face front" :class="AllCards[bank[2]]">
                 </div>
@@ -106,10 +106,23 @@ export default {
       } else {
         this.type = 'reset'
         this.randomData()
+        // setTimeout(() => {}, 1500)
         this.play = this.randomArr.slice(0, 2)
-        this.bank = this.randomArr.slice(2, 4)
-        if (this.randomArr.length > 4) { this.play.push(this.randomArr[4]) }
-        if (this.randomArr.length > 5) { this.bank.push(this.randomArr[5]) }
+        setTimeout(() => {
+          this.bank = this.randomArr.slice(2, 4)
+        }, 1000)
+        // if (this.randomArr.length > 4) { this.play.push(this.randomArr[4]) }
+        if (this.randomArr.length > 4) {
+          setTimeout(() => {
+            this.play.push(this.randomArr[4])
+          }, 2000)
+        }
+        // if (this.randomArr.length > 5) { this.bank.push(this.randomArr[5]) }
+        if (this.randomArr.length > 5) {
+          setTimeout(() => {
+            this.bank.push(this.randomArr[5])
+          }, 3000)
+        }
       }
     },
     reset() {
@@ -126,7 +139,8 @@ export default {
       arr.sort(function() { // 隨機打亂這個陣列
         return Math.random() - 0.5
       })
-      arr.length = this.getRandom(4, 6) // 改寫長度
+      arr.length = 6
+      // arr.length = this.getRandom(4, 6) // 改寫長度
       this.randomArr = arr
     },
     // 產生min到max之間的亂數
