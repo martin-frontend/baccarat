@@ -10,41 +10,86 @@
       </tr>
     </table>
     <table class="result">
-      <tr v-for="item in resultList" :key="item.name">
+      <tr v-for="item in resultList[0]" :key="item.name">
         <td :class="item.color">
           <p class="title">{{ item.name }}</p>
           <p class="text">{{ item.value }}</p>
         </td>
       </tr>
     </table>
-    <button class="testBtn" @click="OnTest">測試按鈕</button>
-    <button class="testBtn" @click="Shuffle">洗牌</button>
-    <button class="testBtn" @click="Execute">開牌</button>
-    <button class="testBtn" @click="Card">取得牌組</button>
+    <table class="result">
+      <tr v-for="item in resultList[1]" :key="item.name">
+        <td :class="item.color">
+          <p class="title">{{ item.name }}</p>
+          <p class="text">{{ item.value }}</p>
+        </td>
+      </tr>
+    </table>
   </div>
 </template>
 <script>
-import { getCards, getInit, doShuffle, doExecute } from '@/api/game'
+// import { getCards, getInit, doShuffle, doExecute } from '@/api/game'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'History',
   data() {
     return {
       boardRow: 8,
-      boardColumn: 20,
+      boardColumn: 16,
       boardDataList: [],
       resultList: [
-        { name: '莊', value: 0, color: 'red' },
-        { name: '閒', value: 0, color: 'blue' },
-        { name: '和', value: 0, color: 'green' },
-        { name: '莊對', value: 0, color: 'pink' },
-        { name: '閒對', value: 0, color: 'blue' },
-        { name: '總數', value: 0, color: 'brown' },
-        { name: '莊即贏', value: 0, color: 'brown' },
-        { name: '閒即贏', value: 0, color: 'brown' }
+        [
+          { name: '閒贏', value: 0, color: 'blue' }, // 0
+          { name: '和局', value: 0, color: 'green' }, // 1
+          { name: '莊贏', value: 0, color: 'red' }, // 2
+          { name: '莊贏(免傭)', value: 0, color: 'pink' }, // 3
+          { name: '閒對', value: 0, color: 'blue' }, // 4
+          { name: '莊對', value: 0, color: 'red' }, // 5
+          { name: '任意對子', value: 0, color: 'chocolate' }, // 6
+          { name: '完美對子', value: 0, color: 'chocolate' } // 7
+        ],
+        [
+          { name: '大', value: 0, color: 'brown' }, // 8
+          { name: '小', value: 0, color: 'brown' }, // 9
+          { name: '閒單', value: 0, color: 'blue' }, // 10
+          { name: '閒雙', value: 0, color: 'blue' }, // 11
+          { name: '莊單', value: 0, color: 'red' }, // 12
+          { name: '莊雙', value: 0, color: 'red' }, // 13
+          { name: '超級6', value: 0, color: 'purple' } // 14
+        ]
       ],
-      ruaultText: ['莊', '閒', '和'],
+      currentResult: [],
+      resultText: ['閒', '和', '莊'],
       currentIndex: 0
+    }
+  },
+  computed: {
+    ...mapGetters(['resultHistory'])
+  },
+  watch: {
+    resultHistory: function(data) {
+      this.currentResult = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      for (let i = 0; i < data.length; i++) {
+        const arr = data[i]
+        for (let j = 0; j < this.currentResult.length; j++) {
+          if (this.arrContain(arr, j)) {
+            // 閒、和、莊 更新左板
+            if (j === 0 || j === 1 || j === 2) {
+              this.$set(this.boardDataList, i, this.resultText[j])
+            }
+            this.currentResult[j]++
+          }
+        }
+      }
+      for (let i = 0; i < this.currentResult.length; i++) {
+        const element = this.currentResult[i]
+        const j = i < 8 ? 0 : 1
+        const k = i % 8
+        // 更新右板
+        this.resultList[j][k].value = element
+      }
+      // console.log(data)
     }
   },
   mounted() {
@@ -60,8 +105,11 @@ export default {
       //     console.log(error)
       //   })
       for (let i = 0; i < this.boardRow * this.boardColumn; i++) {
-        this.boardDataList.push(i)
+        this.boardDataList.push('')
       }
+    },
+    arrContain(arr, num) {
+      return arr.includes(num)
     },
     Shuffle() {
       // doShuffle()
@@ -89,26 +137,6 @@ export default {
       //   .catch((error) => {
       //     console.log(error)
       //   })
-    },
-    OnTest() {
-      const resultNum = this.getRandomInt(3)
-      switch (resultNum) {
-        case 0:
-          this.resultList[0].value++
-          break
-        case 1:
-          this.resultList[1].value++
-          break
-        case 2:
-          this.resultList[2].value++
-          break
-      }
-      this.resultList[5].value++
-      this.$set(this.boardDataList, this.currentIndex, this.ruaultText[resultNum])
-      this.currentIndex++
-    },
-    getRandomInt(max) {
-      return Math.floor(Math.random() * Math.floor(max))
     },
     getBallColor(text) {
       switch (text) {
@@ -143,7 +171,6 @@ export default {
                     justify-content: center;
                     align-items: center;
                     border-radius: 50%;
-                    background-color: gray;
                     &.red{
                         background-color: red;
                     }
@@ -189,8 +216,14 @@ export default {
                 &.pink{
                     color: deeppink;
                 }
-                &.brown{
+                &.chocolate{
                     color: chocolate;
+                }
+                &.brown{
+                    color:brown;
+                }
+                &.purple{
+                    color: purple;
                 }
             }
         }

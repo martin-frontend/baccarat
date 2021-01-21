@@ -47,9 +47,9 @@ export default {
   methods: {
     init() {
       getInit()
-        .then((response) => {
-          this.$store.dispatch('app/getCards')
-          this.$store.dispatch('app/doShuffle')
+        .then(async(response) => {
+          await this.$store.dispatch('app/doShuffle')
+          await this.$store.dispatch('app/getCards')
         })
         .catch((error) => {
           console.log(error)
@@ -82,11 +82,10 @@ body {
     border-right: 1px solid #000;
     .top {
       display: flex;
-      height: 75%;
+      height: 100%;
       border-bottom: 1px solid #000;
     }
     .bottom {
-      flex: 1;
     }
   }
   .right {
