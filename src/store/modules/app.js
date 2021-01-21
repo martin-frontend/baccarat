@@ -1,12 +1,16 @@
 import { doExecute, getCards, doShuffle } from '@/api/game'
 
 const state = {
-  bankerPoints: 0,
   cards: [],
-  playerPoints: 0,
-  result: []
+  result: [],
+  cardsResult: [],
+  bankerPoints: 0,
+  playerPoints: 0
 }
-
+const getters = {
+  cardsResult: () => state.cardsResult || '',
+  cards: () => state.cards || ''
+}
 const mutations = {
   SET_DATA: (state, data) => {
     const { bankerPoints, cards, playerPoints, result } = data
@@ -14,6 +18,9 @@ const mutations = {
     state.cards = cards
     state.playerPoints = playerPoints
     state.result = result
+  },
+  SET_CARDS_RESULT: (state, data) => {
+    state.cardsResult = data
   }
 }
 
@@ -25,9 +32,8 @@ const actions = {
     })
   },
   getCards({ commit }) {
-    getCards().then((response) => {
-      // const { data } = response
-      // commit('SET_DATA', data.data)
+    getCards().then(({ data }) => {
+      commit('SET_CARDS_RESULT', data.data)
     })
   },
   doShuffle({ commit }) {
@@ -57,5 +63,6 @@ export default {
   namespaced: true,
   state,
   mutations,
-  actions
+  actions,
+  getters
 }

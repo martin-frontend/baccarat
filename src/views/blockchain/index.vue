@@ -8,23 +8,22 @@
             {{ isAllFold ? shuffleText : resetText }}
           </button>
           <button class="btn" @click="handleView(true)">檢視</button>
-          <a
-            :href="`#${drawAmount}`"
-          ><button class="btn" @click="handleFake(true)">開牌數量</button></a>
+          <a id="position" ref="position" :href="handleDrawAmount()"><button class="btn">開牌數量</button></a>
         </div>
       </div>
       <div class="pluker-container">
         <div
-          v-for="(item, index) in result"
+          v-for="(item, index) in cardsResult"
           :id="index"
-          :key="index"
+          :key="item.id"
           class="pluker"
         >
+          {{ handleSuits(item.suit, item.value) }}{{ item.id }}
           <div class="card">
             <div
               :class="[
-                `face front ${handleSuits(getRandomSuit(), item)}`,
-                { isFold: index + 1 > drawAmount || isAllFold ? true : false },
+                `face front ${handleSuits(item.suit, item.value)}`,
+                { isFold: !item.hashKey ? true : false },
               ]"
             ></div>
           </div>
@@ -37,7 +36,7 @@
 <script>
 import Dialog from './dialog'
 import constants from './constants'
-
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'Blockchain',
   components: { Dialog },
@@ -47,9 +46,9 @@ export default {
       isAllFold: false,
       shuffleText: '洗牌',
       resetText: '重設',
+      drawAmount: 0,
       result: [],
-      suitList: ['club', 'diamond', 'heart', 'spade'],
-      drawAmount: 155, // 假設開獎數
+      suitList: [{ id: 1, name: 'club' }, { id: 2, name: 'diamond' }, { id: 3, name: 'heart' }, { id: 4, name: 'spade' }],
       constants
     }
   },
@@ -58,23 +57,56 @@ export default {
       group: this
     }
   },
+  computed: {
+    ...mapGetters('app', ['cardsResult', 'cards'])
+  },
+  watch: {
+    cards(list) {
+      const { cardsResult } = this
+      // 塞掉null
+      const concatList = list[0].concat(list[1]).filter(a => a)
+      concatList.forEach((item) => {
+        cardsResult.forEach((element) => {
+          if (parseInt(item.id) === parseInt(element.id)) {
+            element.suit = item.suit
+            element.value = item.value
+            element.hashKey = item.hashKey
+          }
+        })
+      })
+      this.handlePosition()
+    },
+    drawAmount(val) {
+      if (val) {
+        this.handleSimulate()
+      }
+    }
+  },
   created() {
-    this.handleDraw()
+    this.getCards()
   },
   methods: {
-    handleDraw() {
-      for (let i = 0; i < 416; i++) {
-        this.result.push(Math.floor(parseInt(Math.random() * 416) / 52) % 12)
-      }
-    },
+    ...mapActions('app', ['getCards']),
     handleShuffle() {
       this.isAllFold = !this.isAllFold
     },
     handleSuits(suit, number) {
-      return this.constants.AllCards.filter(a => a === `puker-${suit}${number}`)[0]
+      const { constants, suitList } = this
+      const suitName = (suitList.filter(a => a.id === suit)[0] || {}).name
+      return constants.AllCards.filter(a => a === `puker-${suitName}${number}`)[0]
     },
     handleView(value) {
       this.isVisible = value
+    },
+    handlePosition() {
+      this.drawAmount = this.cardsResult.filter(a => a.suit).length
+      this.$router.push({ path: `#${this.drawAmount}` })
+    },
+    handleDrawAmount() {
+      return `#${this.drawAmount}`
+    },
+    handleSimulate() {
+      document.querySelector('#position').click()
     },
     getRandomSuit() {
       return this.suitList[Math.floor(Math.random() * this.suitList.length)]
