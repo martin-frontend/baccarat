@@ -25,10 +25,6 @@
         </td>
       </tr>
     </table>
-    <button class="testBtn" @click="OnTest">測試按鈕</button>
-    <button class="testBtn" @click="Shuffle">洗牌</button>
-    <button class="testBtn" @click="Execute">開牌</button>
-    <button class="testBtn" @click="Card">取得牌組</button>
   </div>
 </template>
 <script>
@@ -139,26 +135,6 @@ export default {
       //   .catch((error) => {
       //     console.log(error)
       //   })
-    },
-    OnTest() {
-      const resultNum = this.getRandomInt(3)
-      switch (resultNum) {
-        case 0:
-          this.resultList[0].value++
-          break
-        case 1:
-          this.resultList[1].value++
-          break
-        case 2:
-          this.resultList[2].value++
-          break
-      }
-      this.resultList[5].value++
-      this.$set(this.boardDataList, this.currentIndex, this.resultText[resultNum])
-      this.currentIndex++
-    },
-    getRandomInt(max) {
-      return Math.floor(Math.random() * Math.floor(max))
     },
     getBallColor(text) {
       switch (text) {
