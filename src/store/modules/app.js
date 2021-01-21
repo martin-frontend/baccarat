@@ -5,13 +5,20 @@ const state = {
   cards: [],
   playerPoints: 0,
   result: [],
-  resultHistory: []
+  resultHistory: [],
+  cardName: ['', 'puker-club', 'puker-diamond', 'puker-heart', 'puker-spade']
 }
 
 const mutations = {
   SET_DATA: (state, data) => {
     const { bankerPoints, cards, playerPoints, result } = data
     state.bankerPoints = bankerPoints
+    cards[0].forEach(element => {
+      if (element) { element['className'] = `${state.cardName[element.suit]}${element.value}` }
+    })
+    cards[1].forEach(element => {
+      if (element) { element['className'] = `${state.cardName[element.suit]}${element.value}` }
+    })
     state.cards = cards
     state.playerPoints = playerPoints
     state.result = result
@@ -21,21 +28,30 @@ const mutations = {
 
 const actions = {
   doExecute({ commit }) {
-    doExecute().then((response) => {
-      const { data } = response
-      commit('SET_DATA', data.data)
+    return new Promise((resolve, reject) => {
+      doExecute().then((response) => {
+        const { data } = response
+        commit('SET_DATA', data.data)
+        resolve()
+      })
     })
   },
   getCards({ commit }) {
-    getCards().then((response) => {
+    return new Promise((resolve, reject) => {
+      getCards().then((response) => {
       // const { data } = response
       // commit('SET_DATA', data.data)
+        resolve()
+      })
     })
   },
   doShuffle({ commit }) {
-    doShuffle().then((response) => {
+    return new Promise((resolve, reject) => {
+      doShuffle().then((response) => {
       // const { data } = response
       // commit('SET_DATA', data.data)
+        resolve()
+      })
     })
   }
   // toggleSideBar({ commit }) {
