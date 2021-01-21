@@ -83,6 +83,7 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'OpenCard',
   data() {
@@ -96,36 +97,48 @@ export default {
         'puker-club1', 'puker-club2', 'puker-club3', 'puker-club4', 'puker-club5', 'puker-club6', 'puker-club7', 'puker-club8', 'puker-club9', 'puker-club10', 'puker-club11', 'puker-club12', 'puker-club13'
       ],
       type: '開牌',
-      randomArr: []
+      randomArr: [],
+      cardName: ['puker-spade', 'puker-heart', 'puker-diamond', 'puker-club'],
+      timeID1: 0,
+      timeID2: 0,
+      timeID3: 0
     }
+  },
+  computed: {
+    ...mapGetters(['bankerPoints', 'cards', 'playerPoints', 'result'])
   },
   mounted() {
   },
   methods: {
     init() {
-      if (this.randomArr.length !== 0) {
-        this.reset()
-      } else {
-        this.type = 'reset'
-        this.randomData()
-        // setTimeout(() => {}, 1500)
-        this.play = this.randomArr.slice(0, 2)
-        setTimeout(() => {
-          this.bank = this.randomArr.slice(2, 4)
-        }, 1000)
-        // if (this.randomArr.length > 4) { this.play.push(this.randomArr[4]) }
-        if (this.randomArr.length > 4) {
-          setTimeout(() => {
-            this.play.push(this.randomArr[4])
-          }, 2000)
-        }
-        // if (this.randomArr.length > 5) { this.bank.push(this.randomArr[5]) }
-        if (this.randomArr.length > 5) {
-          setTimeout(() => {
-            this.bank.push(this.randomArr[5])
-          }, 3000)
-        }
-      }
+      this.reset()
+      this.$store.dispatch('app/doExecute')
+      // clearTimeout(this.timeID1)
+      // clearTimeout(this.timeID2)
+      // clearTimeout(this.timeID3)
+      // if (this.randomArr.length !== 0) {
+      //   this.reset()
+      // } else {
+      //   this.type = 'reset'
+      //   this.randomData()
+      //   // setTimeout(() => {}, 1500)
+      //   this.play = this.randomArr.slice(0, 2)
+      //   this.timeID1 = setTimeout(() => {
+      //     this.bank = this.randomArr.slice(2, 4)
+      //   }, 1000)
+      //   // if (this.randomArr.length > 4) { this.play.push(this.randomArr[4]) }
+      //   if (this.randomArr.length > 4) {
+      //     this.timeID2 = setTimeout(() => {
+      //       this.play.push(this.randomArr[4])
+      //     }, 2000)
+      //   }
+      //   // if (this.randomArr.length > 5) { this.bank.push(this.randomArr[5]) }
+      //   if (this.randomArr.length > 5) {
+      //     this.timeID3 = setTimeout(() => {
+      //       this.bank.push(this.randomArr[5])
+      //     }, 3000)
+      //   }
+      // }
     },
     reset() {
       this.randomArr = []

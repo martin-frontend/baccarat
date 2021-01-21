@@ -35,7 +35,7 @@ service.interceptors.response.use(
    */
   response => {
     // if the custom status is not 20000, it is judged as an error.
-    if (response.status !== 201 && response.status !== 200) {
+    if (response.status !== 204 && response.status !== 200) {
       console.log(response.message)
 
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;

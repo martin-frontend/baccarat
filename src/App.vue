@@ -24,7 +24,8 @@ import History from './views/history/index.vue'
 import Blockchain from './views/blockchain/index.vue'
 import Information from './views/information/index.vue'
 import OpenCard from './views/open-card/index.vue'
-import { mapGetters } from 'vuex'
+import { getInit } from '@/api/game'
+
 export default {
   name: 'App',
   components: {
@@ -39,7 +40,21 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['name'])
+  },
+  mounted() {
+    this.init()
+  },
+  methods: {
+    init() {
+      getInit()
+        .then((response) => {
+          this.$store.dispatch('app/getCards')
+          this.$store.dispatch('app/doShuffle')
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
   }
 }
 </script>

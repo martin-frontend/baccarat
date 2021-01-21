@@ -38,7 +38,7 @@ module.exports = {
     proxy: {
       '/': {
         target: 'http://192.168.3.105:9977/',
-        changeOrigin: true,
+        changeOrigin: false,
         pathRewrite: {
           '^/': ''
         }
