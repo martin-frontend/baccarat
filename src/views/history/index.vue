@@ -21,6 +21,8 @@
   </div>
 </template>
 <script>
+import { getCards, getInit, doShuffle } from '@/api/game'
+
 export default {
   name: 'History',
   data() {
@@ -47,6 +49,41 @@ export default {
   },
   methods: {
     init() {
+      getInit()
+        .then((response) => {
+          console.log(1, response)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      setTimeout(() => {
+        doShuffle()
+          .then((response) => {
+            const { data } = response
+            if (data.success) {
+              console.log((data))
+            } else {
+              alert('no data')
+            }
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      }, 500)
+      setTimeout(() => {
+        getCards()
+          .then((response) => {
+            const { data } = response
+            if (data.success) {
+              console.log((data))
+            } else {
+              alert('no data')
+            }
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      }, 1000)
       for (let i = 0; i < this.boardRow * this.boardColumn; i++) {
         this.boardDataList.push(i)
       }
