@@ -36,7 +36,7 @@ export default {
   data() {
     return {
       boardRow: 8,
-      boardColumn: 25,
+      boardColumn: 16,
       boardDataList: [],
       resultList: [
         [
@@ -105,7 +105,7 @@ export default {
       //     console.log(error)
       //   })
       for (let i = 0; i < this.boardRow * this.boardColumn; i++) {
-        this.boardDataList.push(i)
+        this.boardDataList.push('')
       }
     },
     arrContain(arr, num) {
@@ -171,7 +171,6 @@ export default {
                     justify-content: center;
                     align-items: center;
                     border-radius: 50%;
-                    background-color: gray;
                     &.red{
                         background-color: red;
                     }
