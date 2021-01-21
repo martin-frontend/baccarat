@@ -82,11 +82,10 @@ body {
     border-right: 1px solid #000;
     .top {
       display: flex;
-      height: 75%;
+      height: 100%;
       border-bottom: 1px solid #000;
     }
     .bottom {
-      flex: 1;
     }
   }
   .right {

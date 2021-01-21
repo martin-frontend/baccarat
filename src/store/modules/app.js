@@ -4,7 +4,8 @@ const state = {
   bankerPoints: 0,
   cards: [],
   playerPoints: 0,
-  result: []
+  result: [],
+  resultHistory: []
 }
 
 const mutations = {
@@ -14,6 +15,7 @@ const mutations = {
     state.cards = cards
     state.playerPoints = playerPoints
     state.result = result
+    state.resultHistory.push(result)
   }
 }
 
