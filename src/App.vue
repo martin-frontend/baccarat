@@ -47,9 +47,9 @@ export default {
   methods: {
     init() {
       getInit()
-        .then((response) => {
-          this.$store.dispatch('app/getCards')
-          this.$store.dispatch('app/doShuffle')
+        .then(async(response) => {
+          await this.$store.dispatch('app/doShuffle')
+          await this.$store.dispatch('app/getCards')
         })
         .catch((error) => {
           console.log(error)
