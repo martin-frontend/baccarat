@@ -69,6 +69,10 @@ export default {
   },
   watch: {
     resultHistory: function(data) {
+      console.log(1, data)
+      if (data && !data.length) {
+        this.init()
+      }
       this.currentResult = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
       for (let i = 0; i < data.length; i++) {
         const arr = data[i]
@@ -92,51 +96,15 @@ export default {
       // console.log(data)
     }
   },
-  mounted() {
-    this.init()
-  },
   methods: {
     init() {
-      // getInit()
-      //   .then((response) => {
-      //     console.log(1, response)
-      //   })
-      //   .catch((error) => {
-      //     console.log(error)
-      //   })
+      this.boardDataList = []
       for (let i = 0; i < this.boardRow * this.boardColumn; i++) {
         this.boardDataList.push('')
       }
     },
     arrContain(arr, num) {
       return arr.includes(num)
-    },
-    Shuffle() {
-      // doShuffle()
-      //   .then((response) => {
-      //     console.log(response)
-      //   })
-      //   .catch((error) => {
-      //     console.log(error)
-      //   })
-    },
-    Card() {
-      // getCards()
-      //   .then((response) => {
-      //     console.log(response)
-      //   })
-      //   .catch((error) => {
-      //     console.log(error)
-      //   })
-    },
-    Execute() {
-      // doExecute()
-      //   .then((response) => {
-      //     console.log(response)
-      //   })
-      //   .catch((error) => {
-      //     console.log(error)
-      //   })
     },
     getBallColor(text) {
       switch (text) {

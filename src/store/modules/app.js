@@ -59,6 +59,7 @@ const actions = {
       doShuffle().then((response) => {
         // const { data } = response
         // commit('SET_DATA', data.data)
+        state.resultHistory = []
         resolve()
       })
     })

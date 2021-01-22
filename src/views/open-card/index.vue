@@ -129,50 +129,53 @@ export default {
   methods: {
     async init() {
       this.reset()
+      let isShuffle = false
       await this.$store.dispatch('app/doExecute').catch(async(res) => {
-        alert('重新洗牌')
         await this.$store.dispatch('app/doShuffle')
         await this.$store.dispatch('app/getCards')
-        this.reset()
+        isShuffle = true
+        alert('重新洗牌')
         return
       })
-      const a = new Promise((resolve, reject) => {
-        this.play = this.cards[0].slice(0, 2)
-        this.timeID1 = setTimeout(() => {
-          this.firstPlayerPoints = ((this.play[0].value > 10 ? 10 : this.play[0].value) + (this.play[1].value > 10 ? 10 : this.play[1].value)) % 10
-        }, 500)
-        this.timeID2 = setTimeout(() => {
-          this.bank = this.cards[1].slice(0, 2)
-          this.timeID3 = setTimeout(() => {
-            this.firstBankerPoints = ((this.bank[0].value > 10 ? 10 : this.bank[0].value) + (this.bank[1].value > 10 ? 10 : this.bank[1].value)) % 10
+      if (!isShuffle) {
+        const a = new Promise((resolve, reject) => {
+          this.play = this.cards[0].slice(0, 2)
+          this.timeID1 = setTimeout(() => {
+            this.firstPlayerPoints = ((this.play[0].value > 10 ? 10 : this.play[0].value) + (this.play[1].value > 10 ? 10 : this.play[1].value)) % 10
           }, 500)
-        }, 1000)
-        let i = 1
-        if (this.cards[0][2]) {
-          i++
-          this.timeID4 = setTimeout(() => {
-            this.play.push(this.cards[0][2])
-            this.timeID5 = setTimeout(() => {
-              this.firstPlayerPoints = this.playerPoints
+          this.timeID2 = setTimeout(() => {
+            this.bank = this.cards[1].slice(0, 2)
+            this.timeID3 = setTimeout(() => {
+              this.firstBankerPoints = ((this.bank[0].value > 10 ? 10 : this.bank[0].value) + (this.bank[1].value > 10 ? 10 : this.bank[1].value)) % 10
             }, 500)
-          }, 1000 * i)
-        }
-        if (this.cards[1][2]) {
-          i++
-          this.timeID6 = setTimeout(() => {
-            this.bank.push(this.cards[1][2])
-            this.timeID7 = setTimeout(() => {
-              this.firstBankerPoints = this.bankerPoints
-            }, 500)
-          }, 1000 * i)
-        }
-        this.timeID8 = setTimeout(() => {
-          resolve()
-        }, 1000 * i + 800)
-      })
-      await a
-      if (!this.timeID1) return
-      this.final = `${this.bankerPoints > this.playerPoints ? '莊贏' : this.bankerPoints === this.playerPoints ? '和局' : '閒贏'}`
+          }, 1000)
+          let i = 1
+          if (this.cards[0][2]) {
+            i++
+            this.timeID4 = setTimeout(() => {
+              this.play.push(this.cards[0][2])
+              this.timeID5 = setTimeout(() => {
+                this.firstPlayerPoints = this.playerPoints
+              }, 500)
+            }, 1000 * i)
+          }
+          if (this.cards[1][2]) {
+            i++
+            this.timeID6 = setTimeout(() => {
+              this.bank.push(this.cards[1][2])
+              this.timeID7 = setTimeout(() => {
+                this.firstBankerPoints = this.bankerPoints
+              }, 500)
+            }, 1000 * i)
+          }
+          this.timeID8 = setTimeout(() => {
+            resolve()
+          }, 1000 * i + 800)
+        })
+        await a
+        if (!this.timeID1) return
+        this.final = `${this.bankerPoints > this.playerPoints ? '莊贏' : this.bankerPoints === this.playerPoints ? '和局' : '閒贏'}`
+      }
     },
     reset() {
       this.firstPlayerPoints = null
