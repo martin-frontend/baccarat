@@ -129,7 +129,13 @@ export default {
   methods: {
     async init() {
       this.reset()
-      await this.$store.dispatch('app/doExecute')
+      await this.$store.dispatch('app/doExecute').catch(async(res) => {
+        alert('重新洗牌')
+        await this.$store.dispatch('app/doShuffle')
+        await this.$store.dispatch('app/getCards')
+        this.reset()
+        return
+      })
       const a = new Promise((resolve, reject) => {
         this.play = this.cards[0].slice(0, 2)
         this.timeID1 = setTimeout(() => {

@@ -40,6 +40,8 @@ const actions = {
         const { data } = response
         commit('SET_DATA', data.data)
         resolve()
+      }).catch(error => {
+        reject(error)
       })
     })
   },
