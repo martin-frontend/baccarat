@@ -27,6 +27,9 @@ const mutations = {
     state.playerPoints = playerPoints
     state.result = result
     state.resultHistory.push(result)
+  },
+  SET_CARDS_RESULT: (state, data) => {
+    state.cardsResult = data
   }
 }
 
@@ -43,7 +46,7 @@ const actions = {
   getCards({ commit }) {
     return new Promise((resolve, reject) => {
       getCards().then(({ data }) => {
-      // const { data } = response
+        // const { data } = response
         commit('SET_CARDS_RESULT', data.data)
         resolve()
       })
@@ -52,8 +55,8 @@ const actions = {
   doShuffle({ commit }) {
     return new Promise((resolve, reject) => {
       doShuffle().then((response) => {
-      // const { data } = response
-      // commit('SET_DATA', data.data)
+        // const { data } = response
+        // commit('SET_DATA', data.data)
         resolve()
       })
     })
