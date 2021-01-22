@@ -118,26 +118,33 @@ export default {
       timeID8: 0,
       firstBankerPoints: null,
       firstPlayerPoints: null,
-      final: ''
+      final: '',
+      isShuffle: false
     }
   },
   computed: {
-    ...mapGetters(['bankerPoints', 'cards', 'playerPoints', 'result'])
+    ...mapGetters(['bankerPoints', 'cards', 'playerPoints', 'result', 'resultHistory'])
+  },
+  watch: {
+    resultHistory: function(data) {
+      if (data && !data.length) {
+        this.reset()
+      }
+    }
   },
   mounted() {
   },
   methods: {
     async init() {
       this.reset()
-      let isShuffle = false
       await this.$store.dispatch('app/doExecute').catch(async(res) => {
         await this.$store.dispatch('app/doShuffle')
         await this.$store.dispatch('app/getCards')
-        isShuffle = true
+        this.isShuffle = true
         alert('重新洗牌')
         return
       })
-      if (!isShuffle) {
+      if (!this.isShuffle) {
         const a = new Promise((resolve, reject) => {
           this.play = this.cards[0].slice(0, 2)
           this.timeID1 = setTimeout(() => {
@@ -178,6 +185,7 @@ export default {
       }
     },
     reset() {
+      this.isShuffle = false
       this.firstPlayerPoints = null
       this.firstBankerPoints = null
       this.randomArr = []
