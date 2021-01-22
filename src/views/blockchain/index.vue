@@ -82,10 +82,10 @@ export default {
     }
   },
   created() {
-    this.getCards()
+    // this.getCards()
   },
   methods: {
-    ...mapActions('app', ['getCards']),
+    // ...mapActions('app', ['getCards']),
     handleShuffle() {
       // this.isAllFold = !this.isAllFold
       this.$store.dispatch('app/doShuffle')
