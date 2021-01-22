@@ -7,7 +7,8 @@ const state = {
   resultHistory: [],
   cardName: ['', 'puker-club', 'puker-diamond', 'puker-heart', 'puker-spade'],
   bankerPoints: 0,
-  playerPoints: 0
+  playerPoints: 0,
+  lastRound: false
 }
 const getters = {
   cardsResult: () => state.cardsResult || '',
@@ -15,7 +16,7 @@ const getters = {
 }
 const mutations = {
   SET_DATA: (state, data) => {
-    const { bankerPoints, cards, playerPoints, result } = data
+    const { bankerPoints, cards, playerPoints, result, lastRound } = data
     state.bankerPoints = bankerPoints
     cards[0].forEach(element => {
       if (element) { element['className'] = `${state.cardName[element.suit]}${element.value}` }
@@ -27,12 +28,16 @@ const mutations = {
     state.playerPoints = playerPoints
     state.result = result
     state.resultHistory.push(result)
+    state.lastRound = lastRound
   },
   SET_CARDS_RESULT: (state, data) => {
     state.cardsResult = data
   },
   SET_RESULTHISTORY: (state, data) => {
     state.resultHistory = data
+  },
+  SET_LASTROUND: (state, data) => {
+    state.lastRound = data
   }
 }
 
@@ -42,13 +47,23 @@ const actions = {
       const { refresh } = data
       commit('SET_CARDS_RESULT', refresh.cards)
       const cardDataList = refresh.results
-      if (cardDataList) {
+      if (cardDataList.length > 0) {
         const resultList = []
         cardDataList.forEach(element => {
           const data = JSON.parse(element.result)
           resultList.push(data.result)
         })
         commit('SET_RESULTHISTORY', resultList)
+
+        // 解析lastRound
+        const lastCardData = cardDataList[cardDataList.length - 1]
+        const lastRound = JSON.parse(lastCardData.result).lastRound
+        if (lastRound) {
+          setTimeout(() => {
+            alert('本局已結束，請重新洗牌')
+          }, 500)
+        }
+        commit('SET_LASTROUND', lastRound)
       }
     })
   },
@@ -78,6 +93,7 @@ const actions = {
         const { refresh } = data
         commit('SET_CARDS_RESULT', refresh.cards)
         commit('SET_RESULTHISTORY', [])
+        commit('SET_LASTROUND', false)
         resolve()
       })
     })

@@ -10,8 +10,8 @@
             </div>
         </div> -->
     <div class="content">
-      <button :disabled="isOpened" class="btn" @click="init()">{{ type }}</button>
-      <button :disabled="isOpened" class="btn" style="margin-left:10px" @click="init1()">直接開牌</button>
+      <button :disabled="isOpened || lastRound" class="btn" @click="init()">{{ type }}</button>
+      <button :disabled="isOpened || lastRound" class="btn" style="margin-left:10px" @click="init1()">直接開牌</button>
       <div class="title">
         <h1 class="play-title">
           閒
@@ -121,11 +121,12 @@ export default {
       firstPlayerPoints: null,
       final: '',
       isShuffle: false,
-      isOpened: false
+      isOpened: false,
+      isLast: false
     }
   },
   computed: {
-    ...mapGetters(['bankerPoints', 'cards', 'playerPoints', 'result', 'resultHistory'])
+    ...mapGetters(['bankerPoints', 'cards', 'playerPoints', 'result', 'resultHistory', 'lastRound'])
   },
   watch: {
     resultHistory: function(data) {
@@ -138,76 +139,71 @@ export default {
   },
   methods: {
     async init() {
-      if (this.isOpened) return
+      if (this.lastRound) return
       this.isOpened = true
       this.reset()
-      await this.$store.dispatch('app/doExecute').catch(async(res) => {
-        // await this.$store.dispatch('app/doShuffle')
-        this.isShuffle = true
-        alert('本局已結束，請重新洗牌')
-        return
-      })
-      if (!this.isShuffle) {
-        const a = new Promise((resolve, reject) => {
-          this.play = this.cards[0].slice(0, 2)
-          this.timeID1 = setTimeout(() => {
-            this.firstPlayerPoints = ((this.play[0].value > 10 ? 10 : this.play[0].value) + (this.play[1].value > 10 ? 10 : this.play[1].value)) % 10
+      await this.$store.dispatch('app/doExecute')
+      await new Promise((resolve, reject) => {
+        this.play = this.cards[0].slice(0, 2)
+        this.timeID1 = setTimeout(() => {
+          this.firstPlayerPoints = ((this.play[0].value > 10 ? 10 : this.play[0].value) + (this.play[1].value > 10 ? 10 : this.play[1].value)) % 10
+        }, 500)
+        this.timeID2 = setTimeout(() => {
+          this.bank = this.cards[1].slice(0, 2)
+          this.timeID3 = setTimeout(() => {
+            this.firstBankerPoints = ((this.bank[0].value > 10 ? 10 : this.bank[0].value) + (this.bank[1].value > 10 ? 10 : this.bank[1].value)) % 10
           }, 500)
-          this.timeID2 = setTimeout(() => {
-            this.bank = this.cards[1].slice(0, 2)
-            this.timeID3 = setTimeout(() => {
-              this.firstBankerPoints = ((this.bank[0].value > 10 ? 10 : this.bank[0].value) + (this.bank[1].value > 10 ? 10 : this.bank[1].value)) % 10
+        }, 1000)
+        let i = 1
+        if (this.cards[0][2]) {
+          i++
+          this.timeID4 = setTimeout(() => {
+            this.play.push(this.cards[0][2])
+            this.timeID5 = setTimeout(() => {
+              this.firstPlayerPoints = this.playerPoints
             }, 500)
-          }, 1000)
-          let i = 1
-          if (this.cards[0][2]) {
-            i++
-            this.timeID4 = setTimeout(() => {
-              this.play.push(this.cards[0][2])
-              this.timeID5 = setTimeout(() => {
-                this.firstPlayerPoints = this.playerPoints
-              }, 500)
-            }, 1000 * i)
-          }
-          if (this.cards[1][2]) {
-            i++
-            this.timeID6 = setTimeout(() => {
-              this.bank.push(this.cards[1][2])
-              this.timeID7 = setTimeout(() => {
-                this.firstBankerPoints = this.bankerPoints
-              }, 500)
-            }, 1000 * i)
-          }
-          this.timeID8 = setTimeout(() => {
-            resolve()
-          }, 1000 * i + 800)
-        })
-        await a
-        if (!this.timeID1) return
-        this.final = `${this.bankerPoints > this.playerPoints ? '莊贏' : this.bankerPoints === this.playerPoints ? '和局' : '閒贏'}`
-        this.isOpened = false
+          }, 1000 * i)
+        }
+        if (this.cards[1][2]) {
+          i++
+          this.timeID6 = setTimeout(() => {
+            this.bank.push(this.cards[1][2])
+            this.timeID7 = setTimeout(() => {
+              this.firstBankerPoints = this.bankerPoints
+            }, 500)
+          }, 1000 * i)
+        }
+        this.timeID8 = setTimeout(() => {
+          resolve()
+        }, 1000 * i + 800)
+      })
+      this.final = this.bankerPoints > this.playerPoints ? '莊贏' : this.bankerPoints === this.playerPoints ? '和局' : '閒贏'
+      this.isOpened = false
+      if (this.lastRound) {
+        setTimeout(() => {
+          alert('本局已結束，請重新洗牌')
+        }, 1000)
       }
     },
     async init1() { // 直接開牌
-      if (this.isOpened) return
+      if (this.lastRound) return
       this.reset()
-      await this.$store.dispatch('app/doExecute').catch(async(res) => {
-        // this.$store.dispatch('app/doShuffle')
-        this.isShuffle = true
-        alert('本局已結束，請重新洗牌')
-      })
-      if (!this.isShuffle) {
-        this.play = this.cards[0].slice(0, 2)
-        this.bank = this.cards[1].slice(0, 2)
-        if (this.cards[0][2]) {
-          this.play.push(this.cards[0][2])
-        }
-        if (this.cards[1][2]) {
-          this.bank.push(this.cards[1][2])
-        }
-        this.firstPlayerPoints = this.playerPoints
-        this.firstBankerPoints = this.bankerPoints
-        this.final = this.bankerPoints > this.playerPoints ? '莊贏' : this.bankerPoints === this.playerPoints ? '和局' : '閒贏'
+      await this.$store.dispatch('app/doExecute')
+      this.play = this.cards[0].slice(0, 2)
+      this.bank = this.cards[1].slice(0, 2)
+      if (this.cards[0][2]) {
+        this.play.push(this.cards[0][2])
+      }
+      if (this.cards[1][2]) {
+        this.bank.push(this.cards[1][2])
+      }
+      this.firstPlayerPoints = this.playerPoints
+      this.firstBankerPoints = this.bankerPoints
+      this.final = this.bankerPoints > this.playerPoints ? '莊贏' : this.bankerPoints === this.playerPoints ? '和局' : '閒贏'
+      if (this.lastRound) {
+        setTimeout(() => {
+          alert('本局已結束，請重新洗牌')
+        }, 1000)
       }
     },
     reset() {
