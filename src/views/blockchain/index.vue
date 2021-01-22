@@ -18,12 +18,11 @@
           :key="item.id"
           class="pluker"
         >
-          {{ handleSuits(item.suit, item.value) }}{{ item.id }}
           <div class="card">
             <div
               :class="[
                 `face front ${handleSuits(item.suit, item.value)}`,
-                { isFold: !item.hashKey ? true : false },
+                { back: !item.hashKey ? true : false },
               ]"
             ></div>
           </div>
