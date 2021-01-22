@@ -139,10 +139,9 @@ export default {
     async init() {
       this.reset()
       await this.$store.dispatch('app/doExecute').catch(async(res) => {
-        await this.$store.dispatch('app/doShuffle')
-        await this.$store.dispatch('app/getCards')
+        // await this.$store.dispatch('app/doShuffle')
         this.isShuffle = true
-        alert('重新洗牌')
+        alert('本局已結束，請重新洗牌')
         return
       })
       if (!this.isShuffle) {
@@ -189,9 +188,9 @@ export default {
       this.reset()
       let isShuffle = false
       await this.$store.dispatch('app/doExecute').catch(async(res) => {
-        this.$store.dispatch('app/doShuffle')
+        // this.$store.dispatch('app/doShuffle')
         isShuffle = true
-        alert('重新洗牌')
+        alert('本局已結束，請重新洗牌')
       })
       if (!isShuffle) {
         this.play = this.cards[0].slice(0, 2)
