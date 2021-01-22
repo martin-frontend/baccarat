@@ -11,6 +11,7 @@
         </div> -->
     <div class="content">
       <button class="btn" @click="init()">{{ type }}</button>
+      <button class="btn" style="margin-left:10px" @click="init1()">直接開牌</button>
       <div class="title">
         <h1 class="play-title">
           閒
@@ -182,6 +183,28 @@ export default {
         await a
         if (!this.timeID1) return
         this.final = `${this.bankerPoints > this.playerPoints ? '莊贏' : this.bankerPoints === this.playerPoints ? '和局' : '閒贏'}`
+      }
+    },
+    async init1() { // 直接開牌
+      this.reset()
+      let isShuffle = false
+      await this.$store.dispatch('app/doExecute').catch(async(res) => {
+        this.$store.dispatch('app/doShuffle')
+        isShuffle = true
+        alert('重新洗牌')
+      })
+      if (!isShuffle) {
+        this.play = this.cards[0].slice(0, 2)
+        this.bank = this.cards[1].slice(0, 2)
+        if (this.cards[0][2]) {
+          this.play.push(this.cards[0][2])
+        }
+        if (this.cards[1][2]) {
+          this.bank.push(this.cards[1][2])
+        }
+        this.firstPlayerPoints = this.playerPoints
+        this.firstBankerPoints = this.bankerPoints
+        this.final = this.bankerPoints > this.playerPoints ? '莊贏' : this.bankerPoints === this.playerPoints ? '和局' : '閒贏'
       }
     },
     reset() {
