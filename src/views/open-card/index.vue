@@ -10,8 +10,8 @@
             </div>
         </div> -->
     <div class="content">
-      <button class="btn" @click="init()">{{ type }}</button>
-      <button class="btn" style="margin-left:10px" @click="init1()">直接開牌</button>
+      <button :disabled="isOpened" class="btn" @click="init()">{{ type }}</button>
+      <button :disabled="isOpened" class="btn" style="margin-left:10px" @click="init1()">直接開牌</button>
       <div class="title">
         <h1 class="play-title">
           閒
@@ -120,7 +120,8 @@ export default {
       firstBankerPoints: null,
       firstPlayerPoints: null,
       final: '',
-      isShuffle: false
+      isShuffle: false,
+      isOpened: false
     }
   },
   computed: {
@@ -137,6 +138,8 @@ export default {
   },
   methods: {
     async init() {
+      if (this.isOpened) return
+      this.isOpened = true
       this.reset()
       await this.$store.dispatch('app/doExecute').catch(async(res) => {
         // await this.$store.dispatch('app/doShuffle')
@@ -182,17 +185,18 @@ export default {
         await a
         if (!this.timeID1) return
         this.final = `${this.bankerPoints > this.playerPoints ? '莊贏' : this.bankerPoints === this.playerPoints ? '和局' : '閒贏'}`
+        this.isOpened = false
       }
     },
     async init1() { // 直接開牌
+      if (this.isOpened) return
       this.reset()
-      let isShuffle = false
       await this.$store.dispatch('app/doExecute').catch(async(res) => {
         // this.$store.dispatch('app/doShuffle')
-        isShuffle = true
+        this.isShuffle = true
         alert('本局已結束，請重新洗牌')
       })
-      if (!isShuffle) {
+      if (!this.isShuffle) {
         this.play = this.cards[0].slice(0, 2)
         this.bank = this.cards[1].slice(0, 2)
         if (this.cards[0][2]) {
@@ -266,6 +270,11 @@ export default {
   border: 1px solid #000;
   border-radius: 5px;
   margin-bottom: 10px;
+  cursor: pointer;
+  &:disabled {
+    color: rgb(165, 161, 161);
+    cursor: not-allowed;
+  }
 }
 .open-card {
     width: 90%;
