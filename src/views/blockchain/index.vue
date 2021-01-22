@@ -5,7 +5,7 @@
         <div class="title-info">
           <h1 class="title">公開資訊區塊鏈牌組</h1>
           <button class="btn" @click="handleShuffle()">
-            {{ isAllFold ? shuffleText : resetText }}
+            {{ shuffleText }}
           </button>
           <button class="btn" @click="handleView(true)">檢視</button>
           <a id="position" ref="position" :href="handleDrawAmount()"><button class="btn">開牌數量</button></a>
@@ -87,7 +87,8 @@ export default {
   methods: {
     ...mapActions('app', ['getCards']),
     handleShuffle() {
-      this.isAllFold = !this.isAllFold
+      // this.isAllFold = !this.isAllFold
+      this.$store.dispatch('app/doShuffle')
     },
     handleSuits(suit, number) {
       const { constants, suitList } = this
