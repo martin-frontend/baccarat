@@ -24,7 +24,6 @@ import History from './views/history/index.vue'
 import Blockchain from './views/blockchain/index.vue'
 import Information from './views/information/index.vue'
 import OpenCard from './views/open-card/index.vue'
-import { getInit } from '@/api/game'
 
 export default {
   name: 'App',
@@ -42,19 +41,7 @@ export default {
   computed: {
   },
   mounted() {
-    this.init()
-  },
-  methods: {
-    init() {
-      getInit()
-        .then(async(response) => {
-          await this.$store.dispatch('app/doShuffle')
-          await this.$store.dispatch('app/getCards')
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    }
+    this.$store.dispatch('app/getInit')
   }
 }
 </script>

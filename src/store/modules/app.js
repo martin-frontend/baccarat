@@ -1,4 +1,4 @@
-import { doExecute, getCards, doShuffle } from '@/api/game'
+import { doExecute, getCards, doShuffle, getInit } from '@/api/game'
 
 const state = {
   cards: [],
@@ -30,10 +30,20 @@ const mutations = {
   },
   SET_CARDS_RESULT: (state, data) => {
     state.cardsResult = data
+  },
+  SET_RESULTHISTORY: (state, data) => {
+    state.resultHistory = data
   }
 }
 
 const actions = {
+  getInit({ commit }) {
+    getInit().then(({ data }) => {
+      const { refresh } = data
+      commit('SET_CARDS_RESULT', refresh.cards)
+      // commit('SET_RESULTHISTORY', refresh.results)
+    })
+  },
   doExecute({ commit }) {
     return new Promise((resolve, reject) => {
       doExecute().then((response) => {
@@ -56,10 +66,10 @@ const actions = {
   },
   doShuffle({ commit }) {
     return new Promise((resolve, reject) => {
-      doShuffle().then((response) => {
-        // const { data } = response
-        // commit('SET_DATA', data.data)
-        state.resultHistory = []
+      doShuffle().then(({ data }) => {
+        const { refresh } = data
+        commit('SET_CARDS_RESULT', refresh.cards)
+        commit('SET_RESULTHISTORY', [])
         resolve()
       })
     })
