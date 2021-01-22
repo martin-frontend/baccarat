@@ -143,7 +143,17 @@ export default {
       this.isOpened = true
       this.reset()
       await this.$store.dispatch('app/doExecute')
-      await new Promise((resolve, reject) => {
+      await this.openCard()
+      this.doResult()
+      this.isOpened = false
+      if (this.lastRound) {
+        setTimeout(() => {
+          alert('本局已結束，請重新洗牌')
+        }, 1000)
+      }
+    },
+    openCard() {
+      return new Promise(resolve => {
         this.play = this.cards[0].slice(0, 2)
         this.timeID1 = setTimeout(() => {
           this.firstPlayerPoints = ((this.play[0].value > 10 ? 10 : this.play[0].value) + (this.play[1].value > 10 ? 10 : this.play[1].value)) % 10
@@ -173,17 +183,13 @@ export default {
             }, 500)
           }, 1000 * i)
         }
-        this.timeID8 = setTimeout(() => {
+        this.timeID8 = setTimeout(() => { // 翻牌結束才resolve
           resolve()
         }, 1000 * i + 800)
       })
+    },
+    doResult() {
       this.final = this.bankerPoints > this.playerPoints ? '莊贏' : this.bankerPoints === this.playerPoints ? '和局' : '閒贏'
-      this.isOpened = false
-      if (this.lastRound) {
-        setTimeout(() => {
-          alert('本局已結束，請重新洗牌')
-        }, 1000)
-      }
     },
     async init1() { // 直接開牌
       if (this.lastRound) return
@@ -199,7 +205,7 @@ export default {
       }
       this.firstPlayerPoints = this.playerPoints
       this.firstBankerPoints = this.bankerPoints
-      this.final = this.bankerPoints > this.playerPoints ? '莊贏' : this.bankerPoints === this.playerPoints ? '和局' : '閒贏'
+      this.doResult()
       if (this.lastRound) {
         setTimeout(() => {
           alert('本局已結束，請重新洗牌')
