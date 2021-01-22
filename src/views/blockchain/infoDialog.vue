@@ -27,7 +27,7 @@ export default {
 <style lang="scss" scoped>
 .modal {
   overflow: auto;
-  height: 100%;
+  height: 50%;
   position: fixed;
   z-index: 1;
   padding-top: 100px;
@@ -45,7 +45,6 @@ export default {
   }
 
   .modal-content {
-    height: 100%;
     background-color: #a46740;
     margin: auto;
     padding: 30px;

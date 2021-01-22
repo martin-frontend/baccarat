@@ -5,7 +5,7 @@
         <div class="title-info">
           <h1 class="title">公開資訊區塊鏈牌組</h1>
           <button class="btn" @click="handleShuffle()">
-            {{ shuffleText }}
+            {{ isAllFold ? shuffleText : resetText }}
           </button>
           <button class="btn" @click="handleView(true)">檢視</button>
           <a id="position" ref="position" :href="handleDrawAmount()"><button class="btn">開牌數量</button></a>
@@ -24,11 +24,13 @@
                 `face front ${handleSuits(item.suit, item.value)}`,
                 { back: !item.hashKey ? true : false },
               ]"
+              @click="handleInfoclick(item.id,item.suit, item.value)"
             ></div>
           </div>
         </div>
       </div>
       <Dialog />
+      <info-dialog />
     </div>
   </div>
 </template>
@@ -36,13 +38,16 @@
 import Dialog from './dialog'
 import constants from './constants'
 import { mapActions, mapGetters } from 'vuex'
+import infoDialog from './infoDialog'
+
 export default {
   name: 'Blockchain',
-  components: { Dialog },
+  components: { Dialog, infoDialog },
   data() {
     return {
-      isVisible: false,
+      isDialogVisible: false,
       isAllFold: false,
+      isInfoVisible: false,
       shuffleText: '洗牌',
       resetText: '重設',
       drawAmount: 0,
@@ -82,13 +87,12 @@ export default {
     }
   },
   created() {
-    // this.getCards()
+    this.getCards()
   },
   methods: {
-    // ...mapActions('app', ['getCards']),
+    ...mapActions('app', ['getCards']),
     handleShuffle() {
-      // this.isAllFold = !this.isAllFold
-      this.$store.dispatch('app/doShuffle')
+      this.isAllFold = !this.isAllFold
     },
     handleSuits(suit, number) {
       const { constants, suitList } = this
@@ -96,7 +100,7 @@ export default {
       return constants.AllCards.filter(a => a === `puker-${suitName}${number}`)[0]
     },
     handleView(value) {
-      this.isVisible = value
+      this.isDialogVisible = value
     },
     handlePosition() {
       this.drawAmount = this.cardsResult.filter(a => a.suit).length
@@ -107,6 +111,21 @@ export default {
     },
     handleSimulate() {
       document.querySelector('#position').click()
+    },
+    handleInfoclick(id, suit, number) {
+      const vm = this
+      let all_p = document.querySelectorAll(`.${this.handleSuits(suit, number)}`)
+      all_p = Array.prototype.slice.call(all_p)
+      const event_list = ['click']
+      event_list.forEach(function() {
+        all_p.forEach(function() {
+          vm.isInfoVisible = true
+          vm.suitInfo = vm.handleSuitInfo(id)
+        })
+      })
+    },
+    handleSuitInfo(id) {
+      return this.cardsResult.filter((a) => a.id === id)[0] || {}
     },
     getRandomSuit() {
       return this.suitList[Math.floor(Math.random() * this.suitList.length)]
@@ -173,6 +192,10 @@ $suitsList: (
       justify-items: center;
       align-items: center;
       margin: 10px 5px;
+
+      .card{
+        position: relative;
+      }
     }
   }
 }

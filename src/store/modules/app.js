@@ -6,12 +6,14 @@ const state = {
   cardsResult: [],
   resultHistory: [],
   cardName: ['', 'puker-club', 'puker-diamond', 'puker-heart', 'puker-spade'],
+  pokerMachine: {},
   bankerPoints: 0,
   playerPoints: 0
 }
 const getters = {
   cardsResult: () => state.cardsResult || '',
-  cards: () => state.cards || ''
+  cards: () => state.cards || '',
+  pokerMachine: () => state.pokerMachine || ''
 }
 const mutations = {
   SET_DATA: (state, data) => {
@@ -29,7 +31,8 @@ const mutations = {
     state.resultHistory.push(result)
   },
   SET_CARDS_RESULT: (state, data) => {
-    state.cardsResult = data
+    state.cardsResult = data.cards
+    state.pokerMachine = data.pokerMachine
   },
   SET_RESULTHISTORY: (state, data) => {
     state.resultHistory = data
@@ -40,7 +43,7 @@ const actions = {
   getInit({ commit }) {
     getInit().then(({ data }) => {
       const { refresh } = data
-      commit('SET_CARDS_RESULT', refresh.cards)
+      commit('SET_CARDS_RESULT', refresh)
       // commit('SET_RESULTHISTORY', refresh.results)
     })
   },
