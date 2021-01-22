@@ -69,7 +69,7 @@ export default {
   },
   watch: {
     resultHistory: function(data) {
-      console.log(1, data)
+      // console.log(1, data)
       if (data && !data.length) {
         this.init()
       }
