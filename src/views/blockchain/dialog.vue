@@ -1,15 +1,17 @@
 <template>
-  <div v-show="group.isVisible" class="modal">
+  <div v-show="group.isDialogVisible" class="modal">
     <div class="modal-content">
       <span class="close" @click="handleClose()">&times;</span>
       <div class="pluker-container">
-        <div v-for="(item, index) in 416" :key="index" class="pluker">
+        <div v-for="(item, index) in cardsResult" :key="index" class="pluker">
           <div class="card">
             <div
+              data-info="i"
               :class="[
-                `face front ${handleSuits(getRandomSuit(), item)}`,
-                { isFold: handleResult(item) ? true : false },
+                `face front ${handleSuits(item.suit, item.value)}`,
+                { back: !item.hashKey ? true : false },
               ]"
+              @click="handleInfoclick(item.id,item.suit, item.value)"
             ></div>
           </div>
         </div>
@@ -19,6 +21,7 @@
 </template>
 <script>
 import constants from './constants'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Dialog',
@@ -27,24 +30,43 @@ export default {
     return {
       isFold: false,
       result: [1, 5, 11],
-      suitList: ['club', 'diamond', 'heart', 'spade'],
+      suitInfo: {},
       constants
     }
   },
+  computed: {
+    ...mapGetters('app', ['cardsResult', 'cards'])
+  },
   methods: {
     handleSuits(suit, number) {
-      return this.constants.AllCards.filter(
-        (a) => a === `puker-${suit}${number}`
+      const { constants } = this
+      const suitName = (
+        constants.suitList.filter((a) => a.id === suit)[0] || {}
+      ).name
+      return constants.AllCards.filter(
+        (a) => a === `puker-${suitName}${number}`
       )[0]
     },
-    // handleSuits(suit, number) {
-    //   return `${suit}-${number}`
-    // },
     handleClose() {
-      this.group.isVisible = !this.group.isVisible
+      this.group.isDialogVisible = !this.group.isDialogVisible
     },
     handleResult(number) {
       return this.result.filter((a) => a === number).length
+    },
+    handleInfoclick(id, suit, number) {
+      const vm = this
+      let all_p = document.querySelectorAll(`.${this.handleSuits(suit, number)}`)
+      all_p = Array.prototype.slice.call(all_p)
+      const event_list = ['click']
+      event_list.forEach(function() {
+        all_p.forEach(function() {
+          vm.group.isInfoVisible = true
+          vm.suitInfo = vm.handleSuitInfo(id)
+        })
+      })
+    },
+    handleSuitInfo(id) {
+      return this.cardsResult.filter((a) => a.id === id)[0] || {}
     },
     getRandomSuit() {
       return this.suitList[Math.floor(Math.random() * this.suitList.length)]
@@ -59,6 +81,7 @@ $suitsList: (
   2: "heart",
   3: "spade",
 );
+
 .modal {
   position: absolute;
   top: 0;
@@ -95,24 +118,8 @@ $suitsList: (
       display: inline-block;
       margin: 5px;
 
-      @each $suitNumber, $suit in $suitsList {
-        @for $i from 1 through 13 {
-          .#{$suit}-#{$i} {
-            margin: 10px 5px;
-            border-radius: 10px;
-            height: 120px;
-            width: 80px;
-            background-image: url("../../assets/puker-css-sprites/img/puker.png");
-            background-position: (($i - 1) * 8.333%) ($suitNumber * 25%);
-            background-repeat: no-repeat;
-          }
-        }
-      }
-
-      .isFold {
-        background-image: url("../../assets/puker-css-sprites/img/puker.png");
-        background-position: 0 100%;
-        background-repeat: no-repeat;
+      .card {
+        position: relative;
       }
     }
   }
@@ -133,6 +140,4 @@ $suitsList: (
     margin: 5px;
   }
 }
-
-/* Modal Content */
 </style>
