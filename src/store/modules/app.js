@@ -41,7 +41,15 @@ const actions = {
     getInit().then(({ data }) => {
       const { refresh } = data
       commit('SET_CARDS_RESULT', refresh.cards)
-      // commit('SET_RESULTHISTORY', refresh.results)
+      const cardDataList = refresh.results
+      if (cardDataList) {
+        const resultList = []
+        cardDataList.forEach(element => {
+          const data = JSON.parse(element.result)
+          resultList.push(data.result)
+        })
+        commit('SET_RESULTHISTORY', resultList)
+      }
     })
   },
   doExecute({ commit }) {
