@@ -60,18 +60,18 @@ $suitsList: (
   3: "spade",
 );
 .modal {
-  overflow: auto;
-  height: 100%;
-  position: fixed;
-  z-index: 1;
-  padding-top: 100px;
-  left: 0;
+  position: absolute;
   top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
+  min-width: 1250px;
   height: 100%;
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
-
+  overflow: auto;
   .close {
     cursor: pointer;
     float: right;
@@ -80,20 +80,20 @@ $suitsList: (
 
   .modal-content {
     background-color: #a46740;
-    margin: auto;
     padding: 30px;
     border: 1px solid #888;
-    width: 95%;
+    width: 1250px;
+    min-width: 1250px;
+    height: 90%;
+    overflow: auto;
   }
 
   .pluker-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 100%;
-    height: auto;
+    display: inline-block;
+    text-align: left;
     .pluker {
-      margin: 10px 5px;
+      display: inline-block;
+      margin: 5px;
 
       @each $suitNumber, $suit in $suitsList {
         @for $i from 1 through 13 {
