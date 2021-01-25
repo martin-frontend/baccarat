@@ -24,13 +24,13 @@
                 `face front ${handleSuits(item.suit, item.value)}`,
                 { back: !item.hashKey ? true : false },
               ]"
-              @click="handleInfoclick(item.id,item.suit, item.value)"
+              @click="handleInfoclick(index)"
             ></div>
           </div>
         </div>
       </div>
       <Dialog />
-      <info-dialog />
+      <info-dialog ref="infoDialog" :card-info="cardInfo" />
     </div>
   </div>
 </template>
@@ -53,7 +53,8 @@ export default {
       drawAmount: 0,
       result: [],
       suitList: [{ id: 1, name: 'club' }, { id: 2, name: 'diamond' }, { id: 3, name: 'heart' }, { id: 4, name: 'spade' }],
-      constants
+      constants,
+      cardInfo: {}
     }
   },
   provide() {
@@ -62,7 +63,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('app', ['cardsResult', 'cards'])
+    ...mapGetters('app', ['cardsResult', 'cards', 'pokerMachine'])
   },
   watch: {
     cards(list) {
@@ -112,20 +113,32 @@ export default {
     handleSimulate() {
       document.querySelector('#position').click()
     },
-    handleInfoclick(id, suit, number) {
-      const vm = this
-      let all_p = document.querySelectorAll(`.${this.handleSuits(suit, number)}`)
-      all_p = Array.prototype.slice.call(all_p)
-      const event_list = ['click']
-      event_list.forEach(function() {
-        all_p.forEach(function() {
-          vm.isInfoVisible = true
-          vm.suitInfo = vm.handleSuitInfo(id)
-        })
-      })
+    // handleInfoclick(id, suit, number) {
+    //   const vm = this
+    //   let all_p = document.querySelectorAll(`.${this.handleSuits(suit, number)}`)
+    //   all_p = Array.prototype.slice.call(all_p)
+    //   const event_list = ['click']
+    //   event_list.forEach(function() {
+    //     all_p.forEach(function() {
+    //       vm.isInfoVisible = true
+    //       vm.suitInfo = vm.handleSuitInfo(id)
+    //     })
+    //   })
+    // },
+    handleInfoclick(index) {
+      const suitInfo = this.handleSuitInfo(index)
+      const preSuitInfo = this.handleSuitInfo(index - 1)
+      suitInfo.suitClass = this.handleSuits(suitInfo.suit, suitInfo.value)
+      preSuitInfo.suitClass = this.handleSuits(preSuitInfo.suit, preSuitInfo.value)
+      this.cardInfo = {
+        suitInfo: suitInfo,
+        preSuitInfo: preSuitInfo
+      }
+      this.$refs.infoDialog.handleOpen()
     },
-    handleSuitInfo(id) {
-      return this.cardsResult.filter((a) => a.id === id)[0] || {}
+    handleSuitInfo(index) {
+      if (index === -1) { return this.pokerMachine }
+      return this.cardsResult[index]
     },
     getRandomSuit() {
       return this.suitList[Math.floor(Math.random() * this.suitList.length)]

@@ -25,6 +25,7 @@
     height: 20%;
     border-radius:0 5px 0 10px ;
     pointer-events:auto;
+    cursor: pointer;
 }
 
 .front{
