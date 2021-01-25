@@ -54,7 +54,7 @@
                 </div>
               </template>
             </div>
-          </div>d
+          </div>
           <div class="supply-card">
             <div class="card">
               <template v-if="cards[1][2]">
@@ -65,7 +65,9 @@
           </div>
         </div>
       </div>
-      <div style="margin-top: 10px; font-size: 30px"> 結果: {{ final }}</div>
+      <div class="result">
+        <span :class="getBallColor()">{{ final }}</span>
+      </div>
     </div>
   </div>
 </template>
@@ -78,7 +80,8 @@ export default {
       top: 0,
       bankerPoints: 0,
       cards: [],
-      playerPoints: 0
+      playerPoints: 0,
+      final: ''
     }
   },
   methods: {
@@ -101,7 +104,7 @@ export default {
     },
     handleClose() {
       this.isOpen = false
-      this.reset()
+      // this.reset()
     },
     reset() {
       this.bankerPoints = 0
@@ -110,6 +113,16 @@ export default {
     },
     doResult() {
       this.final = this.bankerPoints > this.playerPoints ? '莊贏' : this.bankerPoints === this.playerPoints ? '和局' : '閒贏'
+    },
+    getBallColor() {
+      switch (this.final) {
+        case '莊贏':
+          return 'red'
+        case '閒贏':
+          return 'blue'
+        case '和局':
+          return 'green'
+      }
     }
   }
 }
@@ -141,28 +154,47 @@ export default {
           }
       }
       .wrap {
+        display: flex;
+        .play-content, .bank-content {
           display: flex;
-          .play-content, .bank-content {
-              display: flex;
-              flex-direction: column;
-              justify-content: space-around;
-              padding: 10px;
-              background: rgba($color: #000000, $alpha: .3);
-              .common-card {
-                  display: flex;
-                  .card + .card {
-                      margin-left: 10px;
-                  }
-              }
-              .supply-card {
-                  display: flex;
-                  justify-content: center;
-                  transform: rotate(-90deg);
-              }
+          flex-direction: column;
+          justify-content: space-around;
+          padding: 10px;
+          background: rgba($color: #000000, $alpha: .8);
+          .common-card {
+            display: flex;
+            .card + .card {
+              margin-left: 10px;
+            }
           }
-          .play-content {
-              border-right: 1px solid rgb(136, 136, 136);
+          .supply-card {
+            display: flex;
+            justify-content: center;
+            transform: rotate(-90deg);
           }
+        }
+        .play-content {
+          border-right: 1px solid rgb(136, 136, 136);
+        }
+      }
+      .result {
+        padding: 20px 0;
+        font-size: 30px;
+        background: rgba($color: #000000, $alpha: .8);
+        color: white;
+        span {
+          padding: 10px;
+          background: blue;
+          &.blue {
+            background: rgb(47, 47, 250);
+          }
+          &.red {
+            background: rgb(248, 59, 59);
+          }
+          &.green{
+            background-color: green;
+          }
+        }
       }
   }
 }
