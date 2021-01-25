@@ -321,7 +321,8 @@ export default {
                 }
                 .supply-card {
                     display: flex;
-                    justify-content: center;
+                    width: fit-content;
+                    align-self: center;
                     transform: rotate(-90deg);
                 }
             }
