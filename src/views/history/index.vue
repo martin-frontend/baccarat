@@ -161,6 +161,7 @@ export default {
                         background-color: blue;
                     }
                     .text{
+                        cursor: default;
                         color: white;
                     }
                     &:hover {
@@ -172,6 +173,7 @@ export default {
         .result{
             border: 0px solid #000;
             border-collapse: collapse;
+            cursor: default;
             tr{
                 border:1px solid #000;
                 border-left: 0;
