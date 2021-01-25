@@ -7,6 +7,7 @@ const state = {
   resultHistory: [],
   cardName: ['', 'puker-club', 'puker-diamond', 'puker-heart', 'puker-spade'],
   pokerMachine: {},
+  gameTable: {},
   bankerPoints: 0,
   playerPoints: 0,
   lastRound: false
@@ -14,7 +15,9 @@ const state = {
 const getters = {
   cardsResult: () => state.cardsResult || '',
   cards: () => state.cards || '',
-  pokerMachine: () => state.pokerMachine || ''
+  pokerMachine: () => state.pokerMachine || '',
+  results: () => state.results || '',
+  gameTable: () => state.gameTable || ''
 }
 const mutations = {
   SET_DATA: (state, data) => {
@@ -35,6 +38,7 @@ const mutations = {
   SET_CARDS_RESULT: (state, data) => {
     state.cardsResult = data.cards
     state.pokerMachine = data.pokerMachine
+    state.gameTable = data.gameTable
   },
   SET_RESULTHISTORY: (state, data) => {
     state.resultHistory = data

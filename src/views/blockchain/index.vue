@@ -14,7 +14,7 @@
       <div class="pluker-container">
         <div
           v-for="(item, index) in cardsResult"
-          :id="index"
+          :id="index+1"
           :key="item.id"
           class="pluker"
         >
@@ -25,7 +25,8 @@
                 { back: !item.hashKey ? true : false },
               ]"
               @click="handleInfoclick(item.id,item.suit, item.value)"
-            ></div>
+            >
+            </div>
           </div>
         </div>
       </div>
@@ -51,7 +52,6 @@ export default {
       shuffleText: '洗牌',
       resetText: '重設',
       drawAmount: 0,
-      result: [],
       suitList: [{ id: 1, name: 'club' }, { id: 2, name: 'diamond' }, { id: 3, name: 'heart' }, { id: 4, name: 'spade' }],
       constants
     }
@@ -62,9 +62,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('app', ['cardsResult', 'cards'])
+    ...mapGetters('app', ['cardsResult', 'cards', 'pokerMachine', 'gameTable'])
   },
   watch: {
+    // cardsResult 所有牌的結果 cards 當次開牌的結果
     cards(list) {
       const { cardsResult } = this
       // 塞掉null
@@ -78,11 +79,29 @@ export default {
           }
         })
       })
-      this.handlePosition()
+      this.handlePosition('change', cardsResult.filter((a) => a.suit).length - concatList.length + 1)
     },
-    drawAmount(val) {
-      if (val) {
-        this.handleSimulate()
+    // 初始化
+    gameTable: {
+      deep: true,
+      handler(val) {
+        if (val) {
+          this.handlePosition('init')
+        }
+      }
+    },
+    drawAmount: {
+      deep: true,
+      handler(val) {
+        if (val) {
+          setTimeout(() => {
+            if (location.hash) {
+              const a = document.createElement('a')
+              a.href = location.hash
+              a.click()
+            }
+          }, 300)
+        }
       }
     }
   },
@@ -102,15 +121,16 @@ export default {
     handleView(value) {
       this.isDialogVisible = value
     },
-    handlePosition() {
-      this.drawAmount = this.cardsResult.filter(a => a.suit).length
+    handlePosition(status, nowPosition) {
+      const { pokerMachine } = this
+      status === 'init' ? this.drawAmount = pokerMachine.cardId : this.drawAmount = nowPosition
       this.$router.push({ path: `#${this.drawAmount}` })
     },
     handleDrawAmount() {
-      return `#${this.drawAmount}`
-    },
-    handleSimulate() {
-      document.querySelector('#position').click()
+      if (this.drawAmount) {
+        return `#${this.drawAmount}`
+      }
+      return false
     },
     handleInfoclick(id, suit, number) {
       const vm = this
