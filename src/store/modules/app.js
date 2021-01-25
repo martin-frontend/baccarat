@@ -18,7 +18,8 @@ const getters = {
   cards: () => state.cards || '',
   pokerMachine: () => state.pokerMachine || '',
   results: () => state.results || '',
-  gameTable: () => state.gameTable || ''
+  gameTable: () => state.gameTable || '',
+  lastRound: () => state.lastRound || ''
 }
 const mutations = {
   SET_DATA: (state, data) => {
@@ -37,6 +38,7 @@ const mutations = {
     state.lastRound = lastRound
   },
   SET_CARDS_RESULT: (state, data) => {
+    console.log(data)
     state.cardsResult = data.cards
     state.pokerMachine = data.pokerMachine
     state.gameTable = data.gameTable
@@ -105,7 +107,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       doShuffle().then(({ data }) => {
         const { refresh } = data
-        commit('SET_CARDS_RESULT', refresh.cards)
+        commit('SET_CARDS_RESULT', refresh)
         commit('SET_RESULTHISTORY', [])
         commit('SET_LASTROUND', false)
         resolve()

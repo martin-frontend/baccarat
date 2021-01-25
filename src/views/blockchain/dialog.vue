@@ -11,7 +11,7 @@
                 `face front ${handleSuits(item.suit, item.value)}`,
                 { back: !item.hashKey ? true : false },
               ]"
-              @click="handleInfoclick(item.id,item.suit, item.value)"
+              @click="handleInfoclick(item.id)"
             ></div>
           </div>
         </div>
@@ -53,17 +53,9 @@ export default {
     handleResult(number) {
       return this.result.filter((a) => a === number).length
     },
-    handleInfoclick(id, suit, number) {
-      const vm = this
-      let all_p = document.querySelectorAll(`.${this.handleSuits(suit, number)}`)
-      all_p = Array.prototype.slice.call(all_p)
-      const event_list = ['click']
-      event_list.forEach(function() {
-        all_p.forEach(function() {
-          vm.group.isInfoVisible = true
-          vm.suitInfo = vm.handleSuitInfo(id)
-        })
-      })
+    handleInfoclick(id) {
+      this.group.isInfoVisible = true
+      this.group.suitInfo = this.handleSuitInfo(id)
     },
     handleSuitInfo(id) {
       return this.cardsResult.filter((a) => a.id === id)[0] || {}

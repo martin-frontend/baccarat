@@ -4,8 +4,8 @@
       <div class="title-container">
         <div class="title-info">
           <h1 class="title">公開資訊區塊鏈牌組</h1>
-          <button class="btn" @click="handleShuffle()">
-            {{ isAllFold ? shuffleText : resetText }}
+          <button class="btn" :disabled="!lastRound" :class="{'disabled':!lastRound}" @click="handleShuffle()">
+            洗牌
           </button>
           <button class="btn" @click="handleView(true)">檢視</button>
           <a id="position" ref="position" :href="handleDrawAmount()"><button class="btn">開牌數量</button></a>
@@ -14,7 +14,7 @@
       <div class="pluker-container">
         <div
           v-for="(item, index) in cardsResult"
-          :id="index+1"
+          :id="index"
           :key="item.id"
           class="pluker"
         >
@@ -47,12 +47,8 @@ export default {
   data() {
     return {
       isDialogVisible: false,
-      isAllFold: false,
       isInfoVisible: false,
-      shuffleText: '洗牌',
-      resetText: '重設',
       drawAmount: 0,
-      suitList: [{ id: 1, name: 'club' }, { id: 2, name: 'diamond' }, { id: 3, name: 'heart' }, { id: 4, name: 'spade' }],
       constants
     }
   },
@@ -62,7 +58,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('app', ['cardsResult', 'cards', 'pokerMachine', 'gameTable'])
+    ...mapGetters('app', ['cardsResult', 'cards', 'pokerMachine', 'gameTable', 'lastRound'])
   },
   watch: {
     // cardsResult 所有牌的結果 cards 當次開牌的結果
@@ -79,7 +75,7 @@ export default {
           }
         })
       })
-      this.handlePosition('change', cardsResult.filter((a) => a.suit).length - concatList.length + 1)
+      this.handlePosition('change', cardsResult.filter((a) => a.suit).length - concatList.length)
     },
     // 初始化
     gameTable: {
@@ -95,13 +91,13 @@ export default {
     this.getCards()
   },
   methods: {
-    ...mapActions('app', ['getCards']),
+    ...mapActions('app', ['getCards', 'doShuffle']),
     handleShuffle() {
-      this.isAllFold = !this.isAllFold
+      this.doShuffle()
     },
     handleSuits(suit, number) {
-      const { constants, suitList } = this
-      const suitName = (suitList.filter(a => a.id === suit)[0] || {}).name
+      const { constants } = this
+      const suitName = (constants.suitList.filter(a => a.id === suit)[0] || {}).name
       return constants.AllCards.filter(a => a === `puker-${suitName}${number}`)[0]
     },
     handleView(value) {
@@ -133,7 +129,8 @@ export default {
       return this.cardsResult.filter((a) => a.id === id)[0] || {}
     },
     getRandomSuit() {
-      return this.suitList[Math.floor(Math.random() * this.suitList.length)]
+      const { constants } = this
+      return constants.suitList[Math.floor(Math.random() * constants.suitList.length)]
     }
   }
 }
@@ -178,6 +175,11 @@ $suitsList: (
         cursor: pointer;
         background-color: #f44336;
         padding: 5px;
+
+        &.disabled{
+          cursor: not-allowed;
+          background-color:#a02d24;
+        }
       }
 
       .btn + .btn {
