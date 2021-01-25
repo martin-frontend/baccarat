@@ -5,6 +5,7 @@ const state = {
   result: [],
   cardsResult: [],
   resultHistory: [],
+  cardsByRound: [],
   cardName: ['', 'puker-club', 'puker-diamond', 'puker-heart', 'puker-spade'],
   pokerMachine: {},
   bankerPoints: 0,
@@ -36,6 +37,9 @@ const mutations = {
     state.cardsResult = data.cards
     state.pokerMachine = data.pokerMachine
   },
+  SET_CARDS_BY_ROUND: (state, data) => {
+    state.cardsByRound = data
+  },
   SET_RESULTHISTORY: (state, data) => {
     state.resultHistory = data
   },
@@ -52,10 +56,13 @@ const actions = {
       const cardDataList = refresh.results
       if (cardDataList.length > 0) {
         const resultList = []
+        const cardsByRound = []
         cardDataList.forEach(element => {
           const data = JSON.parse(element.result)
+          cardsByRound.push(data.cards)
           resultList.push(data.result)
         })
+        commit('SET_CARDS_BY_ROUND', cardsByRound)
         commit('SET_RESULTHISTORY', resultList)
 
         // 解析lastRound
