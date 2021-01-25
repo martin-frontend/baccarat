@@ -29,7 +29,6 @@
         </div>
       </div>
       <Dialog />
-      <info-dialog ref="infoDialog" :card-info="cardInfo" />
     </div>
   </div>
 </template>
@@ -37,11 +36,10 @@
 import Dialog from './dialog'
 import constants from './constants'
 import { mapActions, mapGetters } from 'vuex'
-import infoDialog from './infoDialog'
 
 export default {
   name: 'Blockchain',
-  components: { Dialog, infoDialog },
+  components: { Dialog },
   data() {
     return {
       isDialogVisible: false,
@@ -143,7 +141,7 @@ export default {
         suitInfo: suitInfo,
         preSuitInfo: preSuitInfo
       }
-      this.$refs.infoDialog.handleOpen()
+      this.$emit('BlockData', this.cardInfo)
     },
     handleSuitInfo(index) {
       if (index === -1) { return this.pokerMachine }

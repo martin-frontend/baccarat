@@ -53,11 +53,14 @@ export default {
     cardInfo: {
       type: Object,
       default: null
+    },
+    dialogFormVisible: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
-      dialogFormVisible: false,
       validateResult: ''
     }
   },

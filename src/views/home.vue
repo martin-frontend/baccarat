@@ -13,8 +13,9 @@
         </div>
       </div>
       <div class="right">
-        <Blockchain />
+        <Blockchain @BlockData="BlockData" />
       </div>
+      <InfoDialog :card-info="cardInfo" :dialog-form-visible="dialogFormVisible" />
     </div>
   </div>
 </template>
@@ -24,21 +25,30 @@ import History from './history/index.vue'
 import Blockchain from './blockchain/index.vue'
 import Information from './information/index.vue'
 import OpenCard from './open-card/index.vue'
+import InfoDialog from './infoDialog/index.vue'
 export default {
   name: 'Home',
   components: {
     History,
     Blockchain,
     Information,
-    OpenCard
+    OpenCard,
+    InfoDialog
   },
   data() {
     return {
-
+      cardInfo: {},
+      dialogFormVisible: false
     }
   },
   mounted() {
     this.$store.dispatch('app/getInit')
+  },
+  methods: {
+    BlockData(data) {
+      this.cardInfo = Object.assign(data)
+      this.dialogFormVisible = true
+    }
   }
 }
 </script>
