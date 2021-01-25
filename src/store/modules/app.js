@@ -1,4 +1,4 @@
-import { doExecute, getCards, doShuffle, getInit } from '@/api/game'
+import { doExecute, getCardsStatus, doShuffle, getInit } from '@/api/game'
 
 const state = {
   cards: [],
@@ -38,7 +38,6 @@ const mutations = {
     state.lastRound = lastRound
   },
   SET_CARDS_RESULT: (state, data) => {
-    console.log(data)
     state.cardsResult = data.cards
     state.pokerMachine = data.pokerMachine
     state.gameTable = data.gameTable
@@ -46,41 +45,49 @@ const mutations = {
   SET_CARDS_BY_ROUND: (state, data) => {
     state.cardsByRound = data
   },
-  SET_RESULTHISTORY: (state, data) => {
+  SET_RESULT_HISTORY: (state, data) => {
     state.resultHistory = data
   },
-  SET_LASTROUND: (state, data) => {
+  SET_LAST_ROUND: (state, data) => {
     state.lastRound = data
+  },
+  SET_CARDS_STATUS: (state, data) => {
+    state.cardsResult = data
   }
 }
 
 const actions = {
   getInit({ commit }) {
-    getInit().then(({ data }) => {
-      const { refresh } = data
-      commit('SET_CARDS_RESULT', refresh)
-      const cardDataList = refresh.results
-      if (cardDataList.length > 0) {
-        const resultList = []
-        const cardsByRound = []
-        cardDataList.forEach(element => {
-          const data = JSON.parse(element.result)
-          cardsByRound.push(data.cards)
-          resultList.push(data.result)
-        })
-        commit('SET_CARDS_BY_ROUND', cardsByRound)
-        commit('SET_RESULTHISTORY', resultList)
+    return new Promise((resolve, reject) => {
+      getInit().then(({ data }) => {
+        const { refresh } = data
+        commit('SET_CARDS_RESULT', refresh)
+        const cardDataList = refresh.results
+        if (cardDataList.length > 0) {
+          const resultList = []
+          const cardsByRound = []
+          cardDataList.forEach(element => {
+            const data = JSON.parse(element.result)
+            cardsByRound.push(data.cards)
+            resultList.push(data.result)
+          })
+          commit('SET_CARDS_BY_ROUND', cardsByRound)
+          commit('SET_RESULT_HISTORY', resultList)
 
-        // 解析lastRound
-        const lastCardData = cardDataList[cardDataList.length - 1]
-        const lastRound = JSON.parse(lastCardData.result).lastRound
-        if (lastRound) {
-          setTimeout(() => {
-            alert('本局已結束，請重新洗牌')
-          }, 500)
+          // 解析lastRound
+          const lastCardData = cardDataList[cardDataList.length - 1]
+          const lastRound = JSON.parse(lastCardData.result).lastRound
+          if (lastRound) {
+            setTimeout(() => {
+              alert('本局已結束，請重新洗牌')
+            }, 500)
+          }
+          commit('SET_LAST_ROUND', lastRound)
+          resolve()
         }
-        commit('SET_LASTROUND', lastRound)
-      }
+      }).catch(error => {
+        reject(error)
+      })
     })
   },
   doExecute({ commit }) {
@@ -94,12 +101,13 @@ const actions = {
       })
     })
   },
-  getCards({ commit }) {
+  getCardsStatus({ commit }) {
     return new Promise((resolve, reject) => {
-      getCards().then(({ data }) => {
-        // const { data } = response
-        commit('SET_CARDS_RESULT', data.data)
+      getCardsStatus().then(({ data }) => {
+        commit('SET_CARDS_STATUS', data.data)
         resolve()
+      }).catch(error => {
+        reject(error)
       })
     })
   },
@@ -108,27 +116,14 @@ const actions = {
       doShuffle().then(({ data }) => {
         const { refresh } = data
         commit('SET_CARDS_RESULT', refresh)
-        commit('SET_RESULTHISTORY', [])
-        commit('SET_LASTROUND', false)
+        commit('SET_RESULT_HISTORY', [])
+        commit('SET_LAST_ROUND', false)
         resolve()
+      }).catch(error => {
+        reject(error)
       })
     })
   }
-  // toggleSideBar({ commit }) {
-  //   commit('TOGGLE_SIDEBAR')
-  // },
-  // closeSideBar({ commit }, { withoutAnimation }) {
-  //   commit('CLOSE_SIDEBAR', withoutAnimation)
-  // },
-  // toggleDevice({ commit }, device) {
-  //   commit('TOGGLE_DEVICE', device)
-  // },
-  // setLanguage({ commit }, language) {
-  //   commit('SET_LANGUAGE', language)
-  // },
-  // setSize({ commit }, size) {
-  //   commit('SET_SIZE', size)
-  // }
 }
 
 export default {
