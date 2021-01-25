@@ -163,6 +163,9 @@ export default {
                     .text{
                         color: white;
                     }
+                    &:hover {
+                      opacity: .3;
+                    }
                 }
             }
         }
