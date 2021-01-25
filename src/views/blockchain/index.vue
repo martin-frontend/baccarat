@@ -47,14 +47,10 @@ export default {
       isDialogVisible: false,
       isInfoVisible: false,
       drawAmount: 0,
-<<<<<<< HEAD
       result: [],
       suitList: [{ id: 1, name: 'club' }, { id: 2, name: 'diamond' }, { id: 3, name: 'heart' }, { id: 4, name: 'spade' }],
       constants,
       cardInfo: {}
-=======
-      constants
->>>>>>> 0012257f36be4cc03797dc89bafdbe7739d0c7c6
     }
   },
   provide() {
@@ -63,11 +59,7 @@ export default {
     }
   },
   computed: {
-<<<<<<< HEAD
-    ...mapGetters('app', ['cardsResult', 'cards', 'pokerMachine'])
-=======
     ...mapGetters('app', ['cardsResult', 'cards', 'pokerMachine', 'gameTable'])
->>>>>>> 0012257f36be4cc03797dc89bafdbe7739d0c7c6
   },
   watch: {
     // cardsResult 所有牌的結果 cards 當次開牌的結果
@@ -130,7 +122,6 @@ export default {
       }
       return false
     },
-<<<<<<< HEAD
     // handleInfoclick(id, suit, number) {
     //   const vm = this
     //   let all_p = document.querySelectorAll(`.${this.handleSuits(suit, number)}`)
@@ -160,14 +151,6 @@ export default {
     },
     getRandomSuit() {
       return this.suitList[Math.floor(Math.random() * this.suitList.length)]
-=======
-    handleInfoclick(id) {
-      this.isInfoVisible = true
-      this.suitInfo = this.handleSuitInfo(id)
-    },
-    handleSuitInfo(id) {
-      return this.cardsResult.filter((a) => a.id === id)[0] || {}
->>>>>>> 0012257f36be4cc03797dc89bafdbe7739d0c7c6
     }
   }
 }
