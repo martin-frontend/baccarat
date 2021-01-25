@@ -1,9 +1,12 @@
 <template>
   <div v-show="group.isDialogVisible" class="modal">
     <div class="modal-content">
-      <span class="close" @click="handleClose()">&times;</span>
+      <span class="header-container" @click="handleClose()">
+        <div class="close"></div>
+      </span>
       <div class="pluker-container">
-        <div v-for="(item, index) in cardsResult" :key="index" class="pluker">
+        <div v-for="item in cardsResult" :key="item.id" class="pluker">
+          <div class="cardNumber">{{ item.id }}</div>
           <div class="card">
             <div
               data-info="i"
@@ -87,31 +90,54 @@ $suitsList: (
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
   overflow: auto;
-  .close {
-    cursor: pointer;
-    float: right;
-    font-size: 20px;
-  }
 
   .modal-content {
     background-color: #a46740;
-    padding: 30px;
     border: 1px solid #888;
     width: 1250px;
     min-width: 1250px;
     height: 90%;
     overflow: auto;
+
+    .header-container {
+      position: fixed;
+      width: 1231px;
+      z-index: 1;
+      background-color: #a46740;
+      height: 30px;
+      cursor: pointer;
+      display: flex;
+      justify-content: flex-end;
+      font-size: 20px;
+      padding: 5px 10px;
+
+      .close{
+        &::before{
+          content: "X";
+        }
+      }
+    }
   }
 
   .pluker-container {
-    display: inline-block;
+    display: flex;
+    flex-wrap: wrap;
     text-align: left;
+    padding: 30px;
     .pluker {
       display: inline-block;
       margin: 5px;
 
       .card {
         position: relative;
+      }
+
+      .cardNumber {
+        display: flex;
+        justify-content: center;
+        color: #fff;
+        padding-bottom: 5px;
+        font-size: 15px;
       }
     }
   }

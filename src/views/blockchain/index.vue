@@ -104,7 +104,7 @@ export default {
     },
     handlePosition(status, nowPosition) {
       const { pokerMachine } = this
-      status === 'init' ? this.drawAmount = pokerMachine.cardId : this.drawAmount = nowPosition
+      status === 'init' ? this.drawAmount = pokerMachine.cardId + 1 : this.drawAmount = nowPosition
       this.$router.push({ path: `#${this.drawAmount}` })
       setTimeout(() => {
         if (location.hash) {
@@ -158,6 +158,7 @@ $suitsList: (
     flex-wrap: nowrap;
     justify-content: center;
     background-color: #a46740;
+
     .title-info {
       .title {
         font-size: 25px;
@@ -177,6 +178,7 @@ $suitsList: (
       }
     }
   }
+
   .pluker-container {
     margin-top: 200px;
     overflow: auto;
