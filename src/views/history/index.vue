@@ -2,7 +2,7 @@
   <div class="history">
     <table class="board">
       <tr v-for="(item,i) in boardRow" :key="item">
-        <td v-for="(subitem,j) in boardColumn" :key="item+subitem">
+        <td v-for="(subitem,j) in boardColumn" :key="item+subitem" @mouseenter="showResult(cardsByRound[i+(j*boardRow)])" @mouseleave="closeResult()">
           <div class="ball" :class="getBallColor(boardDataList[i+(j*boardRow)])">
             <p class="text">{{ boardDataList[i+(j*boardRow)] }}</p>
           </div>
@@ -25,14 +25,16 @@
         </td>
       </tr>
     </table>
+    <CardResult ref="cardResult" />
   </div>
 </template>
 <script>
 // import { getCards, getInit, doShuffle, doExecute } from '@/api/game'
 import { mapGetters } from 'vuex'
-
+import CardResult from './cardResult'
 export default {
   name: 'History',
+  components: { CardResult },
   data() {
     return {
       boardRow: 8,
@@ -116,6 +118,14 @@ export default {
         case '和':
           return 'green'
       }
+    },
+    showResult(data) {
+      if (!data) return
+      const { offsetTop } = event.target
+      this.$refs.cardResult.handleOpen(data, offsetTop)
+    },
+    closeResult() {
+      this.$refs.cardResult.handleClose()
     }
   }
 }
@@ -126,6 +136,7 @@ export default {
         height: 100%;
         display: flex;
         align-items: flex-end;
+        position: relative;
         .board{
             border: 1px solid #000;
             border-collapse: collapse;

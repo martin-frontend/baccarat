@@ -36,9 +36,9 @@ const mutations = {
     state.result = result
     state.resultHistory.push(result)
     state.lastRound = lastRound
+    state.cardsByRound.push(data)
   },
   SET_CARDS_RESULT: (state, data) => {
-    console.log(data)
     state.cardsResult = data.cards
     state.pokerMachine = data.pokerMachine
     state.gameTable = data.gameTable
@@ -65,7 +65,7 @@ const actions = {
         const cardsByRound = []
         cardDataList.forEach(element => {
           const data = JSON.parse(element.result)
-          cardsByRound.push(data.cards)
+          cardsByRound.push(data)
           resultList.push(data.result)
         })
         commit('SET_CARDS_BY_ROUND', cardsByRound)
