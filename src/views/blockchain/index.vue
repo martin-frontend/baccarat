@@ -24,7 +24,7 @@
                 `face front ${handleSuits(item.suit, item.value)}`,
                 { back: !item.hashKey ? true : false },
               ]"
-              @click="handleInfoclick(item.id,item.suit, item.value)"
+              @click="handleInfoclick(item.id)"
             >
             </div>
           </div>
@@ -89,20 +89,6 @@ export default {
           this.handlePosition('init')
         }
       }
-    },
-    drawAmount: {
-      deep: true,
-      handler(val) {
-        if (val) {
-          setTimeout(() => {
-            if (location.hash) {
-              const a = document.createElement('a')
-              a.href = location.hash
-              a.click()
-            }
-          }, 300)
-        }
-      }
     }
   },
   created() {
@@ -125,6 +111,13 @@ export default {
       const { pokerMachine } = this
       status === 'init' ? this.drawAmount = pokerMachine.cardId : this.drawAmount = nowPosition
       this.$router.push({ path: `#${this.drawAmount}` })
+      setTimeout(() => {
+        if (location.hash) {
+          const a = document.createElement('a')
+          a.href = location.hash
+          a.click()
+        }
+      }, 300)
     },
     handleDrawAmount() {
       if (this.drawAmount) {
@@ -132,17 +125,9 @@ export default {
       }
       return false
     },
-    handleInfoclick(id, suit, number) {
-      const vm = this
-      let all_p = document.querySelectorAll(`.${this.handleSuits(suit, number)}`)
-      all_p = Array.prototype.slice.call(all_p)
-      const event_list = ['click']
-      event_list.forEach(function() {
-        all_p.forEach(function() {
-          vm.isInfoVisible = true
-          vm.suitInfo = vm.handleSuitInfo(id)
-        })
-      })
+    handleInfoclick(id) {
+      this.isInfoVisible = true
+      this.suitInfo = this.handleSuitInfo(id)
     },
     handleSuitInfo(id) {
       return this.cardsResult.filter((a) => a.id === id)[0] || {}
