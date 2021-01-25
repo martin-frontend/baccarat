@@ -5,16 +5,15 @@
         <div class="title-info">
           <h1 class="title">公開資訊區塊鏈牌組</h1>
           <button class="btn" @click="handleShuffle()">
-            {{ isAllFold ? shuffleText : resetText }}
+            洗牌
           </button>
           <button class="btn" @click="handleView(true)">檢視</button>
-          <a id="position" ref="position" :href="handleDrawAmount()"><button class="btn">開牌數量</button></a>
         </div>
       </div>
       <div class="pluker-container">
         <div
           v-for="(item, index) in cardsResult"
-          :id="index"
+          :id="index+1"
           :key="item.id"
           class="pluker"
         >
@@ -46,15 +45,16 @@ export default {
   data() {
     return {
       isDialogVisible: false,
-      isAllFold: false,
       isInfoVisible: false,
-      shuffleText: '洗牌',
-      resetText: '重設',
       drawAmount: 0,
+<<<<<<< HEAD
       result: [],
       suitList: [{ id: 1, name: 'club' }, { id: 2, name: 'diamond' }, { id: 3, name: 'heart' }, { id: 4, name: 'spade' }],
       constants,
       cardInfo: {}
+=======
+      constants
+>>>>>>> 0012257f36be4cc03797dc89bafdbe7739d0c7c6
     }
   },
   provide() {
@@ -63,9 +63,14 @@ export default {
     }
   },
   computed: {
+<<<<<<< HEAD
     ...mapGetters('app', ['cardsResult', 'cards', 'pokerMachine'])
+=======
+    ...mapGetters('app', ['cardsResult', 'cards', 'pokerMachine', 'gameTable'])
+>>>>>>> 0012257f36be4cc03797dc89bafdbe7739d0c7c6
   },
   watch: {
+    // cardsResult 所有牌的結果 cards 當次開牌的結果
     cards(list) {
       const { cardsResult } = this
       // 塞掉null
@@ -79,40 +84,53 @@ export default {
           }
         })
       })
-      this.handlePosition()
+      this.handlePosition('change', cardsResult.filter((a) => a.suit).length - concatList.length + 1)
     },
-    drawAmount(val) {
-      if (val) {
-        this.handleSimulate()
+    // 初始化
+    gameTable: {
+      deep: true,
+      handler(val) {
+        if (val) {
+          this.handlePosition('init')
+        }
       }
     }
   },
   created() {
-    this.getCards()
+    this.getCardsStatus()
   },
   methods: {
-    ...mapActions('app', ['getCards']),
+    ...mapActions('app', ['getCardsStatus', 'doShuffle']),
     handleShuffle() {
-      this.isAllFold = !this.isAllFold
+      this.doShuffle()
     },
     handleSuits(suit, number) {
-      const { constants, suitList } = this
-      const suitName = (suitList.filter(a => a.id === suit)[0] || {}).name
+      const { constants } = this
+      const suitName = (constants.suitList.filter(a => a.id === suit)[0] || {}).name
       return constants.AllCards.filter(a => a === `puker-${suitName}${number}`)[0]
     },
     handleView(value) {
       this.isDialogVisible = value
     },
-    handlePosition() {
-      this.drawAmount = this.cardsResult.filter(a => a.suit).length
+    handlePosition(status, nowPosition) {
+      const { pokerMachine } = this
+      status === 'init' ? this.drawAmount = pokerMachine.cardId + 1 : this.drawAmount = nowPosition
       this.$router.push({ path: `#${this.drawAmount}` })
+      setTimeout(() => {
+        if (location.hash) {
+          const a = document.createElement('a')
+          a.href = location.hash
+          a.click()
+        }
+      }, 300)
     },
     handleDrawAmount() {
-      return `#${this.drawAmount}`
+      if (this.drawAmount) {
+        return `#${this.drawAmount}`
+      }
+      return false
     },
-    handleSimulate() {
-      document.querySelector('#position').click()
-    },
+<<<<<<< HEAD
     // handleInfoclick(id, suit, number) {
     //   const vm = this
     //   let all_p = document.querySelectorAll(`.${this.handleSuits(suit, number)}`)
@@ -142,6 +160,14 @@ export default {
     },
     getRandomSuit() {
       return this.suitList[Math.floor(Math.random() * this.suitList.length)]
+=======
+    handleInfoclick(id) {
+      this.isInfoVisible = true
+      this.suitInfo = this.handleSuitInfo(id)
+    },
+    handleSuitInfo(id) {
+      return this.cardsResult.filter((a) => a.id === id)[0] || {}
+>>>>>>> 0012257f36be4cc03797dc89bafdbe7739d0c7c6
     }
   }
 }
@@ -174,6 +200,7 @@ $suitsList: (
     flex-wrap: nowrap;
     justify-content: center;
     background-color: #a46740;
+
     .title-info {
       .title {
         font-size: 25px;
@@ -193,6 +220,7 @@ $suitsList: (
       }
     }
   }
+
   .pluker-container {
     margin-top: 200px;
     overflow: auto;

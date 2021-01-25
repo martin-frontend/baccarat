@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function getCards() {
+export function getCardsStatus() {
   return request({
     url: '/game/cards',
     method: 'get'

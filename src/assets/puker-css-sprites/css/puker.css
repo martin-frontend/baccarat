@@ -12,6 +12,7 @@
 
 .front::after{
     content:'i';
+    cursor: pointer;
     position: absolute;
     bottom: 0;
     left:0;
