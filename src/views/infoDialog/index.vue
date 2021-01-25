@@ -7,6 +7,15 @@
       <div class="info-container">
         <div class="info-box">
           <div class="img-field">
+            <p class="text">前一回合</p>
+            <div :class="['card',cardInfo.preSuitInfo.suitClass]"></div>
+          </div>
+          <div class="text-field">
+            <p class="text">Hash: <br /><span>{{ cardInfo.preSuitInfo.hash }}</span></p>
+          </div>
+        </div>
+        <div class="info-box">
+          <div class="img-field">
             <p class="text">本回合</p>
             <div :class="['card',cardInfo.suitInfo.suitClass]"></div>
           </div>
@@ -15,15 +24,6 @@
             <p class="text">Value: <span>{{ cardInfo.suitInfo.value }}</span></p>
             <p class="text">Hash: <br /><span>{{ cardInfo.suitInfo.hash }}</span></p>
             <p class="text">Hash Key: <br /><span>{{ cardInfo.suitInfo.hashKey }}</span></p>
-          </div>
-        </div>
-        <div class="info-box">
-          <div class="img-field">
-            <p class="text">前一回合</p>
-            <div :class="['card',cardInfo.preSuitInfo.suitClass]"></div>
-          </div>
-          <div class="text-field">
-            <p class="text">Hash: <br /><span>{{ cardInfo.preSuitInfo.hash }}</span></p>
           </div>
         </div>
         <div class="check-box">

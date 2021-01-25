@@ -31,7 +31,7 @@
           <div class="common-card">
             <div class="card" :class="play.length > 0?'active':''">
               <template v-if="play.length > 0">
-                <div class="face front" :class="play[0].className">
+                <div class="face front" :class="play[0].className" @click="cardInfoClick(0,0)">
                 </div>
                 <div class="face back">
                 </div>
@@ -39,7 +39,7 @@
             </div>
             <div class="card" :class="play.length > 0?'active':''">
               <template v-if="play.length > 0">
-                <div class="face front" :class="play[1].className">
+                <div class="face front" :class="play[1].className" @click="cardInfoClick(0,1)">
                 </div>
                 <div class="face back">
                 </div>
@@ -49,7 +49,7 @@
           <div class="supply-card">
             <div class="card" :class="play.length > 2?'active':''">
               <template v-if="play.length > 2">
-                <div class="face front" :class="play[2].className">
+                <div class="face front" :class="play[2].className" @click="cardInfoClick(0,2)">
                 </div>
                 <div class="face back">
                 </div>
@@ -61,7 +61,7 @@
           <div class="common-card">
             <div class="card" :class="bank.length > 0?'active':''">
               <template v-if="bank.length > 0">
-                <div class="face front" :class="bank[0].className">
+                <div class="face front" :class="bank[0].className" @click="cardInfoClick(1,0)">
                 </div>
                 <div class="face back">
                 </div>
@@ -69,7 +69,7 @@
             </div>
             <div class="card" :class="bank.length > 0?'active':''">
               <template v-if="bank.length > 0">
-                <div class="face front" :class="bank[1].className">
+                <div class="face front" :class="bank[1].className" @click="cardInfoClick(1,1)">
                 </div>
                 <div class="face back">
                 </div>
@@ -79,7 +79,7 @@
           <div class="supply-card">
             <div class="card" :class="bank.length > 2?'active':''">
               <template v-if="bank.length > 2">
-                <div class="face front" :class="bank[2].className">
+                <div class="face front" :class="bank[2].className" @click="cardInfoClick(1,2)">
                 </div>
                 <div class="face back">
                 </div>
@@ -152,9 +152,13 @@ export default {
         }, 1000)
       }
     },
+    cardInfoClick(firstIndex, secondIndex) {
+      console.log(firstIndex, secondIndex)
+    },
     openCard() {
       return new Promise(resolve => {
         this.play = this.cards[0].slice(0, 2)
+        console.log(this.cards)
         this.timeID1 = setTimeout(() => {
           this.firstPlayerPoints = ((this.play[0].value > 10 ? 10 : this.play[0].value) + (this.play[1].value > 10 ? 10 : this.play[1].value)) % 10
         }, 500)
