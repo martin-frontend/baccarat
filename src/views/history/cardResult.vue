@@ -78,19 +78,18 @@ export default {
       top: 0,
       bankerPoints: 0,
       cards: [],
-      playerPoints: 0,
-      cardName: ['', 'puker-club', 'puker-diamond', 'puker-heart', 'puker-spade']
-
+      playerPoints: 0
     }
   },
   methods: {
     handleOpen(data, top) {
       const { bankerPoints, cards, playerPoints } = data
+      const cardName = this.$store.state.app.cardName
       cards[0].forEach(element => {
-        if (element) { element['className'] = `${this.cardName[element.suit]}${element.value}` }
+        if (element) { element['className'] = `${cardName[element.suit]}${element.value}` }
       })
       cards[1].forEach(element => {
-        if (element) { element['className'] = `${this.cardName[element.suit]}${element.value}` }
+        if (element) { element['className'] = `${cardName[element.suit]}${element.value}` }
       })
       this.bankerPoints = bankerPoints
       this.cards = cards
@@ -168,6 +167,6 @@ export default {
   }
 }
 .front::after {
- display: none;
+  display: none;
 }
 </style>
