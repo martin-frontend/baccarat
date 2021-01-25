@@ -73,7 +73,7 @@ const actions = {
             resultList.push(data.result)
           })
           commit('SET_CARDS_BY_ROUND', cardsByRound)
-          commit('SET_RESULTHISTORY', resultList)
+          commit('SET_RESULT_HISTORY', resultList)
 
           // 解析lastRound
           const lastCardData = cardDataList[cardDataList.length - 1]
