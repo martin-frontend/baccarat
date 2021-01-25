@@ -65,7 +65,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['resultHistory'])
+    ...mapGetters(['resultHistory', 'cardsByRound'])
   },
   watch: {
     resultHistory: function(data) {
