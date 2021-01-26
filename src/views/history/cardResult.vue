@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isOpen" :style="{top}" class="card-result">
+  <div v-if="isOpened" :style="{top}" class="card-result">
     <div class="content">
       <div class="title">
         <h1 class="play-title">
@@ -76,7 +76,7 @@ export default {
   name: 'CardResult',
   data() {
     return {
-      isOpen: false,
+      isOpened: false,
       top: 0,
       bankerPoints: 0,
       cards: [],
@@ -97,14 +97,12 @@ export default {
       this.bankerPoints = bankerPoints
       this.cards = cards
       this.playerPoints = playerPoints
-      this.isOpen = true
+      this.isOpened = true
       this.top = (top - 400) + 'px'
       this.doResult()
-      // console.log(data)
     },
     handleClose() {
-      this.isOpen = false
-      // this.reset()
+      this.isOpened = false
     },
     reset() {
       this.bankerPoints = 0

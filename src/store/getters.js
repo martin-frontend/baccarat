@@ -7,7 +7,8 @@ const getters = {
   lastRound: state => state.app.lastRound,
   pokerMachine: state => state.app.pokerMachine,
   cardsByRound: state => state.app.cardsByRound,
-  cardsResult: state => state.app.cardsResult || '',
-  gameTable: state => state.app.gameTable || ''
+  cardsResult: state => state.app.cardsResult,
+  gameTable: state => state.app.gameTable,
+  isLoading: state => state.app.isLoading
 }
 export default getters

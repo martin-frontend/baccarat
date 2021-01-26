@@ -11,7 +11,8 @@ const state = {
   gameTable: {},
   bankerPoints: 0,
   playerPoints: 0,
-  lastRound: false
+  lastRound: false,
+  isLoading: true
 }
 
 const mutations = {
@@ -47,6 +48,9 @@ const mutations = {
   },
   SET_CARDS_STATUS: (state, data) => {
     state.cardsResult = data
+  },
+  SET_ISLOADING: (state, data) => {
+    state.isLoading = data
   }
 }
 
@@ -77,8 +81,9 @@ const actions = {
             }, 500)
           }
           commit('SET_LAST_ROUND', lastRound)
-          resolve()
         }
+        commit('SET_ISLOADING', false)
+        resolve()
       }).catch(error => {
         reject(error)
       })
@@ -96,12 +101,14 @@ const actions = {
     })
   },
   doShuffle({ commit }) {
+    commit('SET_ISLOADING', true)
     return new Promise((resolve, reject) => {
       doShuffle().then(({ data }) => {
         const { refresh } = data
         commit('SET_CARDS_RESULT', refresh)
         commit('SET_RESULT_HISTORY', [])
         commit('SET_LAST_ROUND', false)
+        commit('SET_ISLOADING', false)
         resolve()
       }).catch(error => {
         reject(error)
