@@ -16,13 +16,13 @@
         <h1 class="play-title">
           閒
           <span class="point">
-            {{ firstPlayerPoints }}
+            {{ newPlayerPoints }}
           </span>
         </h1>
         <h1 class="bank-title">
           莊
           <span class="point">
-            {{ firstBankerPoints }}
+            {{ newBankerPoints }}
           </span>
         </h1>
       </div>
@@ -111,8 +111,8 @@ export default {
       timeID6: 0,
       timeID7: 0,
       timeID8: 0,
-      firstBankerPoints: null,
-      firstPlayerPoints: null,
+      newBankerPoints: null,
+      newPlayerPoints: null,
       final: '',
       constants
     }
@@ -172,31 +172,31 @@ export default {
       return new Promise(resolve => {
         this.play = this.cards[0].slice(0, 2)
         console.log(this.cards)
-        this.timeID1 = setTimeout(() => {
-          this.firstPlayerPoints = ((this.play[0].value > 10 ? 10 : this.play[0].value) + (this.play[1].value > 10 ? 10 : this.play[1].value)) % 10
+        this.timeID1 = setTimeout(() => { // 閒家計算第一次點數
+          this.newPlayerPoints = this.countPoint(this.play[0].value, this.play[1].value)
         }, 500)
-        this.timeID2 = setTimeout(() => {
+        this.timeID2 = setTimeout(() => { // 莊家 1000毫秒後翻牌
           this.bank = this.cards[1].slice(0, 2)
-          this.timeID3 = setTimeout(() => {
-            this.firstBankerPoints = ((this.bank[0].value > 10 ? 10 : this.bank[0].value) + (this.bank[1].value > 10 ? 10 : this.bank[1].value)) % 10
+          this.timeID3 = setTimeout(() => { // 莊家計算第一次點數
+            this.newBankerPoints = this.countPoint(this.bank[0].value, this.bank[1].value)
           }, 500)
         }, 1000)
-        let i = 1
+        let i = 1 // i:計算補牌翻牌時機
         if (this.cards[0][2]) {
           i++
-          this.timeID4 = setTimeout(() => {
+          this.timeID4 = setTimeout(() => { // 閒家補牌 1000*i毫秒後翻牌
             this.play.push(this.cards[0][2])
-            this.timeID5 = setTimeout(() => {
-              this.firstPlayerPoints = this.playerPoints
+            this.timeID5 = setTimeout(() => { // 閒家計算最終點數 ( 後台有值就不計算了 )
+              this.newPlayerPoints = this.playerPoints
             }, 500)
           }, 1000 * i)
         }
         if (this.cards[1][2]) {
           i++
-          this.timeID6 = setTimeout(() => {
+          this.timeID6 = setTimeout(() => { // 莊家補牌 1000*i毫秒後翻牌
             this.bank.push(this.cards[1][2])
-            this.timeID7 = setTimeout(() => {
-              this.firstBankerPoints = this.bankerPoints
+            this.timeID7 = setTimeout(() => { // 莊家計算最終點數 ( 後台有值就不計算了 )
+              this.newBankerPoints = this.bankerPoints
             }, 500)
           }, 1000 * i)
         }
@@ -204,6 +204,14 @@ export default {
           resolve()
         }, 1000 * i + 800)
       })
+    },
+    countPoint(firstValue, secondValue) {
+      // 牌點數最大為10
+      firstValue = firstValue > 10 ? 10 : firstValue
+      // 牌點數最大為10
+      secondValue = secondValue > 10 ? 10 : secondValue
+      // ( 第一張牌 + 第二張牌 ) % 10
+      return (firstValue + secondValue) % 10
     },
     doResult() {
       this.final = this.bankerPoints > this.playerPoints ? '莊贏' : this.bankerPoints === this.playerPoints ? '和局' : '閒贏'
@@ -221,8 +229,8 @@ export default {
       if (this.cards[1][2]) {
         this.bank.push(this.cards[1][2])
       }
-      this.firstPlayerPoints = this.playerPoints
-      this.firstBankerPoints = this.bankerPoints
+      this.newPlayerPoints = this.playerPoints
+      this.newBankerPoints = this.bankerPoints
       this.doResult()
       this.SET_ISLOADING(false)
       if (this.lastRound) {
@@ -232,8 +240,8 @@ export default {
       }
     },
     reset() {
-      this.firstPlayerPoints = null
-      this.firstBankerPoints = null
+      this.newPlayerPoints = null
+      this.newBankerPoints = null
       this.play = []
       this.bank = []
       clearTimeout(this.timeID1)
