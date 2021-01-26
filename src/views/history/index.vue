@@ -52,6 +52,7 @@ export default {
           { name: '完美對子', value: 0, color: 'chocolate' } // 7
         ],
         [
+          { name: '', value: '', color: '' }, // 8
           { name: '大', value: 0, color: 'brown' }, // 8
           { name: '小', value: 0, color: 'brown' }, // 9
           { name: '閒單', value: 0, color: 'blue' }, // 10
@@ -136,9 +137,11 @@ export default {
         display: flex;
         align-items: flex-end;
         position: relative;
+        background-color: #303030;
         .board{
             border: 1px solid #000;
             border-collapse: collapse;
+            background-color: white;
             td {
                 border:1px solid #000;
                 width: 30px;
@@ -173,6 +176,8 @@ export default {
         .result{
             border: 0px solid #000;
             border-collapse: collapse;
+            background-color: white;
+
             cursor: default;
             tr{
                 border:1px solid #000;

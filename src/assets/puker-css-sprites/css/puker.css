@@ -29,13 +29,17 @@
 }
 
 .front{
-    background: #999 url(../img/puker.png) 0 100%;
-    background-repeat: no-repeat;
-    background-size: 82px 122px;
+    background-image: url('../img/puker.png');
     background-position: center;
+    background-size: 102% 102%;
+    background-repeat: no-repeat;
 }
 .back{
-    background: #efefef url(../img/puker.png) 0 100%;
+    background-image: url('../img/puker_back.png');
+    background-size: 102% 102%;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* background-size: 82px 122px; */
 }
 /* background-position: 百分制;
 等同于x：{容器(container)的宽度—背景图片的宽度}*x百分比，超出的部分隐藏。

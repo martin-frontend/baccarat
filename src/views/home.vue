@@ -15,7 +15,7 @@
       <div class="right">
         <Blockchain @BlockData="BlockData" />
       </div>
-      <InfoDialog :card-info="cardInfo" :dialog-form-visible="dialogBlockVisible" />
+      <InfoDialog ref="infoDialog" :card-info="cardInfo" />
     </div>
   </div>
 </template>
@@ -37,8 +37,7 @@ export default {
   },
   data() {
     return {
-      cardInfo: {},
-      dialogBlockVisible: false
+      cardInfo: {}
     }
   },
   mounted() {
@@ -47,11 +46,11 @@ export default {
   methods: {
     BlockData(data) {
       this.cardInfo = Object.assign(data)
-      this.dialogBlockVisible = true
+      this.$refs.infoDialog.handleOpen()
     },
     OpenCardData(data) {
       this.cardInfo = Object.assign(data)
-      this.dialogBlockVisible = true
+      this.$refs.infoDialog.handleOpen()
     }
   }
 }
@@ -64,6 +63,7 @@ body {
   display: flex;
   height: 100vh;
   width: 100%;
+  background-color: #000;
   .left {
     display: flex;
     flex-direction: column;
