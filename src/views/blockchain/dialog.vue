@@ -129,8 +129,9 @@ $suitsList: (
     display: flex;
     flex-wrap: wrap;
     text-align: left;
-    justify-content: center;
-    padding: 30px 35px;
+    padding: 30px 0;
+    padding-left: 60px;
+    padding-right: 40px;
     .pluker {
       display: inline-block;
       margin: 5px;
