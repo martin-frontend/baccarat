@@ -197,6 +197,6 @@ export default {
   }
 }
 .front::after {
-  display: none;
+  display: none !important;
 }
 </style>
