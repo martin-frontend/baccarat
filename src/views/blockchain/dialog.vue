@@ -1,8 +1,8 @@
 <template>
   <div v-show="group.isDialogVisible" class="modal">
     <div class="modal-content">
-      <span class="header-container" @click="handleClose()">
-        <div class="close"></div>
+      <span class="header-container">
+        <div class="close" @click="handleClose()"></div>
       </span>
       <div class="pluker-container">
         <div v-for="(item,index) in cardsResult" :key="item.id" class="pluker">
@@ -75,25 +75,21 @@ $suitsList: (
   justify-content: center;
   align-items: center;
   width: 100%;
-  min-width: 1250px;
   height: 100%;
-  background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
   overflow: auto;
 
   .modal-content {
-    background-color: #a46740;
+    background-color: #00000093;
     border: 1px solid #888;
-    width: 1250px;
-    min-width: 1250px;
+    width: 60%;
     height: 90%;
     overflow: auto;
-
+    position: relative;
     .header-container {
       position: fixed;
-      width: 1231px;
+      width: calc(60% - 20px);
       z-index: 1;
-      background-color: #a46740;
       height: 30px;
       cursor: pointer;
       display: flex;
@@ -102,10 +98,29 @@ $suitsList: (
       padding: 5px 10px;
 
       .close{
+        position: absolute;
+        top: 15px;
+        right: 30px;
         &::before{
           content: "X";
+          cursor: pointer;
+          position: absolute;
+          font-size: 26px;
+          color: #fff;
         }
       }
+    }
+    &::-webkit-scrollbar-track-piece {
+      background: #d3dce6;
+    }
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #99a9bf;
+      border-radius: 20px;
     }
   }
 
@@ -113,7 +128,8 @@ $suitsList: (
     display: flex;
     flex-wrap: wrap;
     text-align: left;
-    padding: 30px;
+    justify-content: center;
+    padding: 30px 35px;
     .pluker {
       display: inline-block;
       margin: 5px;
