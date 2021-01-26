@@ -57,7 +57,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('app', ['cardsResult', 'cards', 'pokerMachine', 'gameTable'])
+    ...mapGetters(['cardsResult', 'cards', 'pokerMachine', 'gameTable'])
   },
   watch: {
     // cardsResult 所有牌的結果 cards 當次開牌的結果
@@ -86,11 +86,8 @@ export default {
       }
     }
   },
-  created() {
-    this.getCardsStatus()
-  },
   methods: {
-    ...mapActions('app', ['getCardsStatus', 'doShuffle']),
+    ...mapActions('app', ['doShuffle']),
     handleShuffle() {
       this.doShuffle()
     },
@@ -114,24 +111,6 @@ export default {
         }
       }, 300)
     },
-    handleDrawAmount() {
-      if (this.drawAmount) {
-        return `#${this.drawAmount}`
-      }
-      return false
-    },
-    // handleInfoclick(id, suit, number) {
-    //   const vm = this
-    //   let all_p = document.querySelectorAll(`.${this.handleSuits(suit, number)}`)
-    //   all_p = Array.prototype.slice.call(all_p)
-    //   const event_list = ['click']
-    //   event_list.forEach(function() {
-    //     all_p.forEach(function() {
-    //       vm.isInfoVisible = true
-    //       vm.suitInfo = vm.handleSuitInfo(id)
-    //     })
-    //   })
-    // },
     handleInfoclick(index) {
       const suitInfo = this.handleSuitInfo(index)
       const preSuitInfo = this.handleSuitInfo(index - 1)

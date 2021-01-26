@@ -1,4 +1,4 @@
-import { doExecute, getCardsStatus, doShuffle, getInit } from '@/api/game'
+import { doExecute, doShuffle, getInit } from '@/api/game'
 
 const state = {
   cards: [],
@@ -13,14 +13,7 @@ const state = {
   playerPoints: 0,
   lastRound: false
 }
-const getters = {
-  cardsResult: () => state.cardsResult || '',
-  cards: () => state.cards || '',
-  pokerMachine: () => state.pokerMachine || '',
-  results: () => state.results || '',
-  gameTable: () => state.gameTable || '',
-  lastRound: () => state.lastRound || ''
-}
+
 const mutations = {
   SET_DATA: (state, data) => {
     const { bankerPoints, cards, playerPoints, result, lastRound } = data
@@ -102,16 +95,6 @@ const actions = {
       })
     })
   },
-  getCardsStatus({ commit }) {
-    return new Promise((resolve, reject) => {
-      getCardsStatus().then(({ data }) => {
-        commit('SET_CARDS_STATUS', data.data)
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
-    })
-  },
   doShuffle({ commit }) {
     return new Promise((resolve, reject) => {
       doShuffle().then(({ data }) => {
@@ -131,6 +114,5 @@ export default {
   namespaced: true,
   state,
   mutations,
-  actions,
-  getters
+  actions
 }
