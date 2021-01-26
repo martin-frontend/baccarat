@@ -86,7 +86,8 @@ export default {
     },
     validate() {
       const sha512 = require('js-sha512')
-      this.validateResult = sha512.hmac(this.cardInfo.suitInfo.hashKey, this.validateText)
+      const hashKey = this.cardInfo.suitInfo.hashKey ? this.cardInfo.suitInfo.hashKey : ''
+      this.validateResult = sha512.hmac(hashKey, this.validateText)
     },
     compareStr(str1, str2) {
       return !str1.localeCompare(str2)
