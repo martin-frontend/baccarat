@@ -166,6 +166,7 @@ $suitsList: (
   2: "heart",
   3: "spade",
 );
+
 .blockchain {
   overflow-y: hidden;
   display: flex;
@@ -180,12 +181,12 @@ $suitsList: (
     z-index: 10;
     position: fixed;
     top: 0;
-    height: auto;
-    max-width: 200px;
-    min-height: 100px;
     display: flex;
     flex-wrap: nowrap;
     justify-content: center;
+    height: auto;
+    max-width: 200px;
+    min-height: 110px;
     background-color: #200700;
 
     .title-info {
@@ -203,7 +204,9 @@ $suitsList: (
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
+
       .title {
+        width: 100%;
         font-size: 25px;
         line-height: 35px;
         font-weight: bold;
@@ -251,6 +254,19 @@ $suitsList: (
     overflow: auto;
     flex: 1;
     width: 100%;
+
+    &::-webkit-scrollbar-track-piece {
+      background: #d3dce6;
+    }
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #99a9bf;
+      border-radius: 20px;
+    }
 
     .pluker {
       display: flex;
