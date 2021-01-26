@@ -67,7 +67,7 @@ body {
   .left {
     display: flex;
     flex-direction: column;
-    width: 90%;
+    flex:7;
     border-right: 1px solid #000;
     .top {
       display: flex;

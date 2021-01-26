@@ -68,6 +68,7 @@ $suitsList: (
 );
 
 .modal {
+  z-index: 1;
   position: absolute;
   top: 0;
   left: 0;
@@ -82,18 +83,31 @@ $suitsList: (
   overflow: auto;
 
   .modal-content {
-    background-color: #a46740;
+    background-color:#575757;
     border: 1px solid #888;
     width: 1250px;
     min-width: 1250px;
     height: 90%;
     overflow: auto;
 
+    &::-webkit-scrollbar-track-piece {
+      background: #d3dce6;
+    }
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #99a9bf;
+      border-radius: 20px;
+    }
+
     .header-container {
       position: fixed;
       width: 1231px;
       z-index: 1;
-      background-color: #a46740;
+      background-color: #575757;
       height: 30px;
       cursor: pointer;
       display: flex;
@@ -114,6 +128,7 @@ $suitsList: (
     flex-wrap: wrap;
     text-align: left;
     padding: 30px;
+
     .pluker {
       display: inline-block;
       margin: 5px;
