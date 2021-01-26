@@ -67,7 +67,7 @@ body {
   .left {
     display: flex;
     flex-direction: column;
-    flex:7;
+    flex:1;
     border-right: 1px solid #000;
     .top {
       display: flex;
@@ -78,7 +78,7 @@ body {
     }
   }
   .right {
-    flex: 1;
+    flex: auto 0 0 ;
   }
 }
 </style>
