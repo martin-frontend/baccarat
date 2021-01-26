@@ -8,7 +8,9 @@
         <div class="info-box">
           <div class="img-field">
             <p class="text">上一張</p>
-            <div :class="['card',cardInfo.preSuitInfo.suitClass]"></div>
+            <div class="card">
+              <div :class="[`face front noneInfo ${cardInfo.preSuitInfo.suitClass}`, { back: !cardInfo.preSuitInfo.suitClass ? true : false }]"></div>
+            </div>
           </div>
           <div class="text-field">
             <p class="text">Hash: <br /><span>{{ cardInfo.preSuitInfo.hash }}</span></p>
@@ -17,7 +19,9 @@
         <div class="info-box">
           <div class="img-field">
             <p class="text">本張</p>
-            <div :class="['card',cardInfo.suitInfo.suitClass]"></div>
+            <div class="card">
+              <div :class="[`face front noneInfo ${cardInfo.suitInfo.suitClass}`, { back: !cardInfo.suitInfo.suitClass ? true : false }]"></div>
+            </div>
           </div>
           <div class="text-field">
             <p class="text">Suit: <span>{{ cardInfo.suitInfo.suit }}</span></p>
@@ -58,14 +62,17 @@ export default {
   data() {
     return {
       validateResult: '',
+      validateText: '',
       dialogVisible: false
     }
   },
   watch: {
     cardInfo: {
       handler: function() {
-        this.validateText = String(this.cardInfo.suitInfo.suit) +
-         String(this.cardInfo.suitInfo.value) + '-' + String(this.cardInfo.preSuitInfo.hash)
+        const suit = this.cardInfo.suitInfo.suit ? this.cardInfo.suitInfo.suit : ''
+        const value = this.cardInfo.suitInfo.value ? this.cardInfo.suitInfo.value : ''
+        this.validateText = String(suit) +
+         String(value) + '-' + String(this.cardInfo.preSuitInfo.hash)
       }
     }
   },
@@ -128,8 +135,7 @@ export default {
       margin-bottom: 20px;
     }
     .card{
-      width: 100%;
-      background-size: 100%;
+     position: relative;
     }
     .info-container {
       .info-box{

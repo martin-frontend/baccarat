@@ -91,7 +91,6 @@ $suitsList: (
       width: calc(60% - 20px);
       z-index: 1;
       height: 30px;
-      cursor: pointer;
       display: flex;
       justify-content: flex-end;
       font-size: 20px;
@@ -101,6 +100,8 @@ $suitsList: (
         position: absolute;
         top: 15px;
         right: 30px;
+        cursor: pointer;
+
         &::before{
           content: "X";
           cursor: pointer;

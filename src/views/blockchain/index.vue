@@ -171,25 +171,23 @@ $suitsList: (
   overflow-y: hidden;
   display: flex;
   flex-direction: column;
-  width: 100%;
   height: 100vh;
   margin-top: 0;
   margin: auto;
   background-color: #200700;
 
   .header-container {
-    z-index: 10;
-    position: fixed;
+    transition: width .28s;
+    position: sticky;
     top: 0;
+    overflow-y: hidden;
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     justify-content: center;
-    height: auto;
-    max-width: 200px;
-    min-height: 110px;
     background-color: #200700;
 
     .title-info {
+      width: 100%;
       color: transparent;
       background-image: linear-gradient(
         to right,
@@ -206,7 +204,6 @@ $suitsList: (
       -webkit-text-fill-color: transparent;
 
       .title {
-        width: 100%;
         font-size: 25px;
         line-height: 35px;
         font-weight: bold;
@@ -218,7 +215,6 @@ $suitsList: (
         justify-content: center;
         align-content: center;
         flex-wrap: wrap;
-
         .btn {
           font-size: 20px;
           width: 100%;
@@ -249,7 +245,7 @@ $suitsList: (
   }
 
   .pluker-container {
-    margin-top: 220px;
+    margin-top: 50px;
     z-index: 1;
     overflow: auto;
     flex: 1;
