@@ -10,7 +10,7 @@
     pointer-events:none;
 }
 
-.front::after{
+.front:not(.noneInfo):after{
     content:'i';
     position: absolute;
     bottom: 0;
