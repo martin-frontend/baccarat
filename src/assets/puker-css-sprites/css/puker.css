@@ -4,7 +4,7 @@
     height: 120px;
 }
 .face{
-    border-radius: 10px;
+    border-radius: 5px;
     width: 100%;
     height: 100%;
     pointer-events:none;
@@ -23,7 +23,7 @@
     background-color: #000;
     width: 20%;
     height: 20%;
-    border-radius:0 5px 0 10px ;
+    border-radius:0 5px 0 5px ;
     pointer-events:auto;
     cursor: pointer;
 }
