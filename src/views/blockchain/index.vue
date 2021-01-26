@@ -94,7 +94,11 @@ export default {
     handleSuits(suit, number) {
       const { constants } = this
       const suitName = (constants.suitList.filter(a => a.id === suit)[0] || {}).name
-      return constants.AllCards.filter(a => a === `puker-${suitName}${number}`)[0]
+      if (constants.AllCards.filter(a => a === `puker-${suitName}${number}`)[0] === undefined) {
+        return ''
+      } else {
+        return constants.AllCards.filter(a => a === `puker-${suitName}${number}`)[0]
+      }
     },
     handleView(value) {
       this.isDialogVisible = value
