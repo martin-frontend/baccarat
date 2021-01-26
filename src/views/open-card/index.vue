@@ -237,7 +237,9 @@ export default {
       this.firstPlayerPoints = this.playerPoints
       this.firstBankerPoints = this.bankerPoints
       this.doResult()
-      this.SET_ISLOADING(false)
+      this.timeID1 = setTimeout(() => {
+        this.SET_ISLOADING(false)
+      }, 800)
       if (this.lastRound) {
         setTimeout(() => {
           alert('本局已結束，請重新洗牌')
