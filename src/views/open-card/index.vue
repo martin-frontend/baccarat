@@ -171,7 +171,6 @@ export default {
     openCard() {
       return new Promise(resolve => {
         this.play = this.cards[0].slice(0, 2)
-        console.log(this.cards)
         this.timeID1 = setTimeout(() => { // 閒家計算第一次點數
           this.newPlayerPoints = this.countPoint(this.play[0].value, this.play[1].value)
         }, 500)
