@@ -57,7 +57,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('app', ['cardsResult', 'cards', 'pokerMachine', 'gameTable'])
+    ...mapGetters(['cardsResult', 'cards', 'pokerMachine', 'gameTable'])
   },
   watch: {
     // cardsResult 所有牌的結果 cards 當次開牌的結果
@@ -86,11 +86,8 @@ export default {
       }
     }
   },
-  created() {
-    this.getCardsStatus()
-  },
   methods: {
-    ...mapActions('app', ['getCardsStatus', 'doShuffle']),
+    ...mapActions('app', ['doShuffle']),
     handleShuffle() {
       this.doShuffle()
     },
@@ -113,12 +110,6 @@ export default {
           a.click()
         }
       }, 300)
-    },
-    handleDrawAmount() {
-      if (this.drawAmount) {
-        return `#${this.drawAmount}`
-      }
-      return false
     },
     handleInfoclick(index) {
       const suitInfo = this.handleSuitInfo(index)

@@ -38,7 +38,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('app', ['cardsResult', 'cards'])
+    ...mapGetters(['cardsResult', 'cards'])
   },
   methods: {
     handleSuits(suit, number) {

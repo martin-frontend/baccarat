@@ -10,8 +10,8 @@
             </div>
         </div> -->
     <div class="content">
-      <button :disabled="isOpened || lastRound" class="btn" @click="init()">{{ type }}</button>
-      <button :disabled="isOpened || lastRound" class="btn" style="margin-left:10px" @click="init1()">直接開牌</button>
+      <button :disabled="isLoading || lastRound" class="btn" @click="init()">{{ type }}</button>
+      <button :disabled="isLoading || lastRound" class="btn" style="margin-left:10px" @click="init1()">直接開牌</button>
       <div class="title">
         <h1 class="play-title">
           閒
@@ -93,24 +93,16 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
 import constants from '../../utils/constants'
 
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'OpenCard',
   data() {
     return {
       play: [],
       bank: [],
-      AllCards: [
-        'puker-spade1', 'puker-spade2', 'puker-spade3', 'puker-spade4', 'puker-spade5', 'puker-spade6', 'puker-spade7', 'puker-spade8', 'puker-spade9', 'puker-spade10', 'puker-spade11', 'puker-spade12', 'puker-spade13',
-        'puker-heart1', 'puker-heart2', 'puker-heart3', 'puker-heart4', 'puker-heart5', 'puker-heart6', 'puker-heart7', 'puker-heart8', 'puker-heart9', 'puker-heart10', 'puker-heart11', 'puker-heart12', 'puker-heart13',
-        'puker-diamond1', 'puker-diamond2', 'puker-diamond3', 'puker-diamond4', 'puker-diamond5', 'puker-diamond6', 'puker-diamond7', 'puker-diamond8', 'puker-diamond9', 'puker-diamond10', 'puker-diamond11', 'puker-diamond12', 'puker-diamond13',
-        'puker-club1', 'puker-club2', 'puker-club3', 'puker-club4', 'puker-club5', 'puker-club6', 'puker-club7', 'puker-club8', 'puker-club9', 'puker-club10', 'puker-club11', 'puker-club12', 'puker-club13'
-      ],
       type: '開牌',
-      randomArr: [],
-      cardName: ['', 'puker-club', 'puker-diamond', 'puker-heart', 'puker-spade'],
       timeID1: 0,
       timeID2: 0,
       timeID3: 0,
@@ -129,8 +121,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['bankerPoints', 'cards', 'playerPoints', 'result', 'resultHistory', 'lastRound']),
-    ...mapGetters('app', ['cardsResult', 'pokerMachine'])
+    ...mapGetters(['bankerPoints', 'cards', 'playerPoints', 'result', 'resultHistory', 'lastRound', 'isLoading'])
   },
   watch: {
     resultHistory: function(data) {
@@ -142,14 +133,15 @@ export default {
   mounted() {
   },
   methods: {
+    ...mapMutations('app', ['SET_ISLOADING']),
     async init() {
       if (this.lastRound) return
-      this.isOpened = true
+      this.SET_ISLOADING(true)
       this.reset()
       await this.$store.dispatch('app/doExecute')
       await this.openCard()
       this.doResult()
-      this.isOpened = false
+      this.SET_ISLOADING(false)
       if (this.lastRound) {
         setTimeout(() => {
           alert('本局已結束，請重新洗牌')
@@ -220,6 +212,7 @@ export default {
     },
     async init1() { // 直接開牌
       if (this.lastRound) return
+      this.SET_ISLOADING(true)
       this.reset()
       await this.$store.dispatch('app/doExecute')
       this.play = this.cards[0].slice(0, 2)
@@ -233,6 +226,7 @@ export default {
       this.firstPlayerPoints = this.playerPoints
       this.firstBankerPoints = this.bankerPoints
       this.doResult()
+      this.SET_ISLOADING(false)
       if (this.lastRound) {
         setTimeout(() => {
           alert('本局已結束，請重新洗牌')
@@ -240,10 +234,8 @@ export default {
       }
     },
     reset() {
-      this.isShuffle = false
       this.firstPlayerPoints = null
       this.firstBankerPoints = null
-      this.randomArr = []
       this.play = []
       this.bank = []
       clearTimeout(this.timeID1)
@@ -255,22 +247,6 @@ export default {
       clearTimeout(this.timeID7)
       clearTimeout(this.timeID8)
       this.final = ''
-    },
-    randomData() {
-      const arr = []
-      for (let i = 0; i < 52; i++) { // 一個從0到52的陣列
-        arr.push(i)
-      }
-      arr.sort(function() { // 隨機打亂這個陣列
-        return Math.random() - 0.5
-      })
-      arr.length = 6
-      // arr.length = this.getRandom(4, 6) // 改寫長度
-      this.randomArr = arr
-    },
-    // 產生min到max之間的亂數
-    getRandom(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min
     }
   }
 }
