@@ -13,13 +13,13 @@
       <div class="title-field">
         <h1 class="play-title">
           閒家
-          <span class="point">
+          <span v-if="firstPlayerPoints" class="point">
             {{ firstPlayerPoints }} 點
           </span>
         </h1>
         <h1 class="bank-title">
           莊家
-          <span class="point">
+          <span v-if="firstBankerPoints" class="point">
             {{ firstBankerPoints }} 點
           </span>
         </h1>
