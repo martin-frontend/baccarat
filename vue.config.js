@@ -37,7 +37,7 @@ module.exports = {
     },
     proxy: {
       '/': {
-        target: 'http://192.168.3.105:9977/',
+        target: 'http://35.229.170.120:9977',
         changeOrigin: false,
         pathRewrite: {
           '^/': ''
