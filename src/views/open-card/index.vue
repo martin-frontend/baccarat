@@ -120,8 +120,9 @@ export default {
       constants
     }
   },
+
   computed: {
-    ...mapGetters(['bankerPoints', 'cards', 'playerPoints', 'result', 'resultHistory', 'lastRound', 'isLoading'])
+    ...mapGetters(['bankerPoints', 'cards', 'playerPoints', 'result', 'resultHistory', 'lastRound', 'isLoading', 'cardsResult', 'pokerMachine'])
   },
   watch: {
     resultHistory: function(data) {
