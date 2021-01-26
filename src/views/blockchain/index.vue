@@ -1,19 +1,19 @@
 <template>
   <div>
     <div class="blockchain">
-      <div class="title-container">
+      <div class="header-container">
         <div class="title-info">
           <h1 class="title">公開資訊區塊鏈牌組</h1>
-          <button class="btn" @click="handleShuffle()">
-            洗牌
-          </button>
-          <button class="btn" @click="handleView(true)">檢視</button>
+          <div class="menu-info">
+            <button class="btn" @click="handleShuffle()">洗牌</button>
+            <button class="btn" @click="handleView(true)">檢視</button>
+          </div>
         </div>
       </div>
       <div class="pluker-container">
         <div
           v-for="(item, index) in cardsResult"
-          :id="index+1"
+          :id="index + 1"
           :key="item.id"
           class="pluker"
         >
@@ -46,7 +46,12 @@ export default {
       isInfoVisible: false,
       drawAmount: 0,
       result: [],
-      suitList: [{ id: 1, name: 'club' }, { id: 2, name: 'diamond' }, { id: 3, name: 'heart' }, { id: 4, name: 'spade' }],
+      suitList: [
+        { id: 1, name: 'club' },
+        { id: 2, name: 'diamond' },
+        { id: 3, name: 'heart' },
+        { id: 4, name: 'spade' }
+      ],
       constants,
       cardInfo: {}
     }
@@ -64,7 +69,7 @@ export default {
     cards(list) {
       const { cardsResult } = this
       // 塞掉null
-      const concatList = list[0].concat(list[1]).filter(a => a)
+      const concatList = list[0].concat(list[1]).filter((a) => a)
       concatList.forEach((item) => {
         cardsResult.forEach((element) => {
           if (parseInt(item.id) === parseInt(element.id)) {
@@ -74,7 +79,10 @@ export default {
           }
         })
       })
-      this.handlePosition('change', cardsResult.filter((a) => a.suit).length - concatList.length + 1)
+      this.handlePosition(
+        'change',
+        cardsResult.filter((a) => a.suit).length - concatList.length + 1
+      )
     },
     // 初始化
     gameTable: {
@@ -93,11 +101,19 @@ export default {
     },
     handleSuits(suit, number) {
       const { constants } = this
-      const suitName = (constants.suitList.filter(a => a.id === suit)[0] || {}).name
-      if (constants.AllCards.filter(a => a === `puker-${suitName}${number}`)[0] === undefined) {
+      const suitName = (
+        constants.suitList.filter((a) => a.id === suit)[0] || {}
+      ).name
+      if (
+        constants.AllCards.filter(
+          (a) => a === `puker-${suitName}${number}`
+        )[0] === undefined
+      ) {
         return ''
       } else {
-        return constants.AllCards.filter(a => a === `puker-${suitName}${number}`)[0]
+        return constants.AllCards.filter(
+          (a) => a === `puker-${suitName}${number}`
+        )[0]
       }
     },
     handleView(value) {
@@ -105,7 +121,9 @@ export default {
     },
     handlePosition(status, nowPosition) {
       const { pokerMachine } = this
-      status === 'init' ? this.drawAmount = pokerMachine.cardId + 1 : this.drawAmount = nowPosition
+      status === 'init'
+        ? (this.drawAmount = pokerMachine.cardId + 1)
+        : (this.drawAmount = nowPosition)
       this.$router.push({ path: `#${this.drawAmount}` })
       setTimeout(() => {
         if (location.hash) {
@@ -119,7 +137,10 @@ export default {
       const suitInfo = this.handleSuitInfo(index)
       const preSuitInfo = this.handleSuitInfo(index - 1)
       suitInfo.suitClass = this.handleSuits(suitInfo.suit, suitInfo.value)
-      preSuitInfo.suitClass = this.handleSuits(preSuitInfo.suit, preSuitInfo.value)
+      preSuitInfo.suitClass = this.handleSuits(
+        preSuitInfo.suit,
+        preSuitInfo.value
+      )
       this.cardInfo = {
         suitInfo: suitInfo,
         preSuitInfo: preSuitInfo
@@ -127,7 +148,9 @@ export default {
       this.$emit('BlockData', this.cardInfo)
     },
     handleSuitInfo(index) {
-      if (index === -1) { return this.pokerMachine }
+      if (index === -1) {
+        return this.pokerMachine
+      }
       return this.cardsResult[index]
     },
     getRandomSuit() {
@@ -151,21 +174,35 @@ $suitsList: (
   height: 100vh;
   margin-top: 0;
   margin: auto;
-  background-color: #a46740;
+  background-color: #200700;
 
-  .title-container {
+  .header-container {
+    z-index: 10;
     position: fixed;
     top: 0;
-    padding: 5px;
     height: auto;
     max-width: 200px;
     min-height: 100px;
     display: flex;
     flex-wrap: nowrap;
     justify-content: center;
-    background-color: #a46740;
+    background-color: #200700;
 
     .title-info {
+      color: transparent;
+      background-image: linear-gradient(
+        to right,
+        #462523 0,
+        #cb9b51 22%,
+        #f6e27a 45%,
+        #f6f2c0 50%,
+        #f6e27a 55%,
+        #cb9b51 78%,
+        #462523 100%
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
       .title {
         font-size: 25px;
         line-height: 35px;
@@ -173,20 +210,44 @@ $suitsList: (
         padding: 10px 0;
       }
 
-      .btn {
-        cursor: pointer;
-        background-color: #f44336;
-        padding: 5px;
-      }
+      .menu-info {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        flex-wrap: wrap;
 
-      .btn + .btn {
-        margin: 5px;
+        .btn {
+          font-size: 20px;
+          width: 100%;
+          cursor: pointer;
+          font-weight: bold;
+          padding: 5px;
+          border-top: 0;
+          background-image: linear-gradient(
+            to right,
+            #462523 0,
+            #cb9b51 22%,
+            #f6e27a 45%,
+            #f6f2c0 50%,
+            #f6e27a 55%,
+            #cb9b51 78%,
+            #462523 100%
+          );
+          background-size: 100% 1px;
+          background-position: 0 100%, 0 100%;
+          background-repeat: no-repeat;
+
+          &:hover {
+            background-color: rgb(203, 155, 81, 0.5);
+          }
+        }
       }
     }
   }
 
   .pluker-container {
-    margin-top: 200px;
+    margin-top: 220px;
+    z-index: 1;
     overflow: auto;
     flex: 1;
     width: 100%;
@@ -198,7 +259,7 @@ $suitsList: (
       align-items: center;
       margin: 10px 5px;
 
-      .card{
+      .card {
         position: relative;
       }
     }
