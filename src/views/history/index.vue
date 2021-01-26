@@ -67,12 +67,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['resultHistory', 'cardsByRound'])
+    ...mapGetters(['resultHistory', 'cardsByRound', 'isLoading'])
   },
   watch: {
-    resultHistory: function(data) {
-      console.log(data)
-      // console.log(1, data)
+    isLoading: function(type) {
+      if (type) return
+      const data = this.resultHistory
       if (data && !data.length) {
         this.init()
       }
@@ -96,7 +96,6 @@ export default {
         // 更新右板
         this.resultList[j][k].value = element
       }
-      // console.log(data)
     }
   },
   methods: {
@@ -163,6 +162,7 @@ export default {
                     .text{
                         cursor: default;
                         color: white;
+                        cursor: default;
                     }
                     &:hover {
                       opacity: .3;

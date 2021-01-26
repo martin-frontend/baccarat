@@ -6,6 +6,7 @@ const getters = {
   resultHistory: state => state.app.resultHistory,
   lastRound: state => state.app.lastRound,
   pokerMachine: state => state.pokerMachine,
-  cardsByRound: state => state.app.cardsByRound
+  cardsByRound: state => state.app.cardsByRound,
+  isLoading: state => state.app.isLoading
 }
 export default getters
