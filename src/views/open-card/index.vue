@@ -94,6 +94,8 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import constants from '../../utils/constants'
+
 export default {
   name: 'OpenCard',
   data() {
@@ -122,11 +124,13 @@ export default {
       final: '',
       isShuffle: false,
       isOpened: false,
-      isLast: false
+      isLast: false,
+      constants
     }
   },
   computed: {
-    ...mapGetters(['bankerPoints', 'cards', 'playerPoints', 'result', 'resultHistory', 'lastRound'])
+    ...mapGetters(['bankerPoints', 'cards', 'playerPoints', 'result', 'resultHistory', 'lastRound']),
+    ...mapGetters('app', ['cardsResult', 'pokerMachine'])
   },
   watch: {
     resultHistory: function(data) {
@@ -153,7 +157,26 @@ export default {
       }
     },
     cardInfoClick(firstIndex, secondIndex) {
-      console.log(firstIndex, secondIndex)
+      const index = this.cards[firstIndex][secondIndex].id - 1
+      const suitInfo = this.handleSuitInfo(index)
+      const preSuitInfo = this.handleSuitInfo(index - 1)
+      suitInfo.suitClass = this.handleSuits(suitInfo.suit, suitInfo.value)
+      preSuitInfo.suitClass = this.handleSuits(preSuitInfo.suit, preSuitInfo.value)
+      console.log(this.cardsResult)
+      this.cardInfo = {
+        suitInfo: suitInfo,
+        preSuitInfo: preSuitInfo
+      }
+      this.$emit('OpenCardData', this.cardInfo)
+    },
+    handleSuitInfo(index) {
+      if (index === -1) { return this.pokerMachine }
+      return this.cardsResult[index]
+    },
+    handleSuits(suit, number) {
+      const { constants } = this
+      const suitName = (constants.suitList.filter(a => a.id === suit)[0] || {}).name
+      return constants.AllCards.filter(a => a === `puker-${suitName}${number}`)[0]
     },
     openCard() {
       return new Promise(resolve => {

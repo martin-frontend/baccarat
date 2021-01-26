@@ -7,7 +7,7 @@
       <div class="info-container">
         <div class="info-box">
           <div class="img-field">
-            <p class="text">前一回合</p>
+            <p class="text">上一張</p>
             <div :class="['card',cardInfo.preSuitInfo.suitClass]"></div>
           </div>
           <div class="text-field">
@@ -16,7 +16,7 @@
         </div>
         <div class="info-box">
           <div class="img-field">
-            <p class="text">本回合</p>
+            <p class="text">本張</p>
             <div :class="['card',cardInfo.suitInfo.suitClass]"></div>
           </div>
           <div class="text-field">

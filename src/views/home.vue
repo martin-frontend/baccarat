@@ -5,7 +5,7 @@
     <div class="container">
       <div class="left">
         <div class="top">
-          <OpenCard />
+          <OpenCard @OpenCardData="OpenCardData" />
           <Information />
         </div>
         <div class="bottom">
@@ -15,7 +15,7 @@
       <div class="right">
         <Blockchain @BlockData="BlockData" />
       </div>
-      <InfoDialog :card-info="cardInfo" :dialog-form-visible="dialogFormVisible" />
+      <InfoDialog :card-info="cardInfo" :dialog-form-visible="dialogBlockVisible" />
     </div>
   </div>
 </template>
@@ -38,7 +38,7 @@ export default {
   data() {
     return {
       cardInfo: {},
-      dialogFormVisible: false
+      dialogBlockVisible: false
     }
   },
   mounted() {
@@ -47,7 +47,11 @@ export default {
   methods: {
     BlockData(data) {
       this.cardInfo = Object.assign(data)
-      this.dialogFormVisible = true
+      this.dialogBlockVisible = true
+    },
+    OpenCardData(data) {
+      this.cardInfo = Object.assign(data)
+      this.dialogBlockVisible = true
     }
   }
 }

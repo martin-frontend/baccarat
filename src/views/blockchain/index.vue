@@ -28,13 +28,13 @@
           </div>
         </div>
       </div>
-      <Dialog />
+      <Dialog @handleInfoclick="handleInfoclick" />
     </div>
   </div>
 </template>
 <script>
 import Dialog from './dialog'
-import constants from './constants'
+import constants from '../../utils/constants'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -120,18 +120,6 @@ export default {
       }
       return false
     },
-    // handleInfoclick(id, suit, number) {
-    //   const vm = this
-    //   let all_p = document.querySelectorAll(`.${this.handleSuits(suit, number)}`)
-    //   all_p = Array.prototype.slice.call(all_p)
-    //   const event_list = ['click']
-    //   event_list.forEach(function() {
-    //     all_p.forEach(function() {
-    //       vm.isInfoVisible = true
-    //       vm.suitInfo = vm.handleSuitInfo(id)
-    //     })
-    //   })
-    // },
     handleInfoclick(index) {
       const suitInfo = this.handleSuitInfo(index)
       const preSuitInfo = this.handleSuitInfo(index - 1)

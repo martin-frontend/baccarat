@@ -5,7 +5,7 @@
         <div class="close"></div>
       </span>
       <div class="pluker-container">
-        <div v-for="item in cardsResult" :key="item.id" class="pluker">
+        <div v-for="(item,index) in cardsResult" :key="item.id" class="pluker">
           <div class="cardNumber">{{ item.id }}</div>
           <div class="card">
             <div
@@ -14,7 +14,7 @@
                 `face front ${handleSuits(item.suit, item.value)}`,
                 { back: !item.hashKey ? true : false },
               ]"
-              @click="handleInfoclick(item.id)"
+              @click="handleInfoclick(index)"
             ></div>
           </div>
         </div>
@@ -23,7 +23,7 @@
   </div>
 </template>
 <script>
-import constants from './constants'
+import constants from '../../utils/constants'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -53,18 +53,8 @@ export default {
     handleClose() {
       this.group.isDialogVisible = !this.group.isDialogVisible
     },
-    handleResult(number) {
-      return this.result.filter((a) => a === number).length
-    },
-    handleInfoclick(id) {
-      this.group.isInfoVisible = true
-      this.group.suitInfo = this.handleSuitInfo(id)
-    },
-    handleSuitInfo(id) {
-      return this.cardsResult.filter((a) => a.id === id)[0] || {}
-    },
-    getRandomSuit() {
-      return this.suitList[Math.floor(Math.random() * this.suitList.length)]
+    handleInfoclick(index) {
+      this.$emit('handleInfoclick', index)
     }
   }
 }
