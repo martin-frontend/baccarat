@@ -10,19 +10,17 @@
             </div>
         </div> -->
     <div class="content">
-      <button :disabled="isLoading || lastRound" class="btn" @click="init()">{{ type }}</button>
-      <button :disabled="isLoading || lastRound" class="btn" style="margin-left:10px" @click="init1()">直接開牌</button>
-      <div class="title">
+      <div class="title-field">
         <h1 class="play-title">
-          閒
+          閒家
           <span class="point">
-            {{ firstPlayerPoints }}
+            {{ firstPlayerPoints }} 點
           </span>
         </h1>
         <h1 class="bank-title">
-          莊
+          莊家
           <span class="point">
-            {{ firstBankerPoints }}
+            {{ firstBankerPoints }} 點
           </span>
         </h1>
       </div>
@@ -88,7 +86,9 @@
           </div>
         </div>
       </div>
-      <div style="margin-top: 10px; font-size: 30px"> 結果: {{ final }}</div>
+      <div :class="['resText',resTextColor(final)]">{{ final }}</div>
+      <button :disabled="isLoading || lastRound" class="btn" @click="init()">{{ type }}</button>
+      <button :disabled="isLoading || lastRound" class="btn" style="margin-left:10px" @click="init1()">直接開牌</button>
     </div>
   </div>
 </template>
@@ -147,6 +147,16 @@ export default {
         setTimeout(() => {
           alert('本局已結束，請重新洗牌')
         }, 1000)
+      }
+    },
+    resTextColor(text) {
+      switch (text) {
+        case '莊贏':
+          return 'red'
+        case '閒贏':
+          return 'blue'
+        case '和局':
+          return 'green'
       }
     },
     cardInfoClick(firstIndex, secondIndex) {
@@ -271,68 +281,113 @@ export default {
 ///////////////
 
 .btn {
-  width: 80px;
-  height: 30px;
-  border: 1px solid #000;
+  width: 120px;
+  height: 40px;
+  border: 2px solid #000;
   border-radius: 5px;
   margin-bottom: 10px;
+  background-color: #fff;
+  color: #fff;
+  background: linear-gradient(180deg, #3D3D3D 21%, #636363 80%);
+  background: -moz-linear-gradient(180deg, #3D3D3D 21%, #636363 80%);
+  background: -webkit-linear-gradient(180deg, #3D3D3D 21%, #636363 80%);
+  background: -o-linear-gradient(180deg, #3D3D3D 21%, #636363 80%);
   cursor: pointer;
+  font-size: 16px;
   &:disabled {
     color: rgb(165, 161, 161);
     cursor: not-allowed;
   }
 }
 .open-card {
-    width: 90%;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-image: url('~@/assets/img/pokerTable2.jpg');
+    background-repeat: no-repeat;
+    background-size: cover 100%;
+    background-position: center;
     .content {
         display: inline-block;
-        .title {
-            display: flex;
-            color: white;
-            .play-title {
-                flex: 1;
-                line-height: 36px;
-                font-size: 20px;
-                background: rgb(47, 47, 250);
-            }
-            .bank-title {
-                flex: 1;
-                line-height: 36px;
-                font-size: 20px;
-                background: rgb(248, 59, 59);
-            }
+        padding: 10px;
+        margin-top: 100px;
+        width: 100%;
+        .title-field {
+          color: white;
+          font-family: 'Noto Serif TC', serif;
+          text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff,1px -1px 0 #fff,-1px -1px 0 #fff;
+          font-size: 40px;
+          display: flex;
+          font-weight: bold;
+          justify-content: center;
+          margin-bottom: 10px;
+          position: relative;
+          .point {
+            position: absolute;
+          }
+          .play-title {
+            color: #0066fffd;
+            width: 250px;
             .point {
-              font-size: 20px;
-              margin-left: 10px;
+              left: calc(50% - 370px);
+              bottom: -100px;
             }
+          }
+          .bank-title {
+            width: 250px;
+            color: #ff0000fd;
+            .point {
+              right: calc(50% - 370px);
+              bottom: -100px;
+            }
+          }
         }
         .wrap {
             display: flex;
+            justify-content: center;
+            width: 100%;
             .play-content, .bank-content {
                 display: flex;
                 flex-direction: column;
-                justify-content: space-around;
                 padding: 10px;
-                background: rgba($color: #000000, $alpha: .3);
+                width: 250px;
+                justify-content: center;
+                .card{
+                  min-width: 90px;
+                  height: 135px;
+                }
                 .common-card {
-                    display: flex;
-                    .card + .card {
-                        margin-left: 10px;
-                    }
+                  display: flex;
+                  justify-content: center;
+                  .card + .card {
+                    margin-left: 40px;
+                  }
                 }
                 .supply-card {
-                    display: flex;
-                    width: fit-content;
-                    align-self: center;
-                    transform: rotate(-90deg);
+                  display: flex;
+                  width: fit-content;
+                  align-self: center;
+                  transform: rotate(-90deg);
                 }
             }
-            .play-content {
-                border-right: 1px solid rgb(136, 136, 136);
-            }
+        }
+        .resText{
+          font-family: 'Noto Serif TC', serif;
+          margin-bottom: 20px;
+          font-size: 40px;
+          font-weight: bold;
+          height: 40px;
+          text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff,1px -1px 0 #fff,-1px -1px 0 #fff;
+          &.red{
+            color: red;
+          }
+          &.blue{
+            color: blue;
+          }
+          &.green{
+            color: green;
+          }
         }
     }
 }

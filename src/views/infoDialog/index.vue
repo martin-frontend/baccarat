@@ -53,10 +53,6 @@ export default {
     cardInfo: {
       type: Object,
       default: null
-    },
-    dialogFormVisible: {
-      type: Boolean,
-      default: false
     }
   },
   data() {
@@ -70,11 +66,6 @@ export default {
       handler: function() {
         this.validateText = String(this.cardInfo.suitInfo.suit) +
          String(this.cardInfo.suitInfo.value) + '-' + String(this.cardInfo.preSuitInfo.hash)
-      }
-    },
-    dialogFormVisible: {
-      handler: function(value) {
-        this.dialogVisible = value
       }
     }
   },

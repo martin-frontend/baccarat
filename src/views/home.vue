@@ -6,7 +6,7 @@
       <div class="left">
         <div class="top">
           <OpenCard @OpenCardData="OpenCardData" />
-          <Information />
+          <!-- <Information /> -->
         </div>
         <div class="bottom">
           <History />
@@ -15,7 +15,7 @@
       <div class="right">
         <Blockchain @BlockData="BlockData" />
       </div>
-      <InfoDialog :card-info="cardInfo" :dialog-form-visible="dialogBlockVisible" />
+      <InfoDialog ref="infoDialog" :card-info="cardInfo" />
     </div>
   </div>
 </template>
@@ -23,7 +23,7 @@
 // import Baccarat from './components/Baccarat.vue'
 import History from './history/index.vue'
 import Blockchain from './blockchain/index.vue'
-import Information from './information/index.vue'
+// import Information from './information/index.vue'
 import OpenCard from './open-card/index.vue'
 import InfoDialog from './infoDialog/index.vue'
 export default {
@@ -31,14 +31,13 @@ export default {
   components: {
     History,
     Blockchain,
-    Information,
+    // Information,
     OpenCard,
     InfoDialog
   },
   data() {
     return {
-      cardInfo: {},
-      dialogBlockVisible: false
+      cardInfo: {}
     }
   },
   mounted() {
@@ -47,11 +46,11 @@ export default {
   methods: {
     BlockData(data) {
       this.cardInfo = Object.assign(data)
-      this.dialogBlockVisible = true
+      this.$refs.infoDialog.handleOpen()
     },
     OpenCardData(data) {
       this.cardInfo = Object.assign(data)
-      this.dialogBlockVisible = true
+      this.$refs.infoDialog.handleOpen()
     }
   }
 }
@@ -64,6 +63,7 @@ body {
   display: flex;
   height: 100vh;
   width: 100%;
+  background-color: #000;
   .left {
     display: flex;
     flex-direction: column;
