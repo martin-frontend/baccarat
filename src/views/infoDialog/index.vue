@@ -1,5 +1,5 @@
 <template>
-  <div v-if="dialogFormVisible" class="dialog">
+  <div v-if="dialogVisible" class="dialog">
     <div class="dialog-content">
       <div class="close" @click="handleClose()">&times;</div>
       <p class="title">卡牌驗證</p>
@@ -61,7 +61,8 @@ export default {
   },
   data() {
     return {
-      validateResult: ''
+      validateResult: '',
+      dialogVisible: false
     }
   },
   watch: {
@@ -70,14 +71,19 @@ export default {
         this.validateText = String(this.cardInfo.suitInfo.suit) +
          String(this.cardInfo.suitInfo.value) + '-' + String(this.cardInfo.preSuitInfo.hash)
       }
+    },
+    dialogFormVisible: {
+      handler: function(value) {
+        this.dialogVisible = value
+      }
     }
   },
   methods: {
     handleOpen() {
-      this.dialogFormVisible = true
+      this.dialogVisible = true
     },
     handleClose() {
-      this.dialogFormVisible = false
+      this.dialogVisible = false
       this.validateResult = ''
     },
     validate() {
