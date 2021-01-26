@@ -114,9 +114,6 @@ export default {
       firstBankerPoints: null,
       firstPlayerPoints: null,
       final: '',
-      isShuffle: false,
-      isOpened: false,
-      isLast: false,
       constants
     }
   },
