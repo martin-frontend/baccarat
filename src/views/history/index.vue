@@ -52,7 +52,6 @@ export default {
           { name: '完美對子', value: 0, color: 'chocolate' } // 7
         ],
         [
-          { name: '', value: '', color: '' }, // 8
           { name: '大', value: 0, color: 'brown' }, // 8
           { name: '小', value: 0, color: 'brown' }, // 9
           { name: '閒單', value: 0, color: 'blue' }, // 10
