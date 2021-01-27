@@ -167,6 +167,7 @@ export default {
       preSuitInfo.suitClass = this.handleSuits(preSuitInfo.suit, preSuitInfo.value)
       console.log(this.cardsResult)
       this.cardInfo = {
+        isFirst: index === 0,
         suitInfo: suitInfo,
         preSuitInfo: preSuitInfo
       }
@@ -279,6 +280,12 @@ export default {
 }
 .front {
   transform: rotateY(180deg);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.back {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 ///////////////
 
@@ -302,11 +309,11 @@ export default {
   }
 }
 .open-card {
-    width: 100%;
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url('~@/assets/img/pokerTable2.jpg');
+    background-image: url('~@/assets/img/pokerTable.jpg');
     background-repeat: no-repeat;
     background-size: cover 100%;
     background-position: center;
@@ -356,8 +363,8 @@ export default {
                 width: 250px;
                 justify-content: center;
                 .card{
-                  min-width: 90px;
-                  height: 135px;
+                  min-width: 88px;
+                  height: 128px;
                 }
                 .common-card {
                   display: flex;

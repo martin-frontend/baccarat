@@ -7,13 +7,16 @@
       <div class="info-container">
         <div class="info-box">
           <div class="img-field">
-            <p class="text">上一張</p>
-            <div class="card">
-              <div :class="[`face front noneInfo ${cardInfo.preSuitInfo.suitClass}`, { back: !cardInfo.preSuitInfo.suitClass ? true : false }]"></div>
+            <div v-if="!cardInfo.isFirst">
+              <p class="text">上一張</p>
+              <div class="card">
+                <div :class="[`face front noneInfo ${cardInfo.preSuitInfo.suitClass}`, { back: !cardInfo.preSuitInfo.suitClass ? true : false }]"></div>
+              </div>
             </div>
           </div>
           <div class="text-field">
-            <p class="text">Hash: <br /><span>{{ cardInfo.preSuitInfo.hash }}</span></p>
+            <p v-if="cardInfo.isFirst" class="text">本局資訊</p>
+            <p class="text">加密: <br /><span id="prehash">{{ cardInfo.preSuitInfo.hash }}</span> <button class="copyBtn" @click="Copyboard('prehash')"></button></p>
           </div>
         </div>
         <div class="info-box">
@@ -24,19 +27,27 @@
             </div>
           </div>
           <div class="text-field">
-            <p class="text">Suit: <span>{{ cardInfo.suitInfo.suit }}</span></p>
-            <p class="text">Value: <span>{{ cardInfo.suitInfo.value }}</span></p>
-            <p class="text">Hash: <br /><span>{{ cardInfo.suitInfo.hash }}</span></p>
-            <p class="text">Hash Key: <br /><span>{{ cardInfo.suitInfo.hashKey }}</span></p>
+            <p class="text">花色: <span>{{ cardInfo.suitInfo.suit }} {{ suitText(cardInfo.suitInfo.suit) }}</span></p>
+            <p class="text">點數: <span>{{ cardInfo.suitInfo.value }}</span></p>
+            <p class="text">加密: <br /><span id="hash">{{ cardInfo.suitInfo.hash }}</span> <button v-if="cardInfo.suitInfo.hash" class="copyBtn" @click="Copyboard('hash')"></button></p>
+            <p class="text">加密金鑰: <br /><span id="hashKey">{{ cardInfo.suitInfo.hashKey }}</span> <button v-if="cardInfo.suitInfo.hashKey" class="copyBtn" @click="Copyboard('hashKey')"></button></p>
           </div>
         </div>
-        <div class="check-box">
+        <div v-if="isVaidatable()" class="check-box">
           <div class="textfield">
-            <p class="text">驗證規則: SHA512( 本回合suit + 本回合value + '-' + 前一回合Hash + 本回合Hash Key) = 本回合Hash</p>
+            <p class="text">驗證規則: HMAC-SHA512( 本張花色 + 本張點數 + '-' + 上一張加密, 本張加密金鑰) = 本張加密</p>
           </div>
           <div class="textfield">
-            <input v-model="validateText" type="text" />
-            <button @click="validate">驗證</button>
+            <p class="text">第三方驗證:
+              <a class="text result" href="https://www.freeformatter.com/hmac-generator.html" target="_blank">https://www.freeformatter.com/hmac-generator.html</a>
+            </p>
+          </div>
+          <div class="textfield">
+            <input id="validateText" v-model="validateText" type="text" />
+            <button class="copyBtn" @click="Copyboard('validateText')"></button>
+          </div>
+          <div class="textfield">
+            <button class="validateBtn" @click="validate">驗證</button>
             <div v-if="validateResult">
               <p v-if="compareStr(validateResult,cardInfo.suitInfo.hash)" class="text correct">比對成功</p>
               <p v-else class="text fail">比對失敗</p>
@@ -84,6 +95,9 @@ export default {
       this.dialogVisible = false
       this.validateResult = ''
     },
+    isVaidatable() {
+      return this.cardInfo.suitInfo.suit && this.cardInfo.suitInfo.value && this.cardInfo.suitInfo.hashKey
+    },
     validate() {
       const sha512 = require('js-sha512')
       const hashKey = this.cardInfo.suitInfo.hashKey ? this.cardInfo.suitInfo.hashKey : ''
@@ -91,6 +105,31 @@ export default {
     },
     compareStr(str1, str2) {
       return !str1.localeCompare(str2)
+    },
+    suitText(value) {
+      switch (value) {
+        case 1:
+          return '(梅花)'
+        case 2:
+          return '(方塊)'
+        case 3:
+          return '(愛心)'
+        case 4:
+          return '(黑桃)'
+      }
+    },
+    Copyboard(id) {
+      var TextRange = document.createRange()
+
+      TextRange.selectNode(document.getElementById(id))
+
+      const sel = window.getSelection()
+
+      sel.removeAllRanges()
+
+      sel.addRange(TextRange)
+
+      document.execCommand('copy')
     }
   }
 }
@@ -114,6 +153,21 @@ export default {
     top: 10px;
     right: 30px;
 
+  }
+  .copyBtn{
+    width: 20px;
+    height: 20px;
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('../../assets/img/link.png');
+    cursor: pointer;
+    transform: translateY(25%);
+    transition: opacity 0.3s ease;
+    opacity: 0.6;
+    &:hover{
+      opacity: 1;
+    }
   }
 
   .dialog-content {
@@ -205,11 +259,14 @@ export default {
             }
           }
           input{
-            width: 50%;
+            width: 70%;
             margin-right: 10px;
             padding: 5px;
           }
-          button{
+          .copyBtn{
+            transform: translateX(0);
+          }
+          .validateBtn{
             width: 150px;
             background-color: #0191FA;
             color: #fff;

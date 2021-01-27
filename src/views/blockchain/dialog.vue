@@ -2,7 +2,7 @@
   <div v-show="group.isDialogVisible" class="modal">
     <div id="modal-content" class="modal-content">
       <span class="header-container">
-        <div class="close" @click="handleClose()"></div>
+        <div class="close" @click="handleClose()">&times;</div>
       </span>
       <div id="pluker-container" class="pluker-container">
         <div v-for="(item,index) in cardsResult" :key="item.id" class="dialog pluker">
@@ -127,14 +127,8 @@ export default {
         top: 15px;
         right: 30px;
         cursor: pointer;
-
-        &::before{
-          content: "X";
-          cursor: pointer;
-          position: absolute;
-          font-size: 26px;
-          color: #fff;
-        }
+        font-size: 50px;
+        color: #fff;
       }
     }
     &::-webkit-scrollbar-track-piece {
