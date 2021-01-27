@@ -32,7 +32,7 @@
         </div>
         <div class="check-box">
           <div class="textfield">
-            <p class="text">驗證規則: SHA512( 本回合花色 + 本回合點數 + '-' + 前一回合加密 ) + 本回合加密金鑰 = 本回合加密</p>
+            <p class="text">驗證規則: HMAC-SHA512( 本回合花色 + 本回合點數 + '-' + 前一回合加密, 本回合加密金鑰) = 本回合加密</p>
           </div>
           <div class="textfield">
             <input v-model="validateText" type="text" />
