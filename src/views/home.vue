@@ -74,11 +74,10 @@ body {
       height: 100%;
       border-bottom: 1px solid #000;
     }
-    .bottom {
-    }
   }
   .right {
     flex: auto 0 0 ;
+    z-index: 1;
   }
 }
 </style>
