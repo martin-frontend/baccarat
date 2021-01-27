@@ -167,6 +167,7 @@ export default {
       preSuitInfo.suitClass = this.handleSuits(preSuitInfo.suit, preSuitInfo.value)
       console.log(this.cardsResult)
       this.cardInfo = {
+        isFirst: index === 0,
         suitInfo: suitInfo,
         preSuitInfo: preSuitInfo
       }

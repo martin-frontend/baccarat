@@ -142,6 +142,7 @@ export default {
         preSuitInfo.value
       )
       this.cardInfo = {
+        isFirst: index === 0,
         suitInfo: suitInfo,
         preSuitInfo: preSuitInfo
       }
