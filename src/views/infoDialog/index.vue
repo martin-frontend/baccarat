@@ -43,8 +43,10 @@
             </p>
           </div>
           <div class="textfield">
-            <input id="validateText" v-model="validateText" type="text" />
+            <input v-model="validateText" type="text" />
+            <p class="hideText"><span id="validateText">{{ validateText }}</span></p>
             <button class="copyBtn" @click="Copyboard('validateText')"></button>
+
           </div>
           <div class="textfield">
             <button class="validateBtn" @click="validate">驗證</button>
@@ -275,6 +277,11 @@ export default {
             border-radius: 5px;
             margin-right: 10px;
             cursor: pointer;
+          }
+          .hideText{
+            width: 0;
+            height: 0;
+            opacity: 0;
           }
         }
       }
