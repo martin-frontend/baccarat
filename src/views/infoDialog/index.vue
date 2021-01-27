@@ -24,7 +24,7 @@
             </div>
           </div>
           <div class="text-field">
-            <p class="text">花色: <span>{{ cardInfo.suitInfo.suit }} ( {{ suitText(cardInfo.suitInfo.suit) }} )</span></p>
+            <p class="text">花色: <span>{{ cardInfo.suitInfo.suit }} {{ suitText(cardInfo.suitInfo.suit) }}</span></p>
             <p class="text">點數: <span>{{ cardInfo.suitInfo.value }}</span></p>
             <p class="text">加密: <br /><span>{{ cardInfo.suitInfo.hash }}</span></p>
             <p class="text">加密金鑰: <br /><span>{{ cardInfo.suitInfo.hashKey }}</span></p>
@@ -95,13 +95,13 @@ export default {
     suitText(value) {
       switch (value) {
         case 1:
-          return '梅花'
+          return '(梅花)'
         case 2:
-          return '方塊'
+          return '(方塊)'
         case 3:
-          return '愛心'
+          return '(愛心)'
         case 4:
-          return '黑桃'
+          return '(黑桃)'
       }
     }
   }
