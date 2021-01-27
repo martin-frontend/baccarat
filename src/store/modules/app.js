@@ -12,12 +12,15 @@ const state = {
   bankerPoints: 0,
   playerPoints: 0,
   lastRound: false,
-  isLoading: true
+  isLoading: true,
+  account: '',
+  gameTableId: '',
+  gameRoundId: ''
 }
 
 const mutations = {
   SET_DATA: (state, data) => {
-    const { bankerPoints, cards, playerPoints, result, lastRound } = data
+    const { bankerPoints, cards, playerPoints, result, lastRound, gameRoundId } = data
     state.bankerPoints = bankerPoints
     cards[0].forEach(element => {
       if (element) { element['className'] = `${state.cardName[element.suit]}${element.value}` }
@@ -31,6 +34,7 @@ const mutations = {
     state.resultHistory.push(result)
     state.lastRound = lastRound
     state.cardsByRound.push(data)
+    state.gameRoundId = gameRoundId
   },
   SET_CARDS_RESULT: (state, data) => {
     state.cardsResult = data.cards
@@ -51,15 +55,24 @@ const mutations = {
   },
   SET_ISLOADING: (state, data) => {
     state.isLoading = data
+  },
+  SET_USER: (state, data) => {
+    const { account, gameTableId } = data
+    state.account = account
+    state.gameTableId = gameTableId
+  },
+  SET_GAMEROUNDID: (state, data) => {
+    state.gameRoundId = data
   }
 }
 
 const actions = {
   getInit({ commit }) {
     return new Promise((resolve, reject) => {
-      getInit().then(({ data }) => {
+      getInit({ account: 'player' }).then(({ data }) => {
         const { refresh } = data
         commit('SET_CARDS_RESULT', refresh)
+        commit('SET_USER', refresh.user)
         const cardDataList = refresh.results
         if (cardDataList.length > 0) {
           const resultList = []
@@ -108,6 +121,7 @@ const actions = {
         commit('SET_CARDS_RESULT', refresh)
         commit('SET_RESULT_HISTORY', [])
         commit('SET_CARDS_BY_ROUND', [])
+        commit('SET_GAMEROUNDID', '')
         commit('SET_LAST_ROUND', false)
         commit('SET_ISLOADING', false)
         resolve()

@@ -280,6 +280,12 @@ export default {
 }
 .front {
   transform: rotateY(180deg);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.back {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 ///////////////
 
@@ -303,11 +309,11 @@ export default {
   }
 }
 .open-card {
-    width: 100%;
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url('~@/assets/img/pokerTable2.jpg');
+    background-image: url('~@/assets/img/pokerTable.jpg');
     background-repeat: no-repeat;
     background-size: cover 100%;
     background-position: center;

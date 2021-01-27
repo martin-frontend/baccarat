@@ -6,7 +6,7 @@
       <div class="left">
         <div class="top">
           <OpenCard @OpenCardData="OpenCardData" />
-          <!-- <Information /> -->
+          <Information />
         </div>
         <div class="bottom">
           <History />
@@ -23,7 +23,7 @@
 // import Baccarat from './components/Baccarat.vue'
 import History from './history/index.vue'
 import Blockchain from './blockchain/index.vue'
-// import Information from './information/index.vue'
+import Information from './information/index.vue'
 import OpenCard from './open-card/index.vue'
 import InfoDialog from './infoDialog/index.vue'
 export default {
@@ -31,7 +31,7 @@ export default {
   components: {
     History,
     Blockchain,
-    // Information,
+    Information,
     OpenCard,
     InfoDialog
   },
@@ -73,6 +73,7 @@ body {
       display: flex;
       height: 100%;
       border-bottom: 1px solid #000;
+      position: relative;
     }
   }
   .right {
