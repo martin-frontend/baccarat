@@ -356,8 +356,8 @@ export default {
                 width: 250px;
                 justify-content: center;
                 .card{
-                  min-width: 90px;
-                  height: 135px;
+                  min-width: 88px;
+                  height: 128px;
                 }
                 .common-card {
                   display: flex;
