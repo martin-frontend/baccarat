@@ -35,6 +35,11 @@
             <p class="text">驗證規則: HMAC-SHA512( 本回合花色 + 本回合點數 + '-' + 前一回合加密, 本回合加密金鑰) = 本回合加密</p>
           </div>
           <div class="textfield">
+            <p class="text">第三方驗證:
+              <a class="text result" href="https://www.freeformatter.com/hmac-generator.html" target="_blank">https://www.freeformatter.com/hmac-generator.html</a>
+            </p>
+          </div>
+          <div class="textfield">
             <input v-model="validateText" type="text" />
             <button @click="validate">驗證</button>
             <div v-if="validateResult">
