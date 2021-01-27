@@ -107,6 +107,7 @@ const actions = {
         const { refresh } = data
         commit('SET_CARDS_RESULT', refresh)
         commit('SET_RESULT_HISTORY', [])
+        commit('SET_CARDS_BY_ROUND', [])
         commit('SET_LAST_ROUND', false)
         commit('SET_ISLOADING', false)
         resolve()
