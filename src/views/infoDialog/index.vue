@@ -13,7 +13,7 @@
             </div>
           </div>
           <div class="text-field">
-            <p class="text">Hash: <br /><span>{{ cardInfo.preSuitInfo.hash }}</span></p>
+            <p class="text">加密: <br /><span>{{ cardInfo.preSuitInfo.hash }}</span></p>
           </div>
         </div>
         <div class="info-box">
@@ -24,15 +24,15 @@
             </div>
           </div>
           <div class="text-field">
-            <p class="text">Suit: <span>{{ cardInfo.suitInfo.suit }}</span></p>
-            <p class="text">Value: <span>{{ cardInfo.suitInfo.value }}</span></p>
-            <p class="text">Hash: <br /><span>{{ cardInfo.suitInfo.hash }}</span></p>
-            <p class="text">Hash Key: <br /><span>{{ cardInfo.suitInfo.hashKey }}</span></p>
+            <p class="text">花色: <span>{{ cardInfo.suitInfo.suit }} ( {{ suitText(cardInfo.suitInfo.suit) }} )</span></p>
+            <p class="text">點數: <span>{{ cardInfo.suitInfo.value }}</span></p>
+            <p class="text">加密: <br /><span>{{ cardInfo.suitInfo.hash }}</span></p>
+            <p class="text">加密金鑰: <br /><span>{{ cardInfo.suitInfo.hashKey }}</span></p>
           </div>
         </div>
         <div class="check-box">
           <div class="textfield">
-            <p class="text">驗證規則: SHA512( 本回合suit + 本回合value + '-' + 前一回合Hash + 本回合Hash Key) = 本回合Hash</p>
+            <p class="text">驗證規則: SHA512( 本回合花色 + 本回合點數 + '-' + 前一回合加密 ) + 本回合加密金鑰 = 本回合加密</p>
           </div>
           <div class="textfield">
             <input v-model="validateText" type="text" />
@@ -91,6 +91,18 @@ export default {
     },
     compareStr(str1, str2) {
       return !str1.localeCompare(str2)
+    },
+    suitText(value) {
+      switch (value) {
+        case 1:
+          return '梅花'
+        case 2:
+          return '方塊'
+        case 3:
+          return '愛心'
+        case 4:
+          return '黑桃'
+      }
     }
   }
 }
