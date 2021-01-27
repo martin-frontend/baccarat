@@ -1,11 +1,11 @@
 <template>
   <div v-show="group.isDialogVisible" class="modal">
-    <div class="modal-content">
+    <div id="modal-content" class="modal-content">
       <span class="header-container">
         <div class="close" @click="handleClose()"></div>
       </span>
-      <div class="pluker-container">
-        <div v-for="(item,index) in cardsResult" :key="item.id" class="pluker">
+      <div id="pluker-container" class="pluker-container">
+        <div v-for="(item,index) in cardsResult" :key="item.id" class="dialog pluker">
           <div class="cardNumber">{{ item.id }}</div>
           <div class="card">
             <div
@@ -18,6 +18,7 @@
             ></div>
           </div>
         </div>
+        <button id="scroll" class="scroll" @click="handleScroll(group.cardsResult.filter((a) => a.suit).length)"></button>
       </div>
     </div>
   </div>
@@ -32,13 +33,31 @@ export default {
   data() {
     return {
       isFold: false,
-      result: [1, 5, 11],
       suitInfo: {},
       constants
     }
   },
   computed: {
-    ...mapGetters(['cardsResult', 'cards'])
+    ...mapGetters(['cardsResult', 'cards', 'pokerMachine'])
+  },
+  watch: {
+    'group.isDialogVisible'(visible) {
+      if (visible) {
+        const el = document.getElementById('scroll') // Or whatever method to get the element
+
+        setTimeout(() => {
+          const evObj = document.createEvent('Events')
+          evObj.initEvent('click', true, false)
+          el.dispatchEvent(evObj)
+        }, 300)
+      }
+    },
+    cards(list) {
+      if (list) {
+        this.handleScroll(this.group.cardsResult.filter((a) => a.suit).length)
+        console.log('list')
+      }
+    }
   },
   methods: {
     handleSuits(suit, number) {
@@ -55,17 +74,24 @@ export default {
     },
     handleInfoclick(index) {
       this.$emit('handleInfoclick', index)
+    },
+    handleScroll(drawCount) {
+      // const totalHeight = document.getElementById('pluker-container').offsetHeight - 60
+      const totalWidth = document.getElementById('pluker-container').offsetWidth - 100
+      const pokerWidth = document.querySelector('.dialog.pluker').offsetWidth + 10
+      const pokerHeight = document.querySelector('.dialog.pluker').offsetHeight + 10
+      // 目前尺寸一行有幾個
+      const rowCount = Math.floor(totalWidth / pokerWidth)
+      const nowRow = drawCount / rowCount > 2 ? Math.floor(drawCount / rowCount) - 2 : 0
+      console.log(`開獎數量:${drawCount} 一行有幾個:${rowCount}`)
+      console.log(nowRow * pokerHeight)
+      const model = document.getElementById('modal-content') // Or whatever method to get the element
+      model.scrollTop = nowRow * pokerHeight + 30
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-$suitsList: (
-  0: "club",
-  1: "diamond",
-  2: "heart",
-  3: "spade",
-);
 
 .modal {
   position: absolute;
@@ -164,6 +190,11 @@ $suitsList: (
 
   .btn + .btn {
     margin: 5px;
+  }
+
+  .scroll{
+    width: 500px;
+    height: 5px;
   }
 }
 </style>
