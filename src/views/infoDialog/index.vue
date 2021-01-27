@@ -43,8 +43,11 @@
             </p>
           </div>
           <div class="textfield">
-            <input v-model="validateText" type="text" />
-            <button @click="validate">驗證</button>
+            <input id="validateText" v-model="validateText" type="text" />
+            <button class="copyBtn" @click="Copyboard('validateText')"></button>
+          </div>
+          <div class="textfield">
+            <button class="validateBtn" @click="validate">驗證</button>
             <div v-if="validateResult">
               <p v-if="compareStr(validateResult,cardInfo.suitInfo.hash)" class="text correct">比對成功</p>
               <p v-else class="text fail">比對失敗</p>
@@ -256,11 +259,14 @@ export default {
             }
           }
           input{
-            width: 50%;
+            width: 70%;
             margin-right: 10px;
             padding: 5px;
           }
-          button{
+          .copyBtn{
+            transform: translateX(0);
+          }
+          .validateBtn{
             width: 150px;
             background-color: #0191FA;
             color: #fff;
