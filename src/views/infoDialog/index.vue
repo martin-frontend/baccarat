@@ -35,7 +35,7 @@
         </div>
         <div v-if="isVaidatable()" class="check-box">
           <div class="textfield">
-            <p class="text">驗證規則: HMAC-SHA512( 本回合花色 + 本回合點數 + '-' + 前一回合加密, 本回合加密金鑰) = 本回合加密</p>
+            <p class="text">驗證規則: HMAC-SHA512( 本張花色 + 本張點數 + '-' + 上一張加密, 本張加密金鑰) = 本張加密</p>
           </div>
           <div class="textfield">
             <p class="text">第三方驗證:
