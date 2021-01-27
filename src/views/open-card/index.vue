@@ -279,6 +279,12 @@ export default {
 }
 .front {
   transform: rotateY(180deg);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.back {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 ///////////////
 
