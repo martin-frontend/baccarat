@@ -123,12 +123,15 @@ export default {
       padding: 5px 10px;
 
       .close{
-        position: absolute;
-        top: 15px;
-        right: 30px;
-        cursor: pointer;
-        font-size: 50px;
-        color: #fff;
+        &::before{
+          content: "X";
+          cursor: pointer;
+          position: absolute;
+          color: #fff;
+          width: 29px;
+          height: 29px;
+          font-size: 29px;
+        }
       }
     }
     &::-webkit-scrollbar-track-piece {
@@ -184,11 +187,6 @@ export default {
 
   .btn + .btn {
     margin: 5px;
-  }
-
-  .scroll{
-    width: 500px;
-    height: 5px;
   }
 }
 </style>
