@@ -83,9 +83,7 @@ export default {
       // 目前尺寸一行有幾個
       const rowCount = Math.floor(totalWidth / pokerWidth)
       const nowRow = drawCount / rowCount > 2 ? Math.floor(drawCount / rowCount) - 2 : 0
-      console.log(`開獎數量:${drawCount} 一行有幾個:${rowCount}`)
-      console.log(nowRow * pokerHeight)
-      const model = document.getElementById('modal-content') // Or whatever method to get the element
+      const model = document.getElementById('modal-content')
       model.scrollTop = nowRow * pokerHeight + 30
     }
   }
@@ -123,12 +121,15 @@ export default {
       padding: 5px 10px;
 
       .close{
-        position: absolute;
-        top: 15px;
-        right: 30px;
-        cursor: pointer;
-        font-size: 50px;
-        color: #fff;
+        &::before{
+          content: "X";
+          cursor: pointer;
+          position: absolute;
+          color: #fff;
+          width: 29px;
+          height: 29px;
+          font-size: 29px;
+        }
       }
     }
     &::-webkit-scrollbar-track-piece {
@@ -184,11 +185,6 @@ export default {
 
   .btn + .btn {
     margin: 5px;
-  }
-
-  .scroll{
-    width: 500px;
-    height: 5px;
   }
 }
 </style>
