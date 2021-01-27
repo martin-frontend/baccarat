@@ -55,7 +55,7 @@ export default {
     cards(list) {
       if (list) {
         this.handleScroll(this.group.cardsResult.filter((a) => a.suit).length)
-        console.log('list')
+        // console.log('list')
       }
     }
   },
@@ -83,8 +83,8 @@ export default {
       // 目前尺寸一行有幾個
       const rowCount = Math.floor(totalWidth / pokerWidth)
       const nowRow = drawCount / rowCount > 2 ? Math.floor(drawCount / rowCount) - 2 : 0
-      console.log(`開獎數量:${drawCount} 一行有幾個:${rowCount}`)
-      console.log(nowRow * pokerHeight)
+      // console.log(`開獎數量:${drawCount} 一行有幾個:${rowCount}`)
+      // console.log(nowRow * pokerHeight)
       const model = document.getElementById('modal-content') // Or whatever method to get the element
       model.scrollTop = nowRow * pokerHeight + 30
     }
