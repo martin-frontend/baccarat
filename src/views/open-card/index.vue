@@ -306,7 +306,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url('~@/assets/img/pokerTable2.jpg');
+    background-image: url('~@/assets/img/pokerTable.jpg');
     background-repeat: no-repeat;
     background-size: cover 100%;
     background-position: center;
