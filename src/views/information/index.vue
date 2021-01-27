@@ -25,7 +25,7 @@ export default {
   padding: 5px 25px;
   // border: 1px solid rgb(32, 32, 28);
   p {
-    color: rgb(204, 203, 190);
+    color: rgb(255, 255, 255);
     font-size: 20px;
     line-height: 1.4;
     text-align: left;
