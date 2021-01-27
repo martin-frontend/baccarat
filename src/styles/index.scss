@@ -1,2 +1,7 @@
 @import '../assets/puker-css-sprites/css/puker.css';
 @import './reset';
+.ellipsis {
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
