@@ -122,7 +122,7 @@ export default {
     handlePosition(status, nowPosition) {
       const { pokerMachine } = this
       status === 'init'
-        ? (this.drawAmount = pokerMachine.cardId + 1)
+        ? (this.drawAmount = pokerMachine.cardId)
         : (this.drawAmount = nowPosition)
       this.$router.push({ path: `#${this.drawAmount}` })
       setTimeout(() => {
