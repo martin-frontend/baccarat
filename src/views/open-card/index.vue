@@ -27,7 +27,7 @@
       <div class="wrap">
         <div class="play-content">
           <div class="common-card">
-            <div class="card" :class="play.length > 0?'active':''">
+            <div class="card">
               <template v-if="play.length > 0">
                 <div class="face front" :class="play[0].className" @click="cardInfoClick(0,0)">
                 </div>
@@ -35,7 +35,7 @@
                 </div>
               </template>
             </div>
-            <div class="card" :class="play.length > 0?'active':''">
+            <div class="card">
               <template v-if="play.length > 0">
                 <div class="face front" :class="play[1].className" @click="cardInfoClick(0,1)">
                 </div>
@@ -45,7 +45,7 @@
             </div>
           </div>
           <div class="supply-card">
-            <div class="card" :class="play.length > 2?'active':''">
+            <div class="card">
               <template v-if="play.length > 2">
                 <div class="face front" :class="play[2].className" @click="cardInfoClick(0,2)">
                 </div>
@@ -57,7 +57,7 @@
         </div>
         <div class="bank-content">
           <div class="common-card">
-            <div class="card" :class="bank.length > 0?'active':''">
+            <div class="card">
               <template v-if="bank.length > 0">
                 <div class="face front" :class="bank[0].className" @click="cardInfoClick(1,0)">
                 </div>
@@ -65,7 +65,7 @@
                 </div>
               </template>
             </div>
-            <div class="card" :class="bank.length > 0?'active':''">
+            <div class="card">
               <template v-if="bank.length > 0">
                 <div class="face front" :class="bank[1].className" @click="cardInfoClick(1,1)">
                 </div>
@@ -75,7 +75,7 @@
             </div>
           </div>
           <div class="supply-card">
-            <div class="card" :class="bank.length > 2?'active':''">
+            <div class="card">
               <template v-if="bank.length > 2">
                 <div class="face front" :class="bank[2].className" @click="cardInfoClick(1,2)">
                 </div>
@@ -269,23 +269,37 @@ export default {
 ///////// 翻牌樣式
 .card {
   position: relative;
-  transform-style: preserve-3d;
-  &.active {
-    transition: transform 1s;
-    transform: rotateY(-180deg);
-  }
 }
 .face {
   position: absolute;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  left: 0;
+  right: 0;
 }
 .front {
   transform: rotateY(180deg);
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
+  animation: openCard 1s forwards;
 }
 .back {
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
+  transform: rotateY(0);
+  animation: closeCard 1s forwards;
+}
+@keyframes openCard {
+  0% {
+    transform: rotateY(180deg);
+  }
+  100% {
+    transform: rotateY(0);
+  }
+}
+@keyframes closeCard {
+  0% {
+    transform: rotateY(0);
+  }
+  100% {
+    transform: rotateY(180deg);
+  }
 }
 ///////////////
 
