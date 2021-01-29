@@ -67,7 +67,7 @@ const mutations = {
   SET_GAMEROUNDID: (state, data) => {
     state.gameRoundId = data
   },
-  INDEX: (state) => {
+  ADD_INDEX: (state) => {
     state.index++
   },
   SET_INDEX: (state) => {
@@ -114,8 +114,8 @@ const actions = {
   doExecute({ state, commit }) {
     return new Promise((resolve, reject) => {
       // doExecute().then((response) => {
-      commit('INDEX')
       const data = executeData[state.index]
+      commit('ADD_INDEX')
       commit('SET_DATA', data)
       resolve()
       // }).catch(error => {
