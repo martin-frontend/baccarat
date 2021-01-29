@@ -1,5 +1,6 @@
 import { doExecute, doShuffle, getInit } from '@/api/game'
-
+import initData from '../../../init.json'
+import executeData from '../../../execute.json'
 const state = {
   cards: [],
   result: [],
@@ -15,7 +16,8 @@ const state = {
   isLoading: true,
   account: '',
   gameTableId: '',
-  gameRoundId: ''
+  gameRoundId: '',
+  index: 0
 }
 
 const mutations = {
@@ -63,71 +65,76 @@ const mutations = {
   },
   SET_GAMEROUNDID: (state, data) => {
     state.gameRoundId = data
+  },
+  INDEX: (state) => {
+    state.index++
   }
 }
 
 const actions = {
   getInit({ commit }) {
     return new Promise((resolve, reject) => {
-      getInit({ account: 'player' }).then(({ data }) => {
-        const { refresh } = data
-        commit('SET_CARDS_RESULT', refresh)
-        commit('SET_USER', refresh.user)
-        const cardDataList = refresh.results
-        if (cardDataList.length > 0) {
-          const resultList = []
-          const cardsByRound = []
-          cardDataList.forEach(element => {
-            const data = JSON.parse(element.result)
-            cardsByRound.push(data)
-            resultList.push(data.result)
-          })
-          commit('SET_CARDS_BY_ROUND', cardsByRound)
-          commit('SET_RESULT_HISTORY', resultList)
+      // getInit({ account: 'player' }).then(({ data }) => {
+      const refresh = initData
+      commit('SET_CARDS_RESULT', refresh)
+      commit('SET_USER', refresh.user)
+      const cardDataList = refresh.results
+      if (cardDataList.length > 0) {
+        const resultList = []
+        const cardsByRound = []
+        cardDataList.forEach(element => {
+          const data = JSON.parse(element.result)
+          cardsByRound.push(data)
+          resultList.push(data.result)
+        })
+        commit('SET_CARDS_BY_ROUND', cardsByRound)
+        commit('SET_RESULT_HISTORY', resultList)
 
-          // 解析lastRound
-          const lastCardData = cardDataList[cardDataList.length - 1]
-          const lastRound = JSON.parse(lastCardData.result).lastRound
-          if (lastRound) {
-            setTimeout(() => {
-              alert('本局已結束，請重新洗牌')
-            }, 500)
-          }
-          commit('SET_LAST_ROUND', lastRound)
+        // 解析lastRound
+        const lastCardData = cardDataList[cardDataList.length - 1]
+        const lastRound = JSON.parse(lastCardData.result).lastRound
+        if (lastRound) {
+          setTimeout(() => {
+            alert('本局已結束，請重新洗牌')
+          }, 500)
         }
-        commit('SET_ISLOADING', false)
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
+        commit('SET_LAST_ROUND', lastRound)
+      }
+      commit('SET_ISLOADING', false)
+      resolve()
+      // }).catch(error => {
+      //   reject(error)
+      // })
     })
   },
-  doExecute({ commit }) {
+  doExecute({ state, commit }) {
     return new Promise((resolve, reject) => {
-      doExecute().then((response) => {
-        const { data } = response
-        commit('SET_DATA', data.data)
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
+      // doExecute().then((response) => {
+      commit('INDEX')
+      const data = executeData[state.index]
+      console.log(data)
+      commit('SET_DATA', data)
+      resolve()
+      // }).catch(error => {
+      //   reject(error)
+      // })
     })
   },
   doShuffle({ commit }) {
     commit('SET_ISLOADING', true)
     return new Promise((resolve, reject) => {
-      doShuffle().then(({ data }) => {
-        const { refresh } = data
-        commit('SET_CARDS_RESULT', refresh)
-        commit('SET_RESULT_HISTORY', [])
-        commit('SET_CARDS_BY_ROUND', [])
-        commit('SET_GAMEROUNDID', '')
-        commit('SET_LAST_ROUND', false)
-        commit('SET_ISLOADING', false)
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
+      // doShuffle().then(({ data }) => {
+      const refresh = initData
+      commit('SET_CARDS_RESULT', refresh)
+      commit('SET_RESULT_HISTORY', [])
+      commit('SET_CARDS_BY_ROUND', [])
+      commit('SET_GAMEROUNDID', '')
+      commit('SET_LAST_ROUND', false)
+      commit('SET_ISLOADING', false)
+      resolve()
+      // }).catch(error => {
+      //   reject(error)
+      // })
     })
   }
 }
