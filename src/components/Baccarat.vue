@@ -23,10 +23,7 @@
 
 <script>
 export default {
-  name: 'Baccarat',
-  props: {
-    msg: String
-  }
+  name: 'Baccarat'
 }
 </script>
 
