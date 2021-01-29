@@ -1,6 +1,7 @@
 import { doExecute, doShuffle, getInit } from '@/api/game'
 import initData from '../../../init.json'
 import executeData from '../../../execute.json'
+var cloneDeep = require('lodash.clonedeep')
 const state = {
   cards: [],
   result: [],
@@ -68,6 +69,9 @@ const mutations = {
   },
   INDEX: (state) => {
     state.index++
+  },
+  SET_INDEX: (state) => {
+    state.index = 0
   }
 }
 
@@ -75,7 +79,7 @@ const actions = {
   getInit({ commit }) {
     return new Promise((resolve, reject) => {
       // getInit({ account: 'player' }).then(({ data }) => {
-      const refresh = initData
+      const refresh = cloneDeep(initData)
       commit('SET_CARDS_RESULT', refresh)
       commit('SET_USER', refresh.user)
       const cardDataList = refresh.results
@@ -112,7 +116,6 @@ const actions = {
       // doExecute().then((response) => {
       commit('INDEX')
       const data = executeData[state.index]
-      console.log(data)
       commit('SET_DATA', data)
       resolve()
       // }).catch(error => {
@@ -124,14 +127,17 @@ const actions = {
     commit('SET_ISLOADING', true)
     return new Promise((resolve, reject) => {
       // doShuffle().then(({ data }) => {
-      const refresh = initData
-      commit('SET_CARDS_RESULT', refresh)
-      commit('SET_RESULT_HISTORY', [])
-      commit('SET_CARDS_BY_ROUND', [])
-      commit('SET_GAMEROUNDID', '')
-      commit('SET_LAST_ROUND', false)
-      commit('SET_ISLOADING', false)
-      resolve()
+      setTimeout(() => {
+        const refresh = cloneDeep(initData)
+        commit('SET_CARDS_RESULT', refresh)
+        commit('SET_RESULT_HISTORY', [])
+        commit('SET_CARDS_BY_ROUND', [])
+        commit('SET_GAMEROUNDID', '')
+        commit('SET_LAST_ROUND', false)
+        commit('SET_ISLOADING', false)
+        commit('SET_INDEX')
+        resolve()
+      }, 500)
       // }).catch(error => {
       //   reject(error)
       // })
