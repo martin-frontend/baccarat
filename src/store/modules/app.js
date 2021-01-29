@@ -1,6 +1,6 @@
 import { doExecute, doShuffle, getInit } from '@/api/game'
-import initData from '../../../init.json'
-import executeData from '../../../execute.json'
+import initData from '@/assets/json/init.json'
+import executeData from '@/assets/json/execute.json'
 var cloneDeep = require('lodash.clonedeep')
 const state = {
   cards: [],
